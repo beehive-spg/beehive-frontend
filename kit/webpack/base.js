@@ -25,7 +25,6 @@ import { regex, stats } from './common'
 // Since we haven't yet established our module resolution paths, we have to
 // use the full relative path
 import PATHS from '../../config/paths'
-
 // ----------------------
 
 // RegExp for image files

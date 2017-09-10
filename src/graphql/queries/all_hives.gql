@@ -1,0 +1,10 @@
+query hives {
+  hives {
+    id
+	location
+    coordinates {
+      longitude
+      latitude
+    }
+  }
+}
