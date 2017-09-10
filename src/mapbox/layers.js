@@ -2,7 +2,7 @@ import { IconLayer } from 'deck.gl'
 import beehive from 'static/beehive.png'
 import ICON_MAPPING from './mappings'
 
-const hiveLayer = hive => {
+const hiveLayer = (hive, onClick) => {
 	const coordinates = hive.coordinates
 	const data = [
 		{
@@ -19,6 +19,7 @@ const hiveLayer = hive => {
 		iconMapping: ICON_MAPPING,
 		sizeScale: 0.8,
 		pickable: true,
+		onClick,
 	})
 }
 

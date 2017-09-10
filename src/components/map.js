@@ -3,7 +3,7 @@ import ReactMapGL from 'react-map-gl'
 import { graphql } from 'react-apollo'
 
 import allHives from 'src/graphql/queries/all_hives.gql'
-import Layers from './mapLayers'
+import Layers from './layers'
 
 @graphql(allHives)
 export default class Map extends React.Component {
