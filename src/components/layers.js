@@ -57,23 +57,24 @@ export default class MapLayers extends React.Component {
 		}
 	}
 
-	onClick = ({ x, y, layer }) => {
+	onHover = ({ x, y, layer, picked }) => {
+		// const  = event
+		// console.log(event) //eslint-disable-line
 		const { data } = this.props
 		const layerName = layer.id
 		const layerParts = layerName.split('-')
 		const hive = data.hives.find(h => h.id === layerParts[2])
-		this.setState({ clickedItem: hive, x, y })
-
-		console.log(this.state) //eslint-disable-line
-		// console.log(data) //eslint-disable-line
-		// console.log(info) //eslint-disable-line
-		// console.log(x, y, layer) //eslint-disable-line
+		this.setState({ clickedItem: hive, x, y, picked })
 	}
 
-	addHives = hive => hiveLayer(hive, this.onClick)
+	addHives = hive => hiveLayer(hive, this.onHover.bind(this))
 
 	renderHiveInfo() {
-		const { x, y, clickedItem } = this.state
+		const { x, y, clickedItem, picked } = this.state
+
+		if (!picked) {
+			return null
+		}
 
 		return (
 			clickedItem && (

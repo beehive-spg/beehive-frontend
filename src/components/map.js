@@ -11,7 +11,7 @@ export default class Map extends React.Component {
 		super(props)
 
 		this.state = {
-			mapStyle: 'mapbox://styles/astwys/cj7cb3os4awat2roc87oynk05',
+			mapStyle: 'mapbox://styles/mapbox/streets-v10',
 			token:
 				'pk.eyJ1IjoiYXN0d3lzIiwiYSI6ImNqNTBzbHMzYTJkMTkycXFqOHV2bDFwc28ifQ.BAEjuFoOh6TfXlYKwRfRrg',
 			viewport: {
