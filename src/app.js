@@ -1,6 +1,8 @@
 import config from 'kit/config'
-
 import Main from 'src/components/main'
+import hiveReducer from 'src/reducers/hiveReducer'
+
+config.addReducer('hives', hiveReducer, { data: [], layers: [] })
 
 config.enableGraphQLServer()
 
