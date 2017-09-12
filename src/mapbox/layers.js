@@ -6,7 +6,7 @@ class HiveLayer extends CompositeLayer {
 
 		return [
 			new ScatterplotLayer({
-				id: `layer-hive-outer-${hiveId}`,
+				id: `layer-hive-${hiveId}-outer`,
 				data: [data[1]],
 				strokeWidth: 10,
 				radiusMinPixels,
@@ -15,7 +15,7 @@ class HiveLayer extends CompositeLayer {
 				onHover,
 			}),
 			new ScatterplotLayer({
-				id: `layer-hive-inner-${hiveId}`,
+				id: `layer-hive-${hiveId}-inner`,
 				data: [data[0]],
 				radiusMinPixels,
 				outline: false,
