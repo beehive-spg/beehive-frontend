@@ -1,22 +1,22 @@
 import React from 'react'
 import DeckGL from 'deck.gl'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+
+import { addApolloHives } from 'src/actions/hiveActions'
 
 import addHiveLayer from 'src/mapbox/layers'
 
 import style from './layers.sass'
 
+@connect(store => ({
+	apolloHives: store.apollo.data,
+	hives: store.hives.data,
+}))
 export default class MapLayers extends React.Component {
 	static propTypes = {
-		data: PropTypes.shape({
-			hive: PropTypes.shape({
-				id: PropTypes.number,
-				coordinates: PropTypes.shape({
-					longitude: PropTypes.number,
-					latitude: PropTypes.number,
-				}),
-			}),
-		}),
+		apolloHives: PropTypes.object,
+		hives: PropTypes.array,
 		viewport: PropTypes.shape({
 			latitude: PropTypes.number,
 			longitude: PropTypes.number,
@@ -29,15 +29,8 @@ export default class MapLayers extends React.Component {
 	}
 
 	static defaultProps = {
-		data: {
-			hive: {
-				id: null,
-				coordinates: {
-					longitude: null,
-					latitude: null,
-				},
-			},
-		},
+		apolloHives: null,
+		hives: null,
 		viewport: {
 			latitude: null,
 			longitude: null,
@@ -57,6 +50,12 @@ export default class MapLayers extends React.Component {
 		}
 	}
 
+	componentWillMount() {
+		if (!SERVER) {
+			this.props.dispatch(addApolloHives(this.props.apolloHives))
+		}
+	}
+
 	onHover = ({ x, y, layer, picked }) => {
 		const { data } = this.props
 		const layerName = layer.id
@@ -65,7 +64,12 @@ export default class MapLayers extends React.Component {
 		this.setState({ hoveredItem: hive, x, y, picked })
 	}
 
-	addHives = hive => addHiveLayer(hive, this.onHover.bind(this))
+	addHiveLayers() {
+		const layers = []
+		this.props.hives.map(hive => layers.push(addHiveLayer(hive, this.onHover)))
+
+		return layers
+	}
 
 	renderHiveInfo() {
 		const { x, y, hoveredItem, picked } = this.state
@@ -85,11 +89,11 @@ export default class MapLayers extends React.Component {
 	}
 
 	render() {
-		const { viewport, data } = this.props
+		const { viewport } = this.props
 
 		return (
 			<div>
-				<DeckGL {...viewport} layers={data.hives.map(hive => this.addHives(hive))} />
+				<DeckGL {...viewport} layers={this.addHiveLayers()} />
 				{this.renderHiveInfo()}
 			</div>
 		)
