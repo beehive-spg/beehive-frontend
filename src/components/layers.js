@@ -4,19 +4,15 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 import { addHives } from 'src/actions/hiveActions'
-
-import convertHives from 'src/utils/apolloConversion'
 import addHiveLayer from 'src/mapbox/layers'
 
 import style from './layers.sass'
 
 @connect(store => ({
-	apolloHives: store.apollo.data,
 	hives: store.hives.data,
 }))
 export default class MapLayers extends React.Component {
 	static propTypes = {
-		apolloHives: PropTypes.object,
 		hives: PropTypes.array,
 		viewport: PropTypes.shape({
 			latitude: PropTypes.number,
@@ -30,7 +26,6 @@ export default class MapLayers extends React.Component {
 	}
 
 	static defaultProps = {
-		apolloHives: null,
 		hives: null,
 		viewport: {
 			latitude: null,
@@ -53,8 +48,8 @@ export default class MapLayers extends React.Component {
 
 	componentWillMount() {
 		if (!SERVER) {
-			const hives = convertHives(this.props.apolloHives)
-			this.props.dispatch(addHives(hives))
+			const { data } = this.props
+			this.props.dispatch(addHives(data.hives))
 		}
 	}
 
