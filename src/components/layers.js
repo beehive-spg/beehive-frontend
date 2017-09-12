@@ -3,8 +3,9 @@ import DeckGL from 'deck.gl'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import { addApolloHives } from 'src/actions/hiveActions'
+import { addHives } from 'src/actions/hiveActions'
 
+import convertHives from 'src/utils/apolloConversion'
 import addHiveLayer from 'src/mapbox/layers'
 
 import style from './layers.sass'
@@ -52,7 +53,8 @@ export default class MapLayers extends React.Component {
 
 	componentWillMount() {
 		if (!SERVER) {
-			this.props.dispatch(addApolloHives(this.props.apolloHives))
+			const hives = convertHives(this.props.apolloHives)
+			this.props.dispatch(addHives(hives))
 		}
 	}
 
