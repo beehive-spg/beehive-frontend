@@ -53,7 +53,7 @@ export default class MapLayers extends React.Component {
 		super(props)
 
 		this.state = {
-			clickedItem: null,
+			hoveredItem: null,
 		}
 	}
 
@@ -62,23 +62,23 @@ export default class MapLayers extends React.Component {
 		const layerName = layer.id
 		const layerParts = layerName.split('-')
 		const hive = data.hives.find(h => h.id === layerParts[2])
-		this.setState({ clickedItem: hive, x, y, picked })
+		this.setState({ hoveredItem: hive, x, y, picked })
 	}
 
 	addHives = hive => addHiveLayer(hive, this.onHover.bind(this))
 
 	renderHiveInfo() {
-		const { x, y, clickedItem, picked } = this.state
+		const { x, y, hoveredItem, picked } = this.state
 
 		if (!picked) {
 			return null
 		}
 
 		return (
-			clickedItem && (
+			hoveredItem && (
 				<div className={style.hiveInfo} style={{ top: y, left: x }}>
 					<div>Location:</div>
-					<p>{clickedItem.location}</p>
+					<p>{hoveredItem.location}</p>
 				</div>
 			)
 		)
