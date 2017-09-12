@@ -2,7 +2,7 @@ import React from 'react'
 import DeckGL from 'deck.gl'
 import PropTypes from 'prop-types'
 
-import hiveLayer from 'src/mapbox/layers'
+import addHiveLayer from 'src/mapbox/layers'
 
 import style from './layers.sass'
 
@@ -58,8 +58,6 @@ export default class MapLayers extends React.Component {
 	}
 
 	onHover = ({ x, y, layer, picked }) => {
-		// const  = event
-		// console.log(event) //eslint-disable-line
 		const { data } = this.props
 		const layerName = layer.id
 		const layerParts = layerName.split('-')
@@ -67,7 +65,7 @@ export default class MapLayers extends React.Component {
 		this.setState({ clickedItem: hive, x, y, picked })
 	}
 
-	addHives = hive => hiveLayer(hive, this.onHover.bind(this))
+	addHives = hive => addHiveLayer(hive, this.onHover.bind(this))
 
 	renderHiveInfo() {
 		const { x, y, clickedItem, picked } = this.state
