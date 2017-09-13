@@ -1,22 +1,19 @@
 import React from 'react'
 import DeckGL from 'deck.gl'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 
+import { addHives } from 'src/actions/hiveActions'
 import addHiveLayer from 'src/mapbox/layers'
 
 import style from './layers.sass'
 
+@connect(store => ({
+	hives: store.hives.data,
+}))
 export default class MapLayers extends React.Component {
 	static propTypes = {
-		data: PropTypes.shape({
-			hive: PropTypes.shape({
-				id: PropTypes.number,
-				coordinates: PropTypes.shape({
-					longitude: PropTypes.number,
-					latitude: PropTypes.number,
-				}),
-			}),
-		}),
+		hives: PropTypes.array,
 		viewport: PropTypes.shape({
 			latitude: PropTypes.number,
 			longitude: PropTypes.number,
@@ -29,15 +26,7 @@ export default class MapLayers extends React.Component {
 	}
 
 	static defaultProps = {
-		data: {
-			hive: {
-				id: null,
-				coordinates: {
-					longitude: null,
-					latitude: null,
-				},
-			},
-		},
+		hives: null,
 		viewport: {
 			latitude: null,
 			longitude: null,
@@ -53,7 +42,14 @@ export default class MapLayers extends React.Component {
 		super(props)
 
 		this.state = {
-			clickedItem: null,
+			hoveredItem: null,
+		}
+	}
+
+	componentWillMount() {
+		if (!SERVER) {
+			const { data } = this.props
+			this.props.dispatch(addHives(data.hives))
 		}
 	}
 
@@ -62,34 +58,41 @@ export default class MapLayers extends React.Component {
 		const layerName = layer.id
 		const layerParts = layerName.split('-')
 		const hive = data.hives.find(h => h.id === layerParts[2])
-		this.setState({ clickedItem: hive, x, y, picked })
+		this.setState({ hoveredItem: hive, x, y, picked })
 	}
 
-	addHives = hive => addHiveLayer(hive, this.onHover.bind(this))
+	addHiveLayers() {
+		const { data } = this.props
+
+		const layers = []
+		data.hives.map(hive => layers.push(addHiveLayer(hive, this.onHover)))
+
+		return layers
+	}
 
 	renderHiveInfo() {
-		const { x, y, clickedItem, picked } = this.state
+		const { x, y, hoveredItem, picked } = this.state
 
 		if (!picked) {
 			return null
 		}
 
 		return (
-			clickedItem && (
+			hoveredItem && (
 				<div className={style.hiveInfo} style={{ top: y, left: x }}>
 					<div>Location:</div>
-					<p>{clickedItem.location}</p>
+					<p>{hoveredItem.location}</p>
 				</div>
 			)
 		)
 	}
 
 	render() {
-		const { viewport, data } = this.props
+		const { viewport } = this.props
 
 		return (
 			<div>
-				<DeckGL {...viewport} layers={data.hives.map(hive => this.addHives(hive))} />
+				<DeckGL {...viewport} layers={this.addHiveLayers()} />
 				{this.renderHiveInfo()}
 			</div>
 		)
