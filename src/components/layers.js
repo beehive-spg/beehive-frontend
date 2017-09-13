@@ -62,8 +62,10 @@ export default class MapLayers extends React.Component {
 	}
 
 	addHiveLayers() {
+		const { data } = this.props
+
 		const layers = []
-		this.props.hives.map(hive => layers.push(addHiveLayer(hive, this.onHover)))
+		data.hives.map(hive => layers.push(addHiveLayer(hive, this.onHover)))
 
 		return layers
 	}
