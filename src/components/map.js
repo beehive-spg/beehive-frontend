@@ -33,6 +33,10 @@ export default class Map extends React.Component {
 		const { viewport, mapStyle, token } = this.state
 		const { data } = this.props
 
+		if (SERVER) {
+			return null
+		}
+
 		if (data.loading) {
 			return <div>loading...</div>
 		}
