@@ -10,6 +10,10 @@ export default class Map extends React.Component {
 	constructor(props) {
 		super(props)
 
+		this.map = {
+			render: false,
+		}
+
 		this.state = {
 			mapStyle: 'mapbox://styles/mapbox/streets-v10',
 			token:
@@ -27,6 +31,12 @@ export default class Map extends React.Component {
 		}
 	}
 
+	componentDidMount() {
+		this.map = {
+			render: true,
+		}
+	}
+
 	onViewportChange = viewport => this.setState({ viewport })
 
 	render() {
@@ -35,6 +45,10 @@ export default class Map extends React.Component {
 
 		if (data.loading) {
 			return <div>loading...</div>
+		}
+
+		if (!this.map.render) {
+			return <div />
 		}
 
 		return (
@@ -49,5 +63,6 @@ export default class Map extends React.Component {
 				</ReactMapGL>
 			</div>
 		)
+		// return this.renderMap()
 	}
 }
