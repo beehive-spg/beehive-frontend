@@ -27,7 +27,6 @@ export default class Map extends React.Component {
 				width: 800,
 				height: 600,
 			},
-			hiveInfo: null,
 		}
 	}
 
