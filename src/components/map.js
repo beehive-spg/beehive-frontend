@@ -63,6 +63,5 @@ export default class Map extends React.Component {
 				</ReactMapGL>
 			</div>
 		)
-		// return this.renderMap()
 	}
 }
