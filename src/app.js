@@ -1,26 +1,21 @@
-import config from 'kit/config'
-import Main from 'src/components/main'
-import hiveReducer from 'src/reducers/hiveReducer'
+import React, { Component } from 'react';
+import logo from './logo.svg';
+import './App.css';
 
-config.addReducer('hives', hiveReducer, { data: [], layers: [] })
-
-config.enableGraphQLServer()
-
-if (SERVER) {
-	config.setGraphQLSchema(require('src/graphql/schema').default)
-
-	const winston = require('winston')
-
-	config.set404Handler(ctx => {
-		ctx.state = 404
-
-		ctx.body = 'This route does not exist.'
-	})
-
-	config.setErrorHandler((e, ctx) => {
-		winston.info('Some kind of error occured.')
-		ctx.body = 'Some kind of error occured.'
-	})
+class App extends Component {
+  render() {
+    return (
+      <div className="App">
+        <div className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <h2>Welcome to React</h2>
+        </div>
+        <p className="App-intro">
+          To get started, edit <code>src/App.js</code> and save to reload.
+        </p>
+      </div>
+    );
+  }
 }
 
-export default Main
+export default App;
