@@ -1,20 +1,25 @@
 module.exports = {
     env: {
         es6: true,
-        node: true,
+        browser: true,
     },
     extends: ['eslint:recommended', 'prettier'],
     parser: 'babel-eslint',
     parserOptions: {
         sourceType: 'module',
+        ecmaFeatures: {
+            jsx: true,
+        },
     },
-    plugins: ['prettier'],
+    plugins: ['react', 'prettier'],
     rules: {
         strict: 0,
         indent: ['error', 'tab'],
         'linebreak-style': ['error', 'unix'],
         quotes: ['error', 'single'],
         semi: ['error', 'never'],
+        'react/jsx-uses-react': 'error',
+        'react/jsx-uses-vars': 'error',
         'prettier/prettier': [
             'error',
             {
