@@ -30,6 +30,12 @@ const client = new ApolloClient({
 	networkInterface: networkInterfaceWithSubscriptions,
 })
 
+/* eslint-disable */
+if (module.hot) {
+	require('preact/devtools')
+}
+/* eslint-enable */
+
 ReactDOM.render(
 	<ApolloProvider client={client}>
 		<Main />

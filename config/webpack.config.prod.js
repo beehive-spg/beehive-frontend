@@ -99,6 +99,8 @@ module.exports = {
 				paths.appNodeModules,
 				'/mapbox-gl/dist/mapbox-gl.js',
 			),
+			react: 'preact-compat',
+			'react-dom': 'preact-compat',
 		},
 		plugins: [
 			// Prevents users from importing files from outside of src/ (or node_modules/).

@@ -31,6 +31,8 @@
     "object-assign": "4.1.1",
     "postcss-flexbugs-fixes": "3.2.0",
     "postcss-loader": "2.0.6",
+    "preact": "^8.2.5",
+    "preact-compat": "^3.17.0",
     "promise": "8.0.1",
     "react": "^15.6.1",
     "react-apollo": "^1.4.15",
