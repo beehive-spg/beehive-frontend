@@ -1,6 +1,8 @@
 import React from 'react'
 import ReactMapGL from 'react-map-gl'
 
+import Layers from './layers'
+
 export default class Map extends React.Component {
 	constructor(props) {
 		super(props)
@@ -31,14 +33,14 @@ export default class Map extends React.Component {
 		}
 	}
 
+	onViewportChange = viewport => this.setState({ viewport })
+
 	render() {
 		const { viewport, mapStyle, token } = this.state
 
 		if (!this.map.render) {
 			return <div />
 		}
-
-		const onViewportChange = viewport => this.setState({ viewport })
 
 		return (
 			<div>
@@ -47,8 +49,9 @@ export default class Map extends React.Component {
 					debug
 					mapStyle={mapStyle}
 					mapboxApiAccessToken={token}
-					onViewportChange={onViewportChange}
-				/>
+					onViewportChange={this.onViewportChange}>
+					<Layers viewport={viewport} />
+				</ReactMapGL>
 			</div>
 		)
 	}

@@ -76,7 +76,7 @@ module.exports = {
 		// We placed these paths second because we want `node_modules` to "win"
 		// if there are any conflicts. This matches Node resolution mechanism.
 		// https://github.com/facebookincubator/create-react-app/issues/253
-		modules: [paths.appSrc, 'node_modules', paths.appNodeModules].concat(
+		modules: ['node_modules', paths.appSrc, paths.appNodeModules].concat(
 			// It is guaranteed to exist because we tweak it in `env.js`
 			process.env.NODE_PATH.split(path.delimiter).filter(Boolean),
 		),
@@ -91,8 +91,10 @@ module.exports = {
 			// Support React Native Web
 			// https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
 			'react-native': 'react-native-web',
-
-			'mapbox-gl$': resolve('./node_modules/mapbox-gl/dist/mapbox-gl.js'),
+			'mapbox-gl$': path.join(
+				paths.appNodeModules,
+				'/mapbox-gl/dist/mapbox-gl.js',
+			),
 		},
 		plugins: [
 			// Prevents users from importing files from outside of src/ (or node_modules/).
@@ -190,6 +192,11 @@ module.exports = {
 								},
 							},
 						],
+					},
+					{
+						test: /\.(graphql|gql)$/,
+						exclude: /node_modules/,
+						loader: 'graphql-tag/loader',
 					},
 					// "file" loader makes sure those assets get served by WebpackDevServer.
 					// When you `import` an asset, you get its (virtual) filename.
