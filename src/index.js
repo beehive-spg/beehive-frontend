@@ -8,7 +8,7 @@ import {
 import {
 	SubscriptionClient,
 	addGraphQLSubscriptions,
-} from 'subscription-transport-ws'
+} from 'subscriptions-transport-ws'
 import './index.css'
 import Main from './components/main'
 import registerServiceWorker from './registerServiceWorker'
