@@ -39,7 +39,7 @@ const addHiveLayer = (hive, onHover) => {
 		{
 			// outer
 			position: [coordinates.longitude, coordinates.latitude],
-			radius: 20,
+			radius: 15,
 			color: [217, 71, 31],
 		},
 	]
@@ -48,7 +48,7 @@ const addHiveLayer = (hive, onHover) => {
 		id: `layer-hive-${hive.id}`,
 		data,
 		hiveId: hive.id,
-		radiusMinPixels: 5,
+		radiusMinPixels: 4,
 		pickable: true,
 		onHover,
 	})
