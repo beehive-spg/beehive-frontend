@@ -19,6 +19,7 @@ export default class Map extends React.Component {
 				latitude: 48.210033,
 				longitude: 16.363449,
 				zoom: 11,
+				maxZoom: 16.3,
 				bearing: 0,
 				pitch: 50,
 				width: 800,
