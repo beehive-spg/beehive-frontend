@@ -4,6 +4,7 @@ import { graphql } from 'react-apollo'
 
 import { addHiveLayer } from 'mapbox/layers'
 import allHives from 'graphql/queries/all_hives.gql'
+import hiveAdded from 'graphql/subscriptions/hive_added.gql'
 
 import './layers.css'
 
@@ -15,6 +16,22 @@ export default class MapLayers extends React.Component {
 		this.state = {
 			hoveredItem: null,
 		}
+	}
+
+	componentWillMount() {
+		this.props.data.subscribeToMore({
+			document: hiveAdded,
+			updateQuery: (prev, { subscriptionData }) => {
+				if (!subscriptionData.data) {
+					return prev
+				}
+				const newHive = subscriptionData.data.hiveAdded
+				return {
+					...prev,
+					hives: [...prev.hives, newHive],
+				}
+			},
+		})
 	}
 
 	onHover = ({ x, y, layer, picked }) => {

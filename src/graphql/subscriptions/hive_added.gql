@@ -1,0 +1,10 @@
+subscription onHiveAdded {
+	hiveAdded {
+		id
+		location
+		coordinates {
+			longitude
+			latitude
+		}
+	}
+}
