@@ -8,6 +8,7 @@ import createDroneLayers from 'mapbox/createDroneLayers'
 
 import allHivesDrones from 'graphql/queries/all_hives_drones.gql'
 import hiveAdded from 'graphql/subscriptions/hive_added.gql'
+import droneAdded from 'graphql/subscriptions/drone_added.gql'
 
 import './layers.css'
 
@@ -32,6 +33,20 @@ export default class MapLayers extends React.Component {
 				return {
 					...prev,
 					hives: [...prev.hives, newHive],
+				}
+			},
+		})
+
+		this.props.data.subscribeToMore({
+			document: droneAdded,
+			updateQuery: (prev, { subscriptionData }) => {
+				if (!subscriptionData.data) {
+					return prev
+				}
+				const newDrone = subscriptionData.data.droneAdded
+				return {
+					...prev,
+					drones: [...prev.drones, newDrone],
 				}
 			},
 		})
