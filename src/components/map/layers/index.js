@@ -2,7 +2,10 @@ import React from 'react'
 import DeckGL from 'deck.gl'
 import { graphql } from 'react-apollo'
 
-import { addHiveLayer } from 'mapbox/layers'
+// import { addHiveLayer } from 'mapbox/layers'
+import createHiveLayers from 'mapbox/createHiveLayers'
+import createDroneLayers from 'mapbox/createDroneLayers'
+
 import allHivesDrones from 'graphql/queries/all_hives_drones.gql'
 import hiveAdded from 'graphql/subscriptions/hive_added.gql'
 
@@ -42,13 +45,12 @@ export default class MapLayers extends React.Component {
 		this.setState({ hoveredItem: hive, x, y, picked })
 	}
 
-	addHiveLayers() {
+	addLayers() {
 		const { data } = this.props
-
-		const layers = []
-		data.hives.map(hive => layers.push(addHiveLayer(hive, this.onHover)))
-
-		return layers
+		return [
+			...createHiveLayers(data.hives, this.onHover),
+			...createDroneLayers(data.drones),
+		]
 	}
 
 	renderHiveInfo() {
@@ -77,7 +79,7 @@ export default class MapLayers extends React.Component {
 
 		return (
 			<div>
-				<DeckGL {...viewport} layers={this.addHiveLayers()} />
+				<DeckGL {...viewport} layers={this.addLayers()} />
 				{this.renderHiveInfo()}
 			</div>
 		)
