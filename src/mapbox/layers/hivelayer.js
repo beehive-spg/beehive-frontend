@@ -28,7 +28,8 @@ class HiveLayer extends CompositeLayer {
 HiveLayer.layerName = 'HiveLayer'
 
 const addHiveLayer = (hive, onHover) => {
-	const coordinates = hive.coordinates
+	// const coordinates = hive.coordinates
+	const { coordinates } = hive
 	const data = [
 		{
 			// inner
