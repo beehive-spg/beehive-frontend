@@ -1,2 +1,2 @@
-export addHiveLayer from './layers/hivelayer'
-export addDroneLayer from './layers/dronelayer'
+export addHiveLayer from './layers/hiveLayer'
+export addDroneLayer from './layers/droneLayer'
