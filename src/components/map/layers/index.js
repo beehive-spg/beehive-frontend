@@ -3,12 +3,12 @@ import DeckGL from 'deck.gl'
 import { graphql } from 'react-apollo'
 
 import { addHiveLayer } from 'mapbox/layers'
-import allHives from 'graphql/queries/all_hives.gql'
+import allHivesDrones from 'graphql/queries/all_hives_drones.gql'
 import hiveAdded from 'graphql/subscriptions/hive_added.gql'
 
 import './layers.css'
 
-@graphql(allHives)
+@graphql(allHivesDrones)
 export default class MapLayers extends React.Component {
 	constructor(props) {
 		super(props)

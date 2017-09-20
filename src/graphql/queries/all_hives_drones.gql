@@ -1,0 +1,19 @@
+query all_drones_and_hives {
+	hives {
+		id
+		location
+		coordinates {
+			longitude
+			latitude
+		}
+	}
+	drones {
+		id
+		route {
+			stops {
+				longitude
+				latitude
+			}
+		}
+	}
+}
