@@ -1,11 +1,11 @@
 {
 	drones {
-    id
-    route {
-      stops {
-        longitude
-        latitude
-      }
-    }
-  }
+		id
+		route {
+			stops {
+				longitude
+				latitude
+			}
+		}
+	}
 }
