@@ -1,0 +1,11 @@
+subscription onDroneAdded {
+	droneAdded {
+		id
+		route {
+			stops {
+				longitude
+				latitude
+			}
+		}
+	}
+}
