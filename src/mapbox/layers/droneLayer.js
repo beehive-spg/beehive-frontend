@@ -1,10 +1,12 @@
 import { ScatterplotLayer } from 'deck.gl'
 
 const addDroneLayer = drone => {
-	const { coordinates } = drone
+	const { stops } = drone.route
+	// temporary
+	const stop = stops[0]
 	const data = [
 		{
-			position: [coordinates.longitude, coordinates.latitude],
+			position: [stop.longitude, stop.latitude],
 			radius: 5,
 			color: [36, 184, 41],
 		},
