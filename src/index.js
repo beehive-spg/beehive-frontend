@@ -9,9 +9,12 @@ import {
 	SubscriptionClient,
 	addGraphQLSubscriptions,
 } from 'subscriptions-transport-ws'
+import dotenv from 'dotenv'
 import './index.css'
 import Main from './components/main'
 import registerServiceWorker from './registerServiceWorker'
+
+dotenv.config()
 
 const wsClient = new SubscriptionClient('ws://localhost:8080/subscriptions', {
 	reconnect: true,
