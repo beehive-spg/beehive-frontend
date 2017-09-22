@@ -13,8 +13,7 @@ export default class Map extends React.Component {
 
 		this.state = {
 			mapStyle: 'mapbox://styles/mapbox/streets-v10',
-			token:
-				'pk.eyJ1IjoiYXN0d3lzIiwiYSI6ImNqNTBzbHMzYTJkMTkycXFqOHV2bDFwc28ifQ.BAEjuFoOh6TfXlYKwRfRrg',
+			token: process.env.REACT_APP_MAPBOX_ACCESS_TOKEN, // eslint-disable-line
 			viewport: {
 				latitude: 48.210033,
 				longitude: 16.363449,
