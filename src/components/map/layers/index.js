@@ -1,8 +1,8 @@
 import React from 'react'
 import DeckGL from 'deck.gl'
 import { graphql } from 'react-apollo'
+import { connect } from 'react-redux'
 
-// import { addHiveLayer } from 'mapbox/layers'
 import createHiveLayers from 'mapbox/createHiveLayers'
 import createDroneLayers from 'mapbox/createDroneLayers'
 
@@ -13,6 +13,11 @@ import droneAdded from 'graphql/subscriptions/drone_added.gql'
 import './layers.css'
 
 @graphql(allHivesDrones)
+@connect(store => {
+	return {
+		layers: store.layers,
+	}
+})
 export default class MapLayers extends React.Component {
 	constructor(props) {
 		super(props)
@@ -87,6 +92,7 @@ export default class MapLayers extends React.Component {
 
 	render() {
 		const { viewport, data } = this.props
+		console.log(this.props) // eslint-disable-line
 
 		if (data.loading) {
 			return <div>loading...</div>
