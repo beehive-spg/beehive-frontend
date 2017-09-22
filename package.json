@@ -40,6 +40,8 @@
     "react-dev-utils": "^4.0.1",
     "react-helmet": "^5.2.0",
     "react-map-gl": "^3.0.4",
+    "react-redux": "^5.0.6",
+    "redux": "^3.7.2",
     "style-loader": "0.18.2",
     "subscriptions-transport-ws": "0.8.3",
     "sw-precache-webpack-plugin": "0.11.4",
