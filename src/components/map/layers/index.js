@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import createHiveLayers from 'mapbox/createHiveLayers'
 import createDroneLayers from 'mapbox/createDroneLayers'
 
-import { addDrones } from 'actions/layerActions'
+import { addDrone, addDrones } from 'actions/layerActions'
 
 import allHivesDrones from 'graphql/queries/all_hives_drones.gql'
 import hiveAdded from 'graphql/subscriptions/hive_added.gql'
@@ -53,6 +53,7 @@ export default class MapLayers extends React.Component {
 					return prev
 				}
 				const newDrone = subscriptionData.data.droneAdded
+				this.props.dispatch(addDrone(newDrone))
 				return {
 					...prev,
 					drones: [...prev.drones, newDrone],
@@ -70,10 +71,10 @@ export default class MapLayers extends React.Component {
 	}
 
 	addLayers() {
-		const { data } = this.props
+		const { data, layers } = this.props
 		return [
 			...createHiveLayers(data.hives, this.onHover),
-			...createDroneLayers(data.drones),
+			...createDroneLayers(layers),
 		]
 	}
 
