@@ -3,8 +3,9 @@ import ReactDOM from 'react-dom'
 import { ApolloProvider } from 'react-apollo'
 import dotenv from 'dotenv'
 import Main from './components/main'
-import './index.css'
 import client from './client'
+import store from './store'
+import './index.css'
 import registerServiceWorker from './registerServiceWorker'
 
 dotenv.config()
@@ -16,7 +17,7 @@ if (module.hot) {
 /* eslint-enable */
 
 ReactDOM.render(
-	<ApolloProvider client={client}>
+	<ApolloProvider store={store} client={client}>
 		<Main />
 	</ApolloProvider>,
 	document.getElementById('root'),
