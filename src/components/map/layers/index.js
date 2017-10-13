@@ -62,6 +62,17 @@ export default class MapLayers extends React.Component {
 		})
 	}
 
+	// componentDidMount() {
+	// 	const { data } = this.props
+	// 	console.log(data) // eslint-disable-line
+
+	// 	if (this.firstFetch) {
+	// 		this.props.dispatch(addDrones(data.drones))
+	// 		this.firstFetch = false
+	// 		console.log('firstfetch') // eslint-disable-line
+	// 	}
+	// }
+
 	onHover = ({ x, y, layer, picked }) => {
 		const { data } = this.props
 		const layerName = layer.id
@@ -104,6 +115,7 @@ export default class MapLayers extends React.Component {
 			if (this.firstFetch) {
 				this.props.dispatch(addDrones(data.drones))
 				this.firstFetch = false
+				return
 			}
 		}
 
