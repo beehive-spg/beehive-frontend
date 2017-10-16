@@ -1,12 +1,11 @@
 import React from 'react'
 import DeckGL from 'deck.gl'
 import { graphql } from 'react-apollo'
-import { connect } from 'react-redux'
 
 import createHiveLayers from 'mapbox/createHiveLayers'
 import createDroneLayers from 'mapbox/createDroneLayers'
 
-import { addDrone, addDrones } from 'actions/layerActions'
+import { addDrone, addDrones } from 'mapbox/creators/drones'
 
 import allHivesDrones from 'graphql/queries/all_hives_drones.gql'
 import hiveAdded from 'graphql/subscriptions/hive_added.gql'
@@ -15,11 +14,6 @@ import droneAdded from 'graphql/subscriptions/drone_added.gql'
 import './layers.css'
 
 @graphql(allHivesDrones)
-@connect(store => {
-	return {
-		layers: store.layers,
-	}
-})
 export default class MapLayers extends React.Component {
 	constructor(props) {
 		super(props)
@@ -28,6 +22,7 @@ export default class MapLayers extends React.Component {
 
 		this.state = {
 			hoveredItem: null,
+			droneLayers: [],
 		}
 	}
 
@@ -53,7 +48,12 @@ export default class MapLayers extends React.Component {
 					return prev
 				}
 				const newDrone = subscriptionData.data.droneAdded
-				this.props.dispatch(addDrone(newDrone))
+				this.setState({
+					droneLayers: [
+						...this.state.droneLayers,
+						addDrone(newDrone),
+					],
+				})
 				return {
 					...prev,
 					drones: [...prev.drones, newDrone],
@@ -71,10 +71,12 @@ export default class MapLayers extends React.Component {
 	}
 
 	addLayers() {
-		const { data, layers } = this.props
+		const { data /*layers*/ } = this.props
+		const { droneLayers } = this.state
+
 		return [
 			...createHiveLayers(data.hives, this.onHover),
-			...createDroneLayers(layers),
+			...createDroneLayers(...droneLayers),
 		]
 	}
 
@@ -97,12 +99,16 @@ export default class MapLayers extends React.Component {
 
 	render() {
 		const { viewport, data } = this.props
-
 		if (data.loading) {
 			return <div>loading...</div>
 		} else {
 			if (this.firstFetch) {
-				this.props.dispatch(addDrones(data.drones))
+				this.setState({
+					droneLayers: [
+						...this.state.droneLayers,
+						addDrones(data.drones),
+					],
+				})
 				this.firstFetch = false
 				return
 			}
