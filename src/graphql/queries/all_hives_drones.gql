@@ -10,7 +10,15 @@ query all_drones_and_hives {
 	drones {
 		id
 		route {
-			stops {
+			from {
+				longitude
+				latitude
+			}
+			to {
+				longitude
+				latitude
+			}
+			currentPosition {
 				longitude
 				latitude
 			}

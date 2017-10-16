@@ -2,7 +2,15 @@ subscription onDroneAdded {
 	droneAdded {
 		id
 		route {
-			stops {
+			from {
+				longitude
+				latitude
+			}
+			to {
+				longitude
+				latitude
+			}
+			currentPosition {
 				longitude
 				latitude
 			}

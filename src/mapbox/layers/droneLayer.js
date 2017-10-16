@@ -1,22 +1,12 @@
 import { ScatterplotLayer } from 'deck.gl'
 
 const addDroneLayer = drone => {
-	const { stops } = drone.route
-	// temporary
-	const stop = stops[0]
-	const data = [
-		{
-			position: [stop.longitude, stop.latitude],
-			radius: 5,
-			color: [36, 184, 41],
-		},
-	]
-
-	return new ScatterplotLayer({
+	const added = new ScatterplotLayer({
 		id: `layer-drone-${drone.id}`,
-		data,
+		data: drone.data,
 		outline: false,
 	})
+	return added
 }
 
 export default addDroneLayer

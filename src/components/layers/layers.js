@@ -6,6 +6,8 @@ import { connect } from 'react-redux'
 import createHiveLayers from 'mapbox/createHiveLayers'
 import createDroneLayers from 'mapbox/createDroneLayers'
 
+import { addDrone, addDrones } from 'actions/layerActions'
+
 import allHivesDrones from 'graphql/queries/all_hives_drones.gql'
 import hiveAdded from 'graphql/subscriptions/hive_added.gql'
 import droneAdded from 'graphql/subscriptions/drone_added.gql'
@@ -21,6 +23,8 @@ import './layers.css'
 export default class MapLayers extends React.Component {
 	constructor(props) {
 		super(props)
+
+		this.firstFetch = true
 
 		this.state = {
 			hoveredItem: null,
@@ -49,6 +53,7 @@ export default class MapLayers extends React.Component {
 					return prev
 				}
 				const newDrone = subscriptionData.data.droneAdded
+				this.props.dispatch(addDrone(newDrone))
 				return {
 					...prev,
 					drones: [...prev.drones, newDrone],
@@ -66,10 +71,10 @@ export default class MapLayers extends React.Component {
 	}
 
 	addLayers() {
-		const { data } = this.props
+		const { data, layers } = this.props
 		return [
 			...createHiveLayers(data.hives, this.onHover),
-			...createDroneLayers(data.drones),
+			...createDroneLayers(layers),
 		]
 	}
 
@@ -92,10 +97,15 @@ export default class MapLayers extends React.Component {
 
 	render() {
 		const { viewport, data } = this.props
-		console.log(this.props) // eslint-disable-line
 
 		if (data.loading) {
 			return <div>loading...</div>
+		} else {
+			if (this.firstFetch) {
+				this.props.dispatch(addDrones(data.drones))
+				this.firstFetch = false
+				return
+			}
 		}
 
 		return (
