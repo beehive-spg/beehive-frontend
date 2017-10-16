@@ -1,8 +1,6 @@
-import { ADD_DRONE, ADD_DRONES } from 'constants/actionTypes'
-
 export function addDrone(drone) {
 	const { currentPosition } = drone.route
-	const droneLayer = {
+	return {
 		id: drone.id,
 		data: [
 			{
@@ -12,17 +10,10 @@ export function addDrone(drone) {
 			},
 		],
 	}
-
-	return {
-		type: ADD_DRONE,
-		payload: {
-			droneLayer,
-		},
-	}
 }
 
 export function addDrones(drones) {
-	const droneLayers = drones.map(drone => {
+	return drones.map(drone => {
 		const { currentPosition } = drone.route
 		return {
 			id: drone.id,
@@ -38,11 +29,4 @@ export function addDrones(drones) {
 			],
 		}
 	})
-
-	return {
-		type: ADD_DRONES,
-		payload: {
-			droneLayers,
-		},
-	}
 }

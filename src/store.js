@@ -1,10 +1,8 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
-import layerReducer from 'reducers/layerReducer'
 import client from './client'
 
 const store = createStore(
 	combineReducers({
-		layers: layerReducer,
 		apollo: client.reducer(),
 	}),
 	{},
