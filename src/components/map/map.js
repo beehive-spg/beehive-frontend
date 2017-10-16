@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactMapGL from 'react-map-gl'
 
-import Layers from './layers'
+import Layers from 'components/layers/layers'
 
 export default class Map extends React.Component {
 	constructor(props) {
