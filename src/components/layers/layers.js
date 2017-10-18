@@ -2,10 +2,8 @@ import React from 'react'
 import DeckGL from 'deck.gl'
 import { graphql } from 'react-apollo'
 
-import createHiveLayers from 'mapbox/createHiveLayers'
-import createDroneLayers from 'mapbox/createDroneLayers'
-
-import { addDrone, addDrones } from 'mapbox/creators/drones'
+import { addDrones } from 'mapbox/creators/drones'
+import { createDroneLayers, createHiveLayers } from 'mapbox/layers'
 
 import allHivesDrones from 'graphql/queries/all_hives_drones.gql'
 import hiveAdded from 'graphql/subscriptions/hive_added.gql'
@@ -17,12 +15,11 @@ import './layers.css'
 export default class MapLayers extends React.Component {
 	constructor(props) {
 		super(props)
-
 		this.firstFetch = true
 
 		this.state = {
 			hoveredItem: null,
-			droneLayers: [],
+			droneData: [],
 		}
 	}
 
@@ -48,11 +45,9 @@ export default class MapLayers extends React.Component {
 					return prev
 				}
 				const newDrone = subscriptionData.data.droneAdded
+				const drone = addDrones([newDrone])
 				this.setState({
-					droneLayers: [
-						...this.state.droneLayers,
-						addDrone(newDrone),
-					],
+					droneData: [...this.state.droneData, drone[0]],
 				})
 				return {
 					...prev,
@@ -67,17 +62,12 @@ export default class MapLayers extends React.Component {
 		const layerName = layer.id
 		const layerParts = layerName.split('-')
 		const hive = data.hives.find(h => h.id === layerParts[2])
-		this.setState({ hoveredItem: hive, x, y, picked })
-	}
-
-	addLayers() {
-		const { data /*layers*/ } = this.props
-		const { droneLayers } = this.state
-
-		return [
-			...createHiveLayers(data.hives, this.onHover),
-			...createDroneLayers(...droneLayers),
-		]
+		this.setState({
+			hoveredItem: hive,
+			x,
+			y,
+			picked,
+		})
 	}
 
 	renderHiveInfo() {
@@ -97,26 +87,65 @@ export default class MapLayers extends React.Component {
 		)
 	}
 
+	createLayers() {
+		const { data } = this.props
+		const { droneData } = this.state
+
+		return [
+			...createHiveLayers(data.hives, this.onHover),
+			...createDroneLayers(droneData),
+		]
+	}
+
+	animate() {
+		let { droneData } = this.state
+		if (droneData.length === 0) {
+			return
+		}
+		droneData.forEach(drone => {
+			const { position } = drone.data[0]
+			const { coordinates } = drone.route[drone.route.length - 1].geometry
+			if (position !== coordinates) {
+				if (typeof drone.route[drone.counter] === 'undefined') {
+					return
+				}
+				let newData = [{ ...drone.data[0] }]
+				const { coordinates } = drone.route[drone.counter].geometry
+				newData[0].position = coordinates
+				drone.data = newData
+				drone.counter++
+
+				const index = droneData.findIndex(res => res.id === drone.id)
+				droneData[index] = drone
+				this.setState({
+					droneData,
+				})
+			} else {
+				const newDrones = droneData.filter(res => res.id !== drone.id)
+				this.setState({
+					droneData: newDrones,
+				})
+			}
+		})
+		requestAnimationFrame(this.animate.bind(this))
+	}
+
 	render() {
 		const { viewport, data } = this.props
 		if (data.loading) {
 			return <div>loading...</div>
-		} else {
-			if (this.firstFetch) {
-				this.setState({
-					droneLayers: [
-						...this.state.droneLayers,
-						addDrones(data.drones),
-					],
-				})
-				this.firstFetch = false
-				return
-			}
+		} else if (this.firstFetch) {
+			this.setState({
+				droneData: addDrones(data.drones),
+			})
+			this.firstFetch = false
+			this.animate()
+			return
 		}
 
 		return (
 			<div>
-				<DeckGL {...viewport} layers={this.addLayers()} />
+				<DeckGL {...viewport} layers={this.createLayers()} />
 				{this.renderHiveInfo()}
 			</div>
 		)
