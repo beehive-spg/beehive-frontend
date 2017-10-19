@@ -99,9 +99,8 @@ export default class MapLayers extends React.Component {
 
 	animate() {
 		let { droneData } = this.state
-		if (droneData.length === 0) {
-			return
-		}
+		let newDroneData = droneData
+
 		droneData.forEach(drone => {
 			const { position } = drone.data[0]
 			const { coordinates } = drone.route[drone.route.length - 1].geometry
@@ -121,12 +120,19 @@ export default class MapLayers extends React.Component {
 					droneData,
 				})
 			} else {
-				const newDrones = droneData.filter(res => res.id !== drone.id)
-				this.setState({
-					droneData: newDrones,
-				})
+				newDroneData = droneData.filter(res => res.id !== drone.id)
 			}
 		})
+
+		if (droneData !== newDroneData) {
+			this.setState({
+				droneData: newDroneData,
+			})
+		}
+
+		if (this.state.droneData.length === 0) {
+			return
+		}
 		requestAnimationFrame(this.animate.bind(this))
 	}
 
