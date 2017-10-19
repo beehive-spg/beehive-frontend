@@ -8,7 +8,7 @@ const coordinateLine = (start, end) => {
 	const distance = lineDistance(line)
 
 	const arc = []
-	for (let i = 0; i < distance; i += 0.01) {
+	for (let i = 0; i < distance; i += 0.005) {
 		const segment = along(line, i)
 		arc.push(segment)
 	}
