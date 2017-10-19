@@ -16,6 +16,7 @@ export default class MapLayers extends React.Component {
 	constructor(props) {
 		super(props)
 		this.firstFetch = true
+		this.isAnimating = false
 
 		this.state = {
 			hoveredItem: null,
@@ -49,6 +50,9 @@ export default class MapLayers extends React.Component {
 				this.setState({
 					droneData: [...this.state.droneData, drone[0]],
 				})
+				if (!this.isAnimating) {
+					this.animate()
+				}
 				return {
 					...prev,
 					drones: [...prev.drones, newDrone],
@@ -98,10 +102,11 @@ export default class MapLayers extends React.Component {
 	}
 
 	animate() {
+		this.isAnimating = true
+
 		let { droneData } = this.state
-		if (droneData.length === 0) {
-			return
-		}
+		let newDroneData = droneData
+
 		droneData.forEach(drone => {
 			const { position } = drone.data[0]
 			const { coordinates } = drone.route[drone.route.length - 1].geometry
@@ -121,12 +126,20 @@ export default class MapLayers extends React.Component {
 					droneData,
 				})
 			} else {
-				const newDrones = droneData.filter(res => res.id !== drone.id)
-				this.setState({
-					droneData: newDrones,
-				})
+				newDroneData = droneData.filter(res => res.id !== drone.id)
 			}
 		})
+
+		if (droneData !== newDroneData) {
+			this.setState({
+				droneData: newDroneData,
+			})
+		}
+
+		if (this.state.droneData.length === 0) {
+			this.isAnimating = false
+			return
+		}
 		requestAnimationFrame(this.animate.bind(this))
 	}
 
