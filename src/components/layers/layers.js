@@ -16,6 +16,7 @@ export default class MapLayers extends React.Component {
 	constructor(props) {
 		super(props)
 		this.firstFetch = true
+		this.isAnimating = false
 
 		this.state = {
 			hoveredItem: null,
@@ -49,6 +50,9 @@ export default class MapLayers extends React.Component {
 				this.setState({
 					droneData: [...this.state.droneData, drone[0]],
 				})
+				if (!this.isAnimating) {
+					this.animate()
+				}
 				return {
 					...prev,
 					drones: [...prev.drones, newDrone],
@@ -98,6 +102,8 @@ export default class MapLayers extends React.Component {
 	}
 
 	animate() {
+		this.isAnimating = true
+
 		let { droneData } = this.state
 		let newDroneData = droneData
 
@@ -131,6 +137,7 @@ export default class MapLayers extends React.Component {
 		}
 
 		if (this.state.droneData.length === 0) {
+			this.isAnimating = false
 			return
 		}
 		requestAnimationFrame(this.animate.bind(this))
