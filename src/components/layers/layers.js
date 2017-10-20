@@ -104,10 +104,10 @@ export default class MapLayers extends React.Component {
 	animate() {
 		this.isAnimating = true
 
-		let { droneData } = this.state
+		const { droneData } = this.state
 		let newDroneData = droneData
 
-		droneData.forEach(drone => {
+		newDroneData.forEach(drone => {
 			const { position } = drone.data[0]
 			const { coordinates } = drone.route[drone.route.length - 1].geometry
 			if (position !== coordinates) {
@@ -120,21 +120,16 @@ export default class MapLayers extends React.Component {
 				drone.data = newData
 				drone.counter++
 
-				const index = droneData.findIndex(res => res.id === drone.id)
-				droneData[index] = drone
-				this.setState({
-					droneData,
-				})
+				const index = newDroneData.findIndex(res => res.id === drone.id)
+				newDroneData[index] = drone
 			} else {
 				newDroneData = droneData.filter(res => res.id !== drone.id)
 			}
 		})
 
-		if (droneData !== newDroneData) {
-			this.setState({
-				droneData: newDroneData,
-			})
-		}
+		this.setState({
+			droneData: newDroneData,
+		})
 
 		if (this.state.droneData.length === 0) {
 			this.isAnimating = false
