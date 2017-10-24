@@ -1,4 +1,4 @@
-export function addHives(hives, onHover) {
+export function addHives(hives) {
 	return hives.map(hive => {
 		const { coordinates, location } = hive
 
@@ -19,7 +19,6 @@ export function addHives(hives, onHover) {
 					color: [217, 71, 31],
 				},
 			],
-			onHover,
 		}
 	})
 }
