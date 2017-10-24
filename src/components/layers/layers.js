@@ -3,6 +3,7 @@ import DeckGL from 'deck.gl'
 import { graphql } from 'react-apollo'
 
 import { addDrones } from 'mapbox/creators/drones'
+import { addHives } from 'mapbox/creators/hives'
 import { createDroneLayers, createHiveLayers } from 'mapbox/layers'
 
 import allHivesDrones from 'graphql/queries/all_hives_drones.gql'
@@ -20,6 +21,7 @@ export default class MapLayers extends React.Component {
 
 		this.state = {
 			hoveredItem: null,
+			hiveData: [],
 			droneData: [],
 		}
 	}
@@ -92,11 +94,11 @@ export default class MapLayers extends React.Component {
 	}
 
 	createLayers() {
-		const { data } = this.props
-		const { droneData } = this.state
+		// const { data } = this.props
+		const { hiveData, droneData } = this.state
 
 		return [
-			...createHiveLayers(data.hives, this.onHover),
+			...createHiveLayers(hiveData, this.onHover),
 			...createDroneLayers(droneData),
 		]
 	}
@@ -144,6 +146,7 @@ export default class MapLayers extends React.Component {
 			return <div>loading...</div>
 		} else if (this.firstFetch) {
 			this.setState({
+				hiveData: addHives(data.hives),
 				droneData: addDrones(data.drones),
 			})
 			this.firstFetch = false
