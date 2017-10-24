@@ -34,6 +34,10 @@ export default class MapLayers extends React.Component {
 					return prev
 				}
 				const newHive = subscriptionData.data.hiveAdded
+				const hive = addHives([newHive])
+				this.setState({
+					hiveData: [...this.state.hiveData, hive[0]],
+				})
 				return {
 					...prev,
 					hives: [...prev.hives, newHive],
@@ -94,7 +98,6 @@ export default class MapLayers extends React.Component {
 	}
 
 	createLayers() {
-		// const { data } = this.props
 		const { hiveData, droneData } = this.state
 
 		return [
