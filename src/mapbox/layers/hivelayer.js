@@ -28,25 +28,9 @@ class HiveLayer extends CompositeLayer {
 HiveLayer.layerName = 'HiveLayer'
 
 const addHiveLayer = (hive, onHover) => {
-	const { coordinates } = hive
-	const data = [
-		{
-			// inner
-			position: [coordinates.longitude, coordinates.latitude],
-			radius: 15,
-			color: [255, 255, 255],
-		},
-		{
-			// outer
-			position: [coordinates.longitude, coordinates.latitude],
-			radius: 15,
-			color: [217, 71, 31],
-		},
-	]
-
 	return new HiveLayer({
 		id: `layer-hive-${hive.id}`,
-		data,
+		data: hive.data,
 		hiveId: hive.id,
 		radiusMinPixels: 4,
 		pickable: true,
