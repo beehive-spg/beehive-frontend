@@ -1,9 +1,10 @@
 export function addHives(hives, onHover) {
 	return hives.map(hive => {
-		const { coordinates } = hive
+		const { coordinates, location } = hive
 
 		return {
 			id: hive.id,
+			location,
 			data: [
 				{
 					// inner
