@@ -68,10 +68,11 @@ export default class MapLayers extends React.Component {
 	}
 
 	onHover = ({ x, y, layer, picked }) => {
-		const { data } = this.props
+		const { hiveData } = this.state
+
 		const layerName = layer.id
 		const layerParts = layerName.split('-')
-		const hive = data.hives.find(h => h.id === layerParts[2])
+		const hive = hiveData.find(h => h.id === layerParts[2])
 		this.setState({
 			hoveredItem: hive,
 			x,
