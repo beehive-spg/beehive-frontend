@@ -3,6 +3,7 @@ import DeckGL from 'deck.gl'
 import { graphql } from 'react-apollo'
 
 import { addDrones } from 'mapbox/creators/drones'
+import { addHives } from 'mapbox/creators/hives'
 import { createDroneLayers, createHiveLayers } from 'mapbox/layers'
 
 import allHivesDrones from 'graphql/queries/all_hives_drones.gql'
@@ -20,6 +21,7 @@ export default class MapLayers extends React.Component {
 
 		this.state = {
 			hoveredItem: null,
+			hiveData: [],
 			droneData: [],
 		}
 	}
@@ -32,6 +34,10 @@ export default class MapLayers extends React.Component {
 					return prev
 				}
 				const newHive = subscriptionData.data.hiveAdded
+				const hive = addHives([newHive])
+				this.setState({
+					hiveData: [...this.state.hiveData, hive[0]],
+				})
 				return {
 					...prev,
 					hives: [...prev.hives, newHive],
@@ -92,11 +98,10 @@ export default class MapLayers extends React.Component {
 	}
 
 	createLayers() {
-		const { data } = this.props
-		const { droneData } = this.state
+		const { hiveData, droneData } = this.state
 
 		return [
-			...createHiveLayers(data.hives, this.onHover),
+			...createHiveLayers(hiveData, this.onHover),
 			...createDroneLayers(droneData),
 		]
 	}
@@ -104,10 +109,10 @@ export default class MapLayers extends React.Component {
 	animate() {
 		this.isAnimating = true
 
-		let { droneData } = this.state
+		const { droneData } = this.state
 		let newDroneData = droneData
 
-		droneData.forEach(drone => {
+		newDroneData.forEach(drone => {
 			const { position } = drone.data[0]
 			const { coordinates } = drone.route[drone.route.length - 1].geometry
 			if (position !== coordinates) {
@@ -120,21 +125,16 @@ export default class MapLayers extends React.Component {
 				drone.data = newData
 				drone.counter++
 
-				const index = droneData.findIndex(res => res.id === drone.id)
-				droneData[index] = drone
-				this.setState({
-					droneData,
-				})
+				const index = newDroneData.findIndex(res => res.id === drone.id)
+				newDroneData[index] = drone
 			} else {
 				newDroneData = droneData.filter(res => res.id !== drone.id)
 			}
 		})
 
-		if (droneData !== newDroneData) {
-			this.setState({
-				droneData: newDroneData,
-			})
-		}
+		this.setState({
+			droneData: newDroneData,
+		})
 
 		if (this.state.droneData.length === 0) {
 			this.isAnimating = false
@@ -149,6 +149,7 @@ export default class MapLayers extends React.Component {
 			return <div>loading...</div>
 		} else if (this.firstFetch) {
 			this.setState({
+				hiveData: addHives(data.hives),
 				droneData: addDrones(data.drones),
 			})
 			this.firstFetch = false
