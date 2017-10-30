@@ -33,6 +33,25 @@ export default class Map extends React.Component {
 		}
 	}
 
+	componentDidMount() {
+		window.addEventListener('resize', this._resize)
+		this._resize()
+	}
+
+	componentWillUnmount() {
+		window.removeEventListener('resize', this._resize)
+	}
+
+	_resize = () => {
+		this.setState({
+			viewport: {
+				...this.state.viewport,
+				width: this.props.width || window.innerWidth,
+				height: this.props.height || window.innerHeight,
+			},
+		})
+	}
+
 	onViewportChange = viewport => this.setState({ viewport })
 
 	render() {
