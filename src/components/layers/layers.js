@@ -10,6 +10,8 @@ import allHivesDrones from 'graphql/queries/all_hives_drones.gql'
 import hiveAdded from 'graphql/subscriptions/hive_added.gql'
 import droneAdded from 'graphql/subscriptions/drone_added.gql'
 
+import { removeDroneFromStore } from 'graphql/local/droneUpdates'
+
 import './layers.css'
 
 @graphql(allHivesDrones)
@@ -130,6 +132,7 @@ export default class MapLayers extends React.Component {
 				newDroneData[index] = drone
 			} else {
 				newDroneData = newDroneData.filter(res => res.id !== drone.id)
+				removeDroneFromStore(drone)
 			}
 		}
 
