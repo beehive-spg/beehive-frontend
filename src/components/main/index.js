@@ -6,7 +6,6 @@ import Map from 'components/map/map'
 export default () => (
 	<div>
 		<Helmet title="Drone Logistics Network" />
-		<h1>Beehive</h1>
 		<Map />
 	</div>
 )
