@@ -15,8 +15,8 @@ export function addDrones(drones) {
 						currentPosition.longitude,
 						currentPosition.latitude,
 					],
-					radius: 10,
-					color: [36, 184, 41],
+					radius: 20,
+					color: [0, 0, 0],
 				},
 			],
 		}
