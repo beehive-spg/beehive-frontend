@@ -2,6 +2,8 @@ import React from 'react'
 import DeckGL from 'deck.gl'
 import { graphql } from 'react-apollo'
 
+import Sidebar from 'components/sidebar/sidebar'
+
 import { addDrones } from 'mapbox/creators/drones'
 import { addHives } from 'mapbox/creators/hives'
 import { createDroneLayers, createHiveLayers } from 'mapbox/layers'
@@ -184,6 +186,7 @@ export default class MapLayers extends React.Component {
 			<div>
 				<DeckGL {...viewport} layers={this.createLayers()} />
 				{this.renderHiveInfo()}
+				<Sidebar data={data} />
 			</div>
 		)
 	}
