@@ -12,8 +12,9 @@ import droneAdded from 'graphql/subscriptions/drone_added.gql'
 
 import {
 	removeDroneFromStore,
-	updateOrAddToStore,
+	updateOrAddToStore as updateOrAddToStoreDrone,
 } from 'graphql/local/droneUpdates'
+import { updateOrAddToStore as updateOrAddToStoreHive } from 'graphql/local/hiveUpdates'
 
 import './layers.css'
 
@@ -38,14 +39,21 @@ export default class MapLayers extends React.Component {
 				if (!subscriptionData.data) {
 					return prev
 				}
-				const newHive = subscriptionData.data.hiveAdded
-				const hive = addHives([newHive])
+				const hive = subscriptionData.data.hiveAdded
+
+				const newData = updateOrAddToStoreHive(
+					hive,
+					prev.hives,
+					this.state.hiveData,
+				)
+
 				this.setState({
-					hiveData: [...this.state.hiveData, hive[0]],
+					hiveData: newData.newLocalState,
 				})
+
 				return {
 					...prev,
-					hives: [...prev.hives, newHive],
+					hives: newData.newApolloStore,
 				}
 			},
 		})
@@ -58,7 +66,7 @@ export default class MapLayers extends React.Component {
 				}
 				const drone = subscriptionData.data.droneAdded
 
-				const newData = updateOrAddToStore(
+				const newData = updateOrAddToStoreDrone(
 					drone,
 					prev.drones,
 					this.state.droneData,
