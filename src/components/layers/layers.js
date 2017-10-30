@@ -10,6 +10,8 @@ import allHivesDrones from 'graphql/queries/all_hives_drones.gql'
 import hiveAdded from 'graphql/subscriptions/hive_added.gql'
 import droneAdded from 'graphql/subscriptions/drone_added.gql'
 
+import { removeDroneFromStore } from 'graphql/local/droneUpdates'
+
 import './layers.css'
 
 @graphql(allHivesDrones)
@@ -68,10 +70,11 @@ export default class MapLayers extends React.Component {
 	}
 
 	onHover = ({ x, y, layer, picked }) => {
-		const { data } = this.props
+		const { hiveData } = this.state
+
 		const layerName = layer.id
 		const layerParts = layerName.split('-')
-		const hive = data.hives.find(h => h.id === layerParts[2])
+		const hive = hiveData.find(h => h.id === layerParts[2])
 		this.setState({
 			hoveredItem: hive,
 			x,
@@ -112,7 +115,7 @@ export default class MapLayers extends React.Component {
 		const { droneData } = this.state
 		let newDroneData = droneData
 
-		newDroneData.forEach(drone => {
+		for (let drone of newDroneData) {
 			const { position } = drone.data[0]
 			const { coordinates } = drone.route[drone.route.length - 1].geometry
 			if (position !== coordinates) {
@@ -128,15 +131,16 @@ export default class MapLayers extends React.Component {
 				const index = newDroneData.findIndex(res => res.id === drone.id)
 				newDroneData[index] = drone
 			} else {
-				newDroneData = droneData.filter(res => res.id !== drone.id)
+				newDroneData = newDroneData.filter(res => res.id !== drone.id)
+				removeDroneFromStore(drone)
 			}
-		})
+		}
 
 		this.setState({
 			droneData: newDroneData,
 		})
 
-		if (this.state.droneData.length === 0) {
+		if (newDroneData.length === 0) {
 			this.isAnimating = false
 			return
 		}
