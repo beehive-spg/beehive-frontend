@@ -1,6 +1,7 @@
 import client from 'client'
 import { addDrones } from 'mapbox/creators/drones'
 import allDrones from 'graphql/queries/all_drones.gql'
+import { addDroneInfo } from 'redux/actions/infoActions'
 
 const removeDroneFromStore = drone => {
 	let data = client.readQuery({
@@ -15,7 +16,7 @@ const removeDroneFromStore = drone => {
 	})
 }
 
-const updateOrAddToStore = (drone, apolloStore, localState) => {
+const updateOrAddToStore = (drone, apolloStore, localState, dispatch) => {
 	const apolloIndex = apolloStore.findIndex(res => res.id === drone.id)
 	const stateIndex = localState.findIndex(res => res.id === drone.id)
 
@@ -28,6 +29,7 @@ const updateOrAddToStore = (drone, apolloStore, localState) => {
 		newApolloStore[apolloIndex] = drone
 	} else {
 		newApolloStore.push(drone)
+		dispatch(addDroneInfo([drone]))
 	}
 
 	if (stateIndex !== -1) {
