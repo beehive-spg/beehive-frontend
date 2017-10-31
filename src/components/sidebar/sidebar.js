@@ -19,7 +19,7 @@ export default class Sidebar extends React.Component {
 			<div className="sidebar">
 				<div className="heading">Drones</div>
 				<hr />
-				{droneComponents}
+				<div className="container">{droneComponents}</div>
 			</div>
 		)
 	}
