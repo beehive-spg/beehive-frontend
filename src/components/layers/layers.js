@@ -3,11 +3,11 @@ import DeckGL from 'deck.gl'
 import { graphql } from 'react-apollo'
 import { connect } from 'react-redux'
 
-import Sidebar from 'components/sidebar/sidebar'
-
 import { addDrones } from 'mapbox/creators/drones'
 import { addHives } from 'mapbox/creators/hives'
 import { createDroneLayers, createHiveLayers } from 'mapbox/layers'
+
+import { addDroneInfo } from 'redux/actions/infoActions'
 
 import allHivesDrones from 'graphql/queries/all_hives_drones.gql'
 import hiveAdded from 'graphql/subscriptions/hive_added.gql'
@@ -76,6 +76,7 @@ export default class MapLayers extends React.Component {
 					prev.drones,
 					this.state.droneData,
 					//updateOrAddDroneToInfoStore
+					this.props.dispatch,
 				)
 
 				this.setState({
@@ -182,6 +183,7 @@ export default class MapLayers extends React.Component {
 				hiveData: addHives(data.hives),
 				droneData: addDrones(data.drones),
 			})
+			this.props.dispatch(addDroneInfo(data.drones))
 			this.firstFetch = false
 			this.animate()
 			return
@@ -191,7 +193,6 @@ export default class MapLayers extends React.Component {
 			<div>
 				<DeckGL {...viewport} layers={this.createLayers()} />
 				{this.renderHiveInfo()}
-				<Sidebar data={data} />
 			</div>
 		)
 	}
