@@ -159,7 +159,7 @@ export default class MapLayers extends React.Component {
 			} else {
 				newDroneData = newDroneData.filter(res => res.id !== drone.id)
 				// removeDroneFromInfoStore
-				removeDroneFromStore(drone)
+				removeDroneFromStore(drone, this.props.dispatch)
 			}
 		}
 
