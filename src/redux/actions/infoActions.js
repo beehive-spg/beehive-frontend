@@ -1,4 +1,8 @@
-import { ADD_DRONE_INFO, UPDATE_DRONE_INFO } from 'constants/actionTypes'
+import {
+	ADD_DRONE_INFO,
+	UPDATE_DRONE_INFO,
+	REMOVE_DRONE_INFO,
+} from 'constants/actionTypes'
 
 export function addDroneInfo(drones) {
 	return dispatch => {
@@ -29,5 +33,12 @@ export function updateDroneInfo(drone) {
 	return {
 		type: UPDATE_DRONE_INFO,
 		payload: droneObject,
+	}
+}
+
+export function removeDroneInfo(drone) {
+	return {
+		type: REMOVE_DRONE_INFO,
+		payload: drone,
 	}
 }
