@@ -1,6 +1,7 @@
 import React from 'react'
 import DeckGL from 'deck.gl'
 import { graphql } from 'react-apollo'
+import { connect } from 'react-redux'
 
 import Sidebar from 'components/sidebar/sidebar'
 
@@ -20,6 +21,7 @@ import { updateOrAddToStore as updateOrAddToStoreHive } from 'graphql/local/hive
 
 import './layers.css'
 
+@connect()
 @graphql(allHivesDrones)
 export default class MapLayers extends React.Component {
 	constructor(props) {
@@ -47,6 +49,7 @@ export default class MapLayers extends React.Component {
 					hive,
 					prev.hives,
 					this.state.hiveData,
+					//updateOrAddHiveToInfoStore
 				)
 
 				this.setState({
@@ -72,6 +75,7 @@ export default class MapLayers extends React.Component {
 					drone,
 					prev.drones,
 					this.state.droneData,
+					//updateOrAddDroneToInfoStore
 				)
 
 				this.setState({
@@ -153,6 +157,7 @@ export default class MapLayers extends React.Component {
 				newDroneData[index] = drone
 			} else {
 				newDroneData = newDroneData.filter(res => res.id !== drone.id)
+				// removeDroneFromInfoStore
 				removeDroneFromStore(drone)
 			}
 		}
