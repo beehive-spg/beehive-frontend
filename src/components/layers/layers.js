@@ -7,14 +7,18 @@ import { addDrones } from 'mapbox/creators/drones'
 import { addHives } from 'mapbox/creators/hives'
 import { createDroneLayers, createHiveLayers } from 'mapbox/layers'
 
-import { addDroneInfo, addHiveInfo } from 'redux/actions/infoActions'
+import {
+	// removeDroneInfo,
+	addDroneInfo,
+	addHiveInfo,
+} from 'redux/actions/infoActions'
 
 import allHivesDrones from 'graphql/queries/all_hives_drones.gql'
 import hiveAdded from 'graphql/subscriptions/hive_added.gql'
 import droneAdded from 'graphql/subscriptions/drone_added.gql'
 
 import {
-	removeDroneFromStore,
+	// removeDroneFromStore,
 	updateOrAddToStore as updateOrAddToStoreDrone,
 } from 'graphql/local/droneUpdates'
 import { updateOrAddToStore as updateOrAddToStoreHive } from 'graphql/local/hiveUpdates'
@@ -130,46 +134,34 @@ export default class MapLayers extends React.Component {
 
 		return [
 			...createHiveLayers(hiveData, this.onHover),
-			...createDroneLayers(droneData),
+			createDroneLayers(droneData),
 		]
 	}
 
 	animate() {
 		this.isAnimating = true
 
-		const { droneData } = this.state
-		let newDroneData = droneData
+		let { droneData } = this.state
 
-		for (let drone of newDroneData) {
-			const { position } = drone.data[0]
-			const { coordinates } = drone.route[drone.route.length - 1].geometry
-			if (position !== coordinates) {
-				if (typeof drone.route[drone.counter] === 'undefined') {
-					return
-				}
-				let newData = [{ ...drone.data[0] }]
-				const { coordinates } = drone.route[drone.counter].geometry
-				newData[0].position = coordinates
-				drone.data = newData
+		for (let drone of droneData) {
+			if (drone.counter !== drone.route.length - 1) {
 				drone.counter++
-
-				const index = newDroneData.findIndex(res => res.id === drone.id)
-				newDroneData[index] = drone
 			} else {
-				newDroneData = newDroneData.filter(res => res.id !== drone.id)
-				// removeDroneFromInfoStore
-				removeDroneFromStore(drone, this.props.dispatch)
+				droneData = droneData.filter(res => res.id !== drone.id)
+				// removeDroneFromStore(drone, this.props.dispatch)
+				// this.props.dispatch(removeDroneInfo(drone.id))
 			}
 		}
 
 		this.setState({
-			droneData: newDroneData,
+			droneData,
 		})
 
-		if (newDroneData.length === 0) {
+		if (droneData.length === 0) {
 			this.isAnimating = false
 			return
 		}
+
 		requestAnimationFrame(this.animate.bind(this))
 	}
 

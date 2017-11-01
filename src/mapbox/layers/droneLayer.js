@@ -1,9 +1,9 @@
 import { ScatterplotLayer } from 'deck.gl'
 
-const addDroneLayer = drone => {
+const addDroneLayer = data => {
 	return new ScatterplotLayer({
-		id: `layer-drone-${drone.id}`,
-		data: drone.data,
+		id: 'layer-drone',
+		data,
 		outline: false,
 	})
 }
