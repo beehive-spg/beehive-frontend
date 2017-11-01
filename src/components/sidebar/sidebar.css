@@ -15,3 +15,5 @@
     padding: 1em;
     max-height: 30em;
     overflow-y: scroll; }
+  .sidebar .switch {
+    margin: .5em; }

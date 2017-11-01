@@ -1,8 +1,10 @@
 import React from 'react'
+import Switch from 'rc-switch'
 import { connect } from 'react-redux'
 
 import Drone from './drone/drone'
 
+import './rc-switch.css'
 import './sidebar.css'
 
 @connect(store => {
@@ -11,6 +13,10 @@ import './sidebar.css'
 	}
 })
 export default class Sidebar extends React.Component {
+	onChange(value) {
+		console.log(value) //eslint-disable-line
+	}
+
 	render() {
 		const { drones } = this.props
 		const droneComponents = drones.map(drone => <Drone drone={drone} />)
@@ -20,6 +26,12 @@ export default class Sidebar extends React.Component {
 				<div className="heading">Drones</div>
 				<hr />
 				<div className="container">{droneComponents}</div>
+				<Switch
+					className="switch"
+					onChange={this.onChange.bind(this)}
+					checkedChildren={'D'}
+					unCheckedChildren={'P'}
+				/>
 			</div>
 		)
 	}
