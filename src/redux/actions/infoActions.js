@@ -47,9 +47,9 @@ export function removeDroneInfo(drone) {
 export function changeInfo(currentInfo) {
 	switch (currentInfo) {
 		case 'Drones':
-			currentInfo = 'Hives'
+			currentInfo = 'Drone Ports'
 			break
-		case 'Hives':
+		case 'Drone Ports':
 			currentInfo = 'Drones'
 			break
 		default:
