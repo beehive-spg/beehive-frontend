@@ -1,25 +1,47 @@
 import React from 'react'
+import Switch from 'rc-switch'
 import { connect } from 'react-redux'
 
-import Drone from './drone/drone'
+import DroneInfo from './droneInfo/droneInfo'
+import HiveInfo from './hiveInfo/hiveInfo'
 
+import { changeInfo } from 'redux/actions/infoActions'
+
+import './rc-switch.css'
 import './sidebar.css'
 
 @connect(store => {
 	return {
-		drones: store.info.drones,
+		currentInfo: store.info.currentInfo,
 	}
 })
 export default class Sidebar extends React.Component {
+	onChange() {
+		this.props.dispatch(changeInfo(this.props.currentInfo))
+	}
+
 	render() {
-		const { drones } = this.props
-		const droneComponents = drones.map(drone => <Drone drone={drone} />)
+		const { currentInfo } = this.props
+
+		let infoContainer = null
+
+		if (currentInfo === 'Drones') {
+			infoContainer = <DroneInfo />
+		} else if (currentInfo === 'Drone Ports') {
+			infoContainer = <HiveInfo />
+		}
 
 		return (
 			<div className="sidebar">
-				<div className="heading">Drones</div>
+				<div className="heading">{currentInfo}</div>
 				<hr />
-				<div className="container">{droneComponents}</div>
+				<div className="container">{infoContainer}</div>
+				<Switch
+					className="switch"
+					onChange={this.onChange.bind(this)}
+					checkedChildren={'D'}
+					unCheckedChildren={'P'}
+				/>
 			</div>
 		)
 	}
