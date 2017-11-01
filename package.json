@@ -36,6 +36,7 @@
     "preact": "^8.2.5",
     "preact-compat": "^3.17.0",
     "promise": "8.0.1",
+    "rc-switch": "^1.5.3",
     "react-apollo": "^1.4.15",
     "react-dev-utils": "^4.0.1",
     "react-helmet": "^5.2.0",
