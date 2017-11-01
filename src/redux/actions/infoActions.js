@@ -2,6 +2,7 @@ import {
 	ADD_DRONE_INFO,
 	UPDATE_DRONE_INFO,
 	REMOVE_DRONE_INFO,
+	CHANGE_INFO,
 } from 'constants/actionTypes'
 
 export function addDroneInfo(drones) {
@@ -40,5 +41,23 @@ export function removeDroneInfo(drone) {
 	return {
 		type: REMOVE_DRONE_INFO,
 		payload: drone,
+	}
+}
+
+export function changeInfo(currentInfo) {
+	switch (currentInfo) {
+		case 'Drones':
+			currentInfo = 'Hives'
+			break
+		case 'Hives':
+			currentInfo = 'Drones'
+			break
+		default:
+			currentInfo = 'Drones'
+			break
+	}
+	return {
+		type: CHANGE_INFO,
+		payload: currentInfo,
 	}
 }

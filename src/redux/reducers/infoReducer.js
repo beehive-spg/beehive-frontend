@@ -2,10 +2,12 @@ import {
 	ADD_DRONE_INFO,
 	UPDATE_DRONE_INFO,
 	REMOVE_DRONE_INFO,
+	CHANGE_INFO,
 } from 'constants/actionTypes'
 
 export default function reducer(
 	state = {
+		currentInfo: 'Drones',
 		drones: [],
 		hives: [],
 	},
@@ -38,6 +40,11 @@ export default function reducer(
 				drones: newDrones,
 			}
 		}
+		case CHANGE_INFO:
+			return {
+				...state,
+				currentInfo: action.payload,
+			}
 		default:
 			return state
 	}
