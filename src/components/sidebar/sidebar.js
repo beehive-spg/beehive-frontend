@@ -1,24 +1,38 @@
 import React from 'react'
 import Switch from 'rc-switch'
+import { connect } from 'react-redux'
 
 import DroneInfo from './droneInfo/droneInfo'
+
+import { changeInfo } from 'redux/actions/infoActions'
 
 import './rc-switch.css'
 import './sidebar.css'
 
+@connect(store => {
+	return {
+		currentInfo: store.info.currentInfo,
+	}
+})
 export default class Sidebar extends React.Component {
-	onChange(value) {
-		console.log(value) //eslint-disable-line
+	onChange() {
+		this.props.dispatch(changeInfo(this.props.currentInfo))
 	}
 
 	render() {
+		const { currentInfo } = this.props
+
+		let infoContainer = null
+
+		if (currentInfo === 'Drones') {
+			infoContainer = <DroneInfo />
+		}
+
 		return (
 			<div className="sidebar">
-				<div className="heading">Drones</div>
+				<div className="heading">{currentInfo}</div>
 				<hr />
-				<div className="container">
-					<DroneInfo />
-				</div>
+				<div className="container">{infoContainer}</div>
 				<Switch
 					className="switch"
 					onChange={this.onChange.bind(this)}
