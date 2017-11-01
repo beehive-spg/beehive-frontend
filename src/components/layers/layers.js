@@ -7,7 +7,7 @@ import { addDrones } from 'mapbox/creators/drones'
 import { addHives } from 'mapbox/creators/hives'
 import { createDroneLayers, createHiveLayers } from 'mapbox/layers'
 
-import { addDroneInfo } from 'redux/actions/infoActions'
+import { addDroneInfo, addHiveInfo } from 'redux/actions/infoActions'
 
 import allHivesDrones from 'graphql/queries/all_hives_drones.gql'
 import hiveAdded from 'graphql/subscriptions/hive_added.gql'
@@ -49,7 +49,7 @@ export default class MapLayers extends React.Component {
 					hive,
 					prev.hives,
 					this.state.hiveData,
-					//updateOrAddHiveToInfoStore
+					this.props.dispatch,
 				)
 
 				this.setState({
@@ -75,7 +75,6 @@ export default class MapLayers extends React.Component {
 					drone,
 					prev.drones,
 					this.state.droneData,
-					//updateOrAddDroneToInfoStore
 					this.props.dispatch,
 				)
 
@@ -184,6 +183,7 @@ export default class MapLayers extends React.Component {
 				droneData: addDrones(data.drones),
 			})
 			this.props.dispatch(addDroneInfo(data.drones))
+			this.props.dispatch(addHiveInfo(data.hives))
 			this.firstFetch = false
 			this.animate()
 			return
