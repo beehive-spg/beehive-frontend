@@ -1,13 +1,16 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
+import thunk from 'redux-thunk'
 import client from './client'
+import info from 'redux/reducers/infoReducer'
 
 const store = createStore(
 	combineReducers({
 		apollo: client.reducer(),
+		info,
 	}),
 	{},
 	compose(
-		applyMiddleware(client.middleware()),
+		applyMiddleware(client.middleware(), thunk),
 		typeof window.__REDUX_DEVTOOLS_EXTENSION__ !== 'undefined'
 			? window.__REDUX_DEVTOOLS_EXTENSION__()
 			: f => f,

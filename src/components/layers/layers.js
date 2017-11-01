@@ -1,10 +1,13 @@
 import React from 'react'
 import DeckGL from 'deck.gl'
 import { graphql } from 'react-apollo'
+import { connect } from 'react-redux'
 
 import { addDrones } from 'mapbox/creators/drones'
 import { addHives } from 'mapbox/creators/hives'
 import { createDroneLayers, createHiveLayers } from 'mapbox/layers'
+
+import { addDroneInfo } from 'redux/actions/infoActions'
 
 import allHivesDrones from 'graphql/queries/all_hives_drones.gql'
 import hiveAdded from 'graphql/subscriptions/hive_added.gql'
@@ -18,6 +21,7 @@ import { updateOrAddToStore as updateOrAddToStoreHive } from 'graphql/local/hive
 
 import './layers.css'
 
+@connect()
 @graphql(allHivesDrones)
 export default class MapLayers extends React.Component {
 	constructor(props) {
@@ -45,6 +49,7 @@ export default class MapLayers extends React.Component {
 					hive,
 					prev.hives,
 					this.state.hiveData,
+					//updateOrAddHiveToInfoStore
 				)
 
 				this.setState({
@@ -70,6 +75,8 @@ export default class MapLayers extends React.Component {
 					drone,
 					prev.drones,
 					this.state.droneData,
+					//updateOrAddDroneToInfoStore
+					this.props.dispatch,
 				)
 
 				this.setState({
@@ -151,7 +158,8 @@ export default class MapLayers extends React.Component {
 				newDroneData[index] = drone
 			} else {
 				newDroneData = newDroneData.filter(res => res.id !== drone.id)
-				removeDroneFromStore(drone)
+				// removeDroneFromInfoStore
+				removeDroneFromStore(drone, this.props.dispatch)
 			}
 		}
 
@@ -175,6 +183,7 @@ export default class MapLayers extends React.Component {
 				hiveData: addHives(data.hives),
 				droneData: addDrones(data.drones),
 			})
+			this.props.dispatch(addDroneInfo(data.drones))
 			this.firstFetch = false
 			this.animate()
 			return

@@ -1,2 +1,3 @@
-export const ADD_DRONE = 'ADD_DRONE'
-export const ADD_DRONES = 'ADD_DRONES'
+export const ADD_DRONE_INFO = 'ADD_DRONE_INFO'
+export const UPDATE_DRONE_INFO = 'UPDATE_DRONE_INFO'
+export const REMOVE_DRONE_INFO = 'REMOVE_DRONE_INFO'

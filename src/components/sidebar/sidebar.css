@@ -1,0 +1,17 @@
+.sidebar {
+  position: fixed;
+  z-index: 1000;
+  top: 20px;
+  right: 20px;
+  width: 20em;
+  height: 40em;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 5px 5px 5px #888888; }
+  .sidebar .heading {
+    font-size: 2em;
+    padding: .5em 0 .5em .5em; }
+  .sidebar .container {
+    padding: 1em;
+    max-height: 30em;
+    overflow-y: scroll; }
