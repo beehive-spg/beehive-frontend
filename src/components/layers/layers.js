@@ -1,109 +1,111 @@
 import React from 'react'
 import DeckGL from 'deck.gl'
-import { graphql } from 'react-apollo'
 import { connect } from 'react-redux'
 
-import { addDrones } from 'mapbox/creators/drones'
-import { addHives } from 'mapbox/creators/hives'
 import { createDroneLayers, createHiveLayers } from 'mapbox/layers'
-
-import {
-	// removeDroneInfo,
-	addDroneInfo,
-	addHiveInfo,
-} from 'redux/actions/infoActions'
-
-import allHivesDrones from 'graphql/queries/all_hives_drones.gql'
-import hiveAdded from 'graphql/subscriptions/hive_added.gql'
-import droneAdded from 'graphql/subscriptions/drone_added.gql'
-
-import {
-	// removeDroneFromStore,
-	updateOrAddToStore as updateOrAddToStoreDrone,
-} from 'graphql/local/droneUpdates'
-import { updateOrAddToStore as updateOrAddToStoreHive } from 'graphql/local/hiveUpdates'
 
 import './layers.css'
 
-@connect()
-@graphql(allHivesDrones)
+@connect(store => {
+	return {
+		droneActionItem: store.info.droneActionItem,
+		hiveActionItem: store.info.hiveActionItem,
+	}
+})
 export default class MapLayers extends React.Component {
 	constructor(props) {
 		super(props)
-		this.firstFetch = true
 		this.isAnimating = false
+
+		const droneItems = this.addCounter(this.props.droneActionItem.drones)
 
 		this.state = {
 			hoveredItem: null,
-			hiveData: [],
-			droneData: [],
+			drones: droneItems,
+			hives: this.props.hiveActionItem.hives,
 		}
 	}
 
-	componentWillMount() {
-		this.props.data.subscribeToMore({
-			document: hiveAdded,
-			updateQuery: (prev, { subscriptionData }) => {
-				if (!subscriptionData.data) {
-					return prev
+	componentDidMount() {
+		this.animate()
+	}
+
+	componentWillReceiveProps(nextProps) {
+		if (this.props.droneActionItem !== nextProps.droneActionItem) {
+			let { drones } = this.state
+			const { droneActionItem } = nextProps
+			let droneItems = droneActionItem.drones
+
+			switch (droneActionItem.action) {
+				case 'add':
+				//eslint-disable-no-fallthrough
+				case 'update': {
+					droneItems = this.addCounter(droneItems)
+
+					const index = drones.findIndex(
+						res => res.id === droneItems[0].id,
+					)
+					if (index === -1) {
+						drones = [...drones, ...droneItems]
+					} else {
+						drones[index] = droneItems[0]
+					}
+					break
 				}
-				const hive = subscriptionData.data.hiveAdded
+			}
 
-				const newData = updateOrAddToStoreHive(
-					hive,
-					prev.hives,
-					this.state.hiveData,
-					this.props.dispatch,
-				)
+			this.setState({
+				drones,
+			})
 
-				this.setState({
-					hiveData: newData.newLocalState,
-				})
+			if (!this.isAnimating) {
+				this.animate()
+			}
+		}
 
-				return {
-					...prev,
-					hives: newData.newApolloStore,
+		if (this.props.hiveActionItem !== nextProps.hiveActionItem) {
+			let { hives } = this.state
+			const { hiveActionItem } = nextProps
+			const hiveItems = hiveActionItem.hives
+
+			switch (hiveActionItem.action) {
+				case 'add':
+				//eslint-disable-no-fallthrough
+				case 'update': {
+					const index = hives.findIndex(
+						res => res.id === hiveItems[0].id,
+					)
+					if (index === -1) {
+						hives = [...hives, ...hiveItems]
+					} else {
+						hives[index] = hiveItems[0]
+					}
+
+					break
 				}
-			},
-		})
+			}
 
-		this.props.data.subscribeToMore({
-			document: droneAdded,
-			updateQuery: (prev, { subscriptionData }) => {
-				if (!subscriptionData.data) {
-					return prev
-				}
-				const drone = subscriptionData.data.droneAdded
+			this.setState({
+				hives,
+			})
+		}
+	}
 
-				const newData = updateOrAddToStoreDrone(
-					drone,
-					prev.drones,
-					this.state.droneData,
-					this.props.dispatch,
-				)
-
-				this.setState({
-					droneData: newData.newLocalState,
-				})
-
-				if (!this.isAnimating) {
-					this.animate()
-				}
-
-				return {
-					...prev,
-					drones: newData.newApolloStore,
-				}
-			},
+	addCounter(drones) {
+		return drones.map(drone => {
+			return {
+				...drone,
+				counter: 0,
+			}
 		})
 	}
 
 	onHover = ({ x, y, layer, picked }) => {
-		const { hiveData } = this.state
+		const { hives } = this.state
 
 		const layerName = layer.id
 		const layerParts = layerName.split('-')
-		const hive = hiveData.find(h => h.id === layerParts[2])
+		const hive = hives.find(h => h.id === layerParts[2])
 		this.setState({
 			hoveredItem: hive,
 			x,
@@ -130,34 +132,31 @@ export default class MapLayers extends React.Component {
 	}
 
 	createLayers() {
-		const { hiveData, droneData } = this.state
-
+		const { hives, drones } = this.state
 		return [
-			...createHiveLayers(hiveData, this.onHover),
-			createDroneLayers(droneData),
+			...createHiveLayers(hives, this.onHover),
+			createDroneLayers(drones),
 		]
 	}
 
 	animate() {
 		this.isAnimating = true
 
-		let { droneData } = this.state
+		let { drones } = this.state
 
-		for (let drone of droneData) {
+		for (let drone of drones) {
 			if (drone.counter !== drone.route.length - 1) {
 				drone.counter++
 			} else {
-				droneData = droneData.filter(res => res.id !== drone.id)
-				// removeDroneFromStore(drone, this.props.dispatch)
-				// this.props.dispatch(removeDroneInfo(drone.id))
+				drones = drones.filter(res => res.id !== drone.id)
 			}
 		}
 
 		this.setState({
-			droneData,
+			drones,
 		})
 
-		if (droneData.length === 0) {
+		if (drones.length === 0) {
 			this.isAnimating = false
 			return
 		}
@@ -166,20 +165,7 @@ export default class MapLayers extends React.Component {
 	}
 
 	render() {
-		const { viewport, data } = this.props
-		if (data.loading) {
-			return <div>loading...</div>
-		} else if (this.firstFetch) {
-			this.setState({
-				hiveData: addHives(data.hives),
-				droneData: addDrones(data.drones),
-			})
-			this.props.dispatch(addDroneInfo(data.drones))
-			this.props.dispatch(addHiveInfo(data.hives))
-			this.firstFetch = false
-			this.animate()
-			return
-		}
+		const { viewport } = this.props
 
 		return (
 			<div>

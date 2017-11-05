@@ -1,9 +1,9 @@
-export const ADD_DRONE_INFO = 'ADD_DRONE_INFO'
-export const UPDATE_DRONE_INFO = 'UPDATE_DRONE_INFO'
-export const REMOVE_DRONE_INFO = 'REMOVE_DRONE_INFO'
+export const ADD_DRONES = 'ADD_DRONES'
+export const UPDATE_DRONE = 'UPDATE_DRONE'
+export const REMOVE_DRONE = 'REMOVE_DRONE'
 
-export const ADD_HIVE_INFO = 'ADD_HIVE_INFO'
-export const UPDATE_HIVE_INFO = 'UPDATE_HIVE_INFO'
-export const REMOVE_HIVE_INFO = 'REMOVE_HIVE_INFO'
+export const ADD_HIVES = 'ADD_HIVES'
+export const UPDATE_HIVE = 'UPDATE_HIVE'
+export const REMOVE_HIVE = 'REMOVE_HIVE'
 
-export const CHANGE_INFO = 'CHANGE_INFO'
+export const CHANGE_SIDEBAR_INFO = 'CHANGE_SIDEBAR_INFO'
