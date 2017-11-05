@@ -12,28 +12,28 @@ import './sidebar.css'
 
 @connect(store => {
 	return {
-		currentInfo: store.info.currentInfo,
+		sidebarInfo: store.info.sidebarInfo,
 	}
 })
 export default class Sidebar extends React.Component {
 	onChange() {
-		this.props.dispatch(changeInfo(this.props.currentInfo))
+		this.props.dispatch(changeInfo(this.props.sidebarInfo))
 	}
 
 	render() {
-		const { currentInfo } = this.props
+		const { sidebarInfo } = this.props
 
 		let infoContainer = null
 
-		if (currentInfo === 'Drones') {
+		if (sidebarInfo === 'Drones') {
 			infoContainer = <DroneInfo />
-		} else if (currentInfo === 'Drone Ports') {
+		} else if (sidebarInfo === 'Drone Ports') {
 			infoContainer = <HiveInfo />
 		}
 
 		return (
 			<div className="sidebar">
-				<div className="heading">{currentInfo}</div>
+				<div className="heading">{sidebarInfo}</div>
 				<hr />
 				<div className="container">{infoContainer}</div>
 				<Switch

@@ -10,7 +10,7 @@ import {
 
 export default function reducer(
 	state = {
-		currentInfo: 'Drones',
+		sidebarInfo: 'Drones',
 		drones: [],
 		hives: [],
 		droneActionItem: {
@@ -95,7 +95,7 @@ export default function reducer(
 		case CHANGE_SIDEBAR_INFO:
 			return {
 				...state,
-				currentInfo: action.payload.id,
+				sidebarInfo: action.payload,
 			}
 		default:
 			return state

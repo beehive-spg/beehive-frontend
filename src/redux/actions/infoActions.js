@@ -68,20 +68,20 @@ export function removeHive(hive) {
 	}
 }
 
-export function changeInfo(currentInfo) {
-	switch (currentInfo) {
+export function changeInfo(sidebarInfo) {
+	switch (sidebarInfo) {
 		case 'Drones':
-			currentInfo = 'Drone Ports'
+			sidebarInfo = 'Drone Ports'
 			break
 		case 'Drone Ports':
-			currentInfo = 'Drones'
+			sidebarInfo = 'Drones'
 			break
 		default:
-			currentInfo = 'Drones'
+			sidebarInfo = 'Drones'
 			break
 	}
 	return {
 		type: CHANGE_SIDEBAR_INFO,
-		payload: currentInfo,
+		payload: sidebarInfo,
 	}
 }
