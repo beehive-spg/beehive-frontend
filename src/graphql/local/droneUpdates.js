@@ -1,6 +1,6 @@
-import client from 'client'
+// import client from 'client'
 import { addDrones } from 'mapbox/creators/drones'
-import allDrones from 'graphql/queries/all_drones.gql'
+// import allDrones from 'graphql/queries/all_drones.gql'
 import {
 	addDroneInfo,
 	updateDroneInfo,
@@ -8,17 +8,17 @@ import {
 } from 'redux/actions/infoActions'
 
 const removeDroneFromStore = (drone, dispatch) => {
-	let data = client.readQuery({
-		query: allDrones,
-	})
+	// let data = client.readQuery({
+	// 	query: allDrones,
+	// })
 
-	data.drones = data.drones.filter(res => res.id !== drone.id)
+	// data.drones = data.drones.filter(res => res.id !== drone.id)
 	dispatch(removeDroneInfo(drone.id))
 
-	client.writeQuery({
-		query: allDrones,
-		data,
-	})
+	// client.writeQuery({
+	// 	query: allDrones,
+	// 	data,
+	// })
 }
 
 const updateOrAddToStore = (drone, apolloStore, localState, dispatch) => {

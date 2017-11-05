@@ -1,74 +1,70 @@
 import {
-	ADD_DRONE_INFO,
-	UPDATE_DRONE_INFO,
-	REMOVE_DRONE_INFO,
-	ADD_HIVE_INFO,
-	UPDATE_HIVE_INFO,
-	CHANGE_INFO,
+	ADD_DRONES,
+	UPDATE_DRONE,
+	REMOVE_DRONE,
+	ADD_HIVES,
+	UPDATE_HIVE,
+	REMOVE_HIVE,
+	CHANGE_SIDEBAR_INFO,
 } from 'constants/actionTypes'
 
-export function addDroneInfo(drones) {
+export function newDronesAction(drones, droneStore) {
 	return dispatch => {
-		drones.forEach(drone => {
-			// lookup address
-			// form drone object
-			const droneObject = {
-				id: drone.id,
-				from: drone.route.from,
-				to: drone.route.to,
+		if (drones.length === 1) {
+			const index = droneStore.findIndex(res => res.id === drones[0].id)
+			if (index !== -1) {
+				dispatch({
+					type: UPDATE_DRONE,
+					payload: {
+						index,
+						drone: drones,
+					},
+				})
+				return
 			}
-			dispatch({
-				type: ADD_DRONE_INFO,
-				payload: droneObject,
-			})
+		}
+
+		dispatch({
+			type: ADD_DRONES,
+			payload: drones,
 		})
 	}
 }
 
-export function updateDroneInfo(drone) {
-	// loopup address
-	// from drone object
-	const droneObject = {
-		id: drone.id,
-		from: drone.route.from,
-		to: drone.route.to,
-	}
+export function removeDrone(drone) {
 	return {
-		type: UPDATE_DRONE_INFO,
-		payload: droneObject,
-	}
-}
-
-export function removeDroneInfo(drone) {
-	return {
-		type: REMOVE_DRONE_INFO,
+		type: REMOVE_DRONE,
 		payload: drone,
 	}
 }
 
-export function addHiveInfo(hives) {
+export function newHivesAction(hives, hiveStore) {
 	return dispatch => {
-		hives.forEach(hive => {
-			const hiveObject = {
-				id: hive.id,
-				location: hive.location,
+		if (hives.length === 1) {
+			const index = hiveStore.findIndex(res => res.id === hives[0].id)
+			if (index !== -1) {
+				dispatch({
+					type: UPDATE_HIVE,
+					payload: {
+						index,
+						hive: hives,
+					},
+				})
+				return
 			}
-			dispatch({
-				type: ADD_HIVE_INFO,
-				payload: hiveObject,
-			})
+		}
+
+		dispatch({
+			type: ADD_HIVES,
+			payload: hives,
 		})
 	}
 }
 
-export function updateHiveInfo(hive) {
-	const hiveObject = {
-		id: hive.id,
-		location: hive.location,
-	}
+export function removeHive(hive) {
 	return {
-		type: UPDATE_HIVE_INFO,
-		payload: hiveObject,
+		type: REMOVE_HIVE,
+		payload: hive,
 	}
 }
 
@@ -85,7 +81,7 @@ export function changeInfo(currentInfo) {
 			break
 	}
 	return {
-		type: CHANGE_INFO,
+		type: CHANGE_SIDEBAR_INFO,
 		payload: currentInfo,
 	}
 }
