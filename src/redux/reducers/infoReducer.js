@@ -85,12 +85,15 @@ export default function reducer(
 			}
 		}
 		case REMOVE_HIVE: {
-			const newHives = state.hives.filter(
-				res => res.id !== action.payload,
-			)
+			const id = action.payload
+			const newHives = state.hives.filter(res => res.id !== id)
 
 			return {
 				...state,
+				hiveActionItem: {
+					action: 'remove',
+					hives: id,
+				},
 				hives: newHives,
 			}
 		}
