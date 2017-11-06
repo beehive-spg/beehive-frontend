@@ -52,6 +52,9 @@ export default class MapLayers extends React.Component {
 					}
 					break
 				}
+				case 'remove': {
+					drones = drones.filter(res => res.id !== droneItems)
+				}
 			}
 
 			this.setState({
