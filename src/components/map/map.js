@@ -4,10 +4,15 @@ import { connect } from 'react-redux'
 
 import { addDrones } from 'mapbox/creators/drones'
 import { addHives } from 'mapbox/creators/hives'
-import { newDronesAction, newHivesAction } from 'redux/actions/infoActions'
+import {
+	newDronesAction,
+	removeDroneAction,
+	newHivesAction,
+} from 'redux/actions/infoActions'
 
 import allHivesDrones from 'graphql/queries/all_hives_drones.gql'
 import droneAdded from 'graphql/subscriptions/drone_added.gql'
+import droneRemoved from 'graphql/subscriptions/drone_removed.gql'
 import hiveAdded from 'graphql/subscriptions/hive_added.gql'
 
 import MapGL from './mapgl'
@@ -46,6 +51,17 @@ export default class Map extends React.Component {
 				const drone = subscriptionData.data.droneAdded
 				const drones = addDrones([drone])
 				this.props.dispatch(newDronesAction(drones, this.props.drones))
+			},
+		})
+
+		this.props.data.subscribeToMore({
+			document: droneRemoved,
+			updateQuery: (prev, { subscriptionData }) => {
+				if (!subscriptionData.data) {
+					return prev
+				}
+				const drone = subscriptionData.data.droneRemoved
+				this.props.dispatch(removeDroneAction(drone))
 			},
 		})
 
