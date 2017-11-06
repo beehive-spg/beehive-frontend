@@ -52,9 +52,8 @@ export default class MapLayers extends React.Component {
 					}
 					break
 				}
-				case 'remove': {
+				case 'remove':
 					drones = drones.filter(res => res.id !== droneItems)
-				}
 			}
 
 			this.setState({
@@ -83,9 +82,10 @@ export default class MapLayers extends React.Component {
 					} else {
 						hives[index] = hiveItems[0]
 					}
-
 					break
 				}
+				case 'remove':
+					hives = hives.filter(res => res.id !== hiveItems)
 			}
 
 			this.setState({
