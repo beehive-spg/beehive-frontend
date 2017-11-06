@@ -49,12 +49,15 @@ export default function reducer(
 			}
 		}
 		case REMOVE_DRONE: {
-			const newDrones = state.drones.filter(
-				res => res.id !== action.payload.id,
-			)
+			const id = action.payload
+			const newDrones = state.drones.filter(res => res.id !== id)
 
 			return {
 				...state,
+				droneActionItem: {
+					action: 'remove',
+					drones: id,
+				},
 				drones: newDrones,
 			}
 		}

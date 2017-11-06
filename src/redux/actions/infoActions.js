@@ -31,7 +31,7 @@ export function newDronesAction(drones, droneStore) {
 	}
 }
 
-export function removeDrone(drone) {
+export function removeDroneAction(drone) {
 	return {
 		type: REMOVE_DRONE,
 		payload: drone,
@@ -61,7 +61,7 @@ export function newHivesAction(hives, hiveStore) {
 	}
 }
 
-export function removeHive(hive) {
+export function removeHiveAction(hive) {
 	return {
 		type: REMOVE_HIVE,
 		payload: hive,
