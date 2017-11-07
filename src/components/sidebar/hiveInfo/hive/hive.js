@@ -1,9 +1,6 @@
 import React from 'react'
 
-const Hive = ({ hive }) => (
-	<div>
-		{hive.id}: {hive.location}
-	</div>
-)
+import './hive.css'
+const Hive = ({ hive }) => <div className="hive">{hive.location}</div>
 
 export default Hive

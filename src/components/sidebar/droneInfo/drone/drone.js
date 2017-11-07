@@ -1,5 +1,10 @@
 import React from 'react'
 
-const Drone = ({ drone }) => <div>{drone.id}</div>
+import './drone.css'
+const Drone = ({ drone }) => (
+	<div className="drone">
+		{drone.from.location} &#8594; {drone.to.location}
+	</div>
+)
 
 export default Drone
