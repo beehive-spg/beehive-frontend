@@ -3,10 +3,12 @@ subscription onDroneAdded {
 		id
 		route {
 			from {
+				location
 				longitude
 				latitude
 			}
 			to {
+				location
 				longitude
 				latitude
 			}
