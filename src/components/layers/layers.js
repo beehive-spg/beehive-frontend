@@ -137,7 +137,7 @@ export default class MapLayers extends React.Component {
 	createLayers() {
 		const { hives, drones } = this.state
 		return [
-			...createHiveLayers(hives, this.onHover),
+			createHiveLayers(hives, this.onHover),
 			createDroneLayers(drones),
 		]
 	}
