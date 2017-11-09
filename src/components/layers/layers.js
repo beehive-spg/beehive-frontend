@@ -10,6 +10,7 @@ import './layers.css'
 	return {
 		droneActionItem: store.info.droneActionItem,
 		hiveActionItem: store.info.hiveActionItem,
+		selectedDrone: store.info.selectedDrone,
 	}
 })
 export default class MapLayers extends React.Component {
@@ -134,9 +135,10 @@ export default class MapLayers extends React.Component {
 
 	createLayers() {
 		const { hives, drones } = this.state
+		const { selectedDrone } = this.props
 		return [
 			createHiveLayers(hives, this.onHover),
-			createDroneLayers(drones),
+			createDroneLayers(drones, selectedDrone),
 		]
 	}
 
