@@ -3,6 +3,7 @@ import DeckGL from 'deck.gl'
 import { connect } from 'react-redux'
 
 import { createDroneLayers, createHiveLayers } from 'mapbox/layers'
+import { removeDroneAction } from 'redux/actions/infoActions'
 
 import './layers.css'
 
@@ -151,7 +152,8 @@ export default class MapLayers extends React.Component {
 			if (drone.counter !== drone.route.length - 1) {
 				drone.counter++
 			} else {
-				drones = drones.filter(res => res.id !== drone.id)
+				// drones = drones.filter(res => res.id !== drone.id)
+				this.props.dispatch(removeDroneAction(drone.id))
 			}
 		}
 
