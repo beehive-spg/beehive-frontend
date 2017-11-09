@@ -103,12 +103,10 @@ export default class MapLayers extends React.Component {
 		})
 	}
 
-	onHover = ({ x, y, layer, picked }) => {
+	onHover = ({ index, x, y, picked }) => {
 		const { hives } = this.state
+		const hive = hives[index]
 
-		const layerName = layer.id
-		const layerParts = layerName.split('-')
-		const hive = hives.find(h => h.id === layerParts[2])
 		this.setState({
 			hoveredItem: hive,
 			x,
@@ -127,7 +125,7 @@ export default class MapLayers extends React.Component {
 		return (
 			hoveredItem && (
 				<div className="hiveInfo" style={{ top: y, left: x }}>
-					<div>Location:</div>
+					<div>Drone Port</div>
 					<p>{hoveredItem.location}</p>
 				</div>
 			)
