@@ -6,6 +6,7 @@ import {
 	UPDATE_HIVE,
 	REMOVE_HIVE,
 	CHANGE_SIDEBAR_INFO,
+	SELECT_DRONE,
 } from 'constants/actionTypes'
 
 export default function reducer(
@@ -21,6 +22,7 @@ export default function reducer(
 			action: '',
 			hives: null,
 		},
+		selectedDrone: null,
 	},
 	action,
 ) {
@@ -102,6 +104,11 @@ export default function reducer(
 			return {
 				...state,
 				sidebarInfo: action.payload,
+			}
+		case SELECT_DRONE:
+			return {
+				...state,
+				selectedDrone: payload.id,
 			}
 		default:
 			return state

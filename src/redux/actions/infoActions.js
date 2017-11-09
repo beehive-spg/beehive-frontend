@@ -6,6 +6,7 @@ import {
 	UPDATE_HIVE,
 	REMOVE_HIVE,
 	CHANGE_SIDEBAR_INFO,
+	SELECT_DRONE,
 } from 'constants/actionTypes'
 
 export function newDronesAction(drones, droneStore) {
@@ -83,5 +84,12 @@ export function changeInfo(sidebarInfo) {
 	return {
 		type: CHANGE_SIDEBAR_INFO,
 		payload: sidebarInfo,
+	}
+}
+
+export function selectDrone(id) {
+	return {
+		type: SELECT_DRONE,
+		payload: id,
 	}
 }

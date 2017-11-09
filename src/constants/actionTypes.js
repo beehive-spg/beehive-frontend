@@ -7,3 +7,4 @@ export const UPDATE_HIVE = 'UPDATE_HIVE'
 export const REMOVE_HIVE = 'REMOVE_HIVE'
 
 export const CHANGE_SIDEBAR_INFO = 'CHANGE_SIDEBAR_INFO'
+export const SELECT_DRONE = 'SELECT_DRONE'
