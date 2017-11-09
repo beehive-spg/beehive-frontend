@@ -5,11 +5,11 @@ const coordinateLine = (start, end) => {
 	const endCoordinates = [end.longitude, end.latitude]
 
 	const line = lineString([startCoordinates, endCoordinates])
-	const distance = lineDistance(line)
+	const distance = lineDistance(line, 'meters')
 
 	const arc = []
-	for (let i = 0; i < distance; i += 0.00075) {
-		const segment = along(line, i)
+	for (let i = 0; i < distance; i += 0.75) {
+		const segment = along(line, i, 'meters')
 		arc.push(segment)
 	}
 
