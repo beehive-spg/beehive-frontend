@@ -108,7 +108,7 @@ export default function reducer(
 		case SELECT_DRONE:
 			return {
 				...state,
-				selectedDrone: payload.id,
+				selectedDrone: action.payload,
 			}
 		default:
 			return state
