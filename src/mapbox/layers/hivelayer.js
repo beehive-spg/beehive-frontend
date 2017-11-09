@@ -2,12 +2,11 @@ import { CompositeLayer, ScatterplotLayer } from 'deck.gl'
 
 class HiveLayer extends CompositeLayer {
 	renderLayers() {
-		const { data, hiveId, radiusMinPixels, pickable, onHover } = this.props
-
+		const { data, radiusMinPixels, pickable, onHover } = this.props
 		return [
 			new ScatterplotLayer({
-				id: `layer-hive-${hiveId}-outer`,
-				data: [data[1]],
+				id: 'layer-hive-outer',
+				data: data.outer,
 				strokeWidth: 10,
 				radiusMinPixels,
 				outline: true,
@@ -15,8 +14,8 @@ class HiveLayer extends CompositeLayer {
 				onHover,
 			}),
 			new ScatterplotLayer({
-				id: `layer-hive-${hiveId}-inner`,
-				data: [data[0]],
+				id: 'layer-hive-inner',
+				data: data.inner,
 				radiusMinPixels,
 				outline: false,
 				pickable,
@@ -27,11 +26,10 @@ class HiveLayer extends CompositeLayer {
 }
 HiveLayer.layerName = 'HiveLayer'
 
-const addHiveLayer = (hive, onHover) => {
+const addHiveLayer = (data, onHover) => {
 	return new HiveLayer({
-		id: `layer-hive-${hive.id}`,
-		data: hive.data,
-		hiveId: hive.id,
+		id: 'layer-hive',
+		data,
 		radiusMinPixels: 4,
 		pickable: true,
 		onHover,
