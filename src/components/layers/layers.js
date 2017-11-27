@@ -152,7 +152,6 @@ export default class MapLayers extends React.Component {
 			if (drone.counter !== drone.route.length - 1) {
 				drone.counter++
 			} else {
-				// drones = drones.filter(res => res.id !== drone.id)
 				this.props.dispatch(removeDroneAction(drone.id))
 			}
 		}
