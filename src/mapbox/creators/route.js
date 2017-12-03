@@ -14,7 +14,6 @@ const coordinateLine = (start, end) => {
 			return res.toFixed(5)
 		})
 		arc.push(coordinates)
-		//arc.push(segment.geometry.coordinates)
 	}
 
 	return arc
