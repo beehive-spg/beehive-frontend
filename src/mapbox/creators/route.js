@@ -10,7 +10,11 @@ const coordinateLine = (start, end) => {
 	const arc = []
 	for (let i = 0; i < distance; i += 0.75) {
 		const segment = along(line, i, 'meters')
-		arc.push(segment)
+		let coordinates = segment.geometry.coordinates.map(res => {
+			return res.toFixed(5)
+		})
+		arc.push(coordinates)
+		//arc.push(segment.geometry.coordinates)
 	}
 
 	return arc
