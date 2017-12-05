@@ -5,7 +5,7 @@ import Hive from './hive/hive'
 
 @connect(store => {
 	return {
-		hives: store.info.hives,
+		hives: store.hive.hives,
 	}
 })
 export default class DroneInfo extends React.Component {

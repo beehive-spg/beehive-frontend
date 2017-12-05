@@ -19,8 +19,8 @@ import Sidebar from 'components/sidebar/sidebar'
 
 @connect(store => {
 	return {
-		drones: store.info.drones,
-		hives: store.info.hives,
+		drones: store.drone.drones,
+		hives: store.hive.hives,
 	}
 })
 @graphql(allHivesDrones)
