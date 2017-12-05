@@ -10,7 +10,7 @@ import './layers.css'
 @connect(store => {
 	return {
 		droneActionItem: store.drone.droneActionItem,
-		hiveActionItem: store.info.hiveActionItem,
+		hiveActionItem: store.hive.hiveActionItem,
 		selectedDrone: store.info.selectedDrone,
 	}
 })

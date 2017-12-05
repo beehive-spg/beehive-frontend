@@ -2,12 +2,14 @@ import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
 import client from './client'
 import drone from 'redux/reducers/droneReducer'
+import hive from 'redux/reducers/hiveReducer'
 import info from 'redux/reducers/infoReducer'
 
 const store = createStore(
 	combineReducers({
 		apollo: client.reducer(),
 		drone,
+		hive,
 		info,
 	}),
 	{},
