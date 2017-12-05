@@ -1,5 +1,5 @@
 import * as types from 'constants/actionTypes'
-import * as actions from '../infoActions'
+import * as actions from '../hiveActions'
 const dispatch = jest.fn()
 
 beforeEach(() => {
