@@ -73,6 +73,14 @@
     "prettier": "^1.7.0"
   },
   "jest": {
+    "coverageReporters": [
+      "text",
+      "text-summary",
+      "html"
+    ],
+    "modulePaths": [
+      "<rootDir>/src/"
+    ],
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}"
     ],

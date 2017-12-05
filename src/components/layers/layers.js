@@ -3,7 +3,7 @@ import DeckGL from 'deck.gl'
 import { connect } from 'react-redux'
 
 import { createDroneLayers, createHiveLayers } from 'mapbox/layers'
-import { removeDroneAction } from 'redux/actions/infoActions'
+import { removeDroneAction } from 'redux/actions/droneActions'
 
 import './layers.css'
 

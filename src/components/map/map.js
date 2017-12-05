@@ -4,12 +4,9 @@ import { connect } from 'react-redux'
 
 import { addDrones } from 'mapbox/creators/drones'
 import { addHives } from 'mapbox/creators/hives'
-import {
-	newDronesAction,
-	removeDroneAction,
-	newHivesAction,
-	removeHiveAction,
-} from 'redux/actions/infoActions'
+
+import { newDronesAction, removeDroneAction } from 'redux/actions/droneActions'
+import { newHivesAction, removeHiveAction } from 'redux/actions/hiveActions'
 
 import allHivesDrones from 'graphql/queries/all_hives_drones.gql'
 import droneAdded from 'graphql/subscriptions/drone_added.gql'
