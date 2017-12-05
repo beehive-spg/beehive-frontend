@@ -25,6 +25,19 @@ const drones = [
 	},
 ]
 
+it('add multiple new drones with newDronesAction()', () => {
+	const multDrones = [...drones, ...drones]
+	const droneStore = []
+
+	const thunk = actions.newDronesAction(multDrones, droneStore)
+	thunk(dispatch)
+
+	const calls = dispatch.mock.calls
+	expect(calls.length).toBe(1)
+	expect(calls[0][0]).toHaveProperty('type', types.ADD_DRONES)
+	expect(calls[0][0].payload).toBe(multDrones)
+})
+
 it('add new drone with newDronesAction()', () => {
 	const droneStore = []
 
@@ -33,7 +46,6 @@ it('add new drone with newDronesAction()', () => {
 
 	const calls = dispatch.mock.calls
 	expect(calls.length).toBe(1)
-	//expect(calls[0][0].type).toBe(types.ADD_DRONES)
 	expect(calls[0][0]).toHaveProperty('type', types.ADD_DRONES)
 	expect(calls[0][0].payload).toBe(drones)
 })
