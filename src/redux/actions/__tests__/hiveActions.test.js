@@ -24,6 +24,20 @@ const hives = [
 	},
 ]
 
+it('add multiple new hives from newHivesAction()', () => {
+	const multHives = [...hives, ...hives]
+	const hiveStore = []
+
+	const thunk = actions.newHivesAction(multHives, hiveStore)
+	thunk(dispatch)
+
+	const calls = dispatch.mock.calls
+
+	expect(calls.length).toBe(1)
+	expect(calls[0][0]).toHaveProperty('type', types.ADD_HIVES)
+	expect(calls[0][0]).toHaveProperty('payload', multHives)
+})
+
 it('add new hive from newHivesAction()', () => {
 	const hiveStore = []
 
