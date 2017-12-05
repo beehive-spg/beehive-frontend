@@ -10,7 +10,6 @@ export default (drones, selectedDrone) => {
 		}
 
 		return {
-			//position: drone.route[drone.counter].geometry.coordinates,
 			position: drone.route[drone.counter],
 			radius,
 			color,
