@@ -50,3 +50,10 @@ it('update hive from newHivesAction()', () => {
 	expect(calls[0][0].payload).toHaveProperty('index')
 	expect(calls[0][0].payload).toHaveProperty('hive', hives)
 })
+
+it('remove hive from removeHiveAction()', () => {
+	const removed = actions.removeHiveAction(hives[0])
+
+	expect(removed).toHaveProperty('type', types.REMOVE_HIVE)
+	expect(removed).toHaveProperty('payload', hives[0])
+})
