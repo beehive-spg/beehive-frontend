@@ -19,7 +19,7 @@ import Sidebar from 'components/sidebar/sidebar'
 
 @connect(store => {
 	return {
-		drones: store.info.drones,
+		drones: store.drone.drones,
 		hives: store.info.hives,
 	}
 })

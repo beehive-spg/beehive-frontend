@@ -7,7 +7,7 @@ import Drone from './drone/drone'
 
 @connect(store => {
 	return {
-		drones: store.info.drones,
+		drones: store.drone.drones,
 		selectedDrone: store.info.selectedDrone,
 	}
 })
