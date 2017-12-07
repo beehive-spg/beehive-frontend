@@ -16,6 +16,7 @@ import hiveRemoved from 'graphql/subscriptions/hive_removed.gql'
 
 import MapGL from './mapgl'
 import Sidebar from 'components/sidebar/sidebar'
+import OrderInput from 'components/orderInput/orderInput'
 
 @connect(store => {
 	return {
@@ -105,6 +106,7 @@ export default class Map extends React.Component {
 			<div>
 				<MapGL />
 				<Sidebar />
+				<OrderInput />
 			</div>
 		)
 	}
