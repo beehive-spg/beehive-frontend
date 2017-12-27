@@ -78,6 +78,14 @@
       "text-summary",
       "html"
     ],
+	"coveragePathIgnorePatterns": [
+		"/node_modules/", 
+		"src/components/*",
+		"src/index.js",
+		"src/client.js",
+		"src/registerServiceWorker.js",
+		"src/store.js"
+	],
     "modulePaths": [
       "<rootDir>/src/"
     ],
