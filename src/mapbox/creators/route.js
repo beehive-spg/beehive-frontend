@@ -8,7 +8,7 @@ const coordinateLine = (start, end) => {
 	const distance = lineDistance(line, 'meters')
 
 	const arc = []
-	for (let i = 0; i < distance; i += 0.75) {
+	for (let i = 0; i < distance; i += 1.4) {
 		const segment = along(line, i, 'meters')
 		let coordinates = segment.geometry.coordinates.map(res => {
 			return res.toFixed(5)
