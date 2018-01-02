@@ -1,5 +1,7 @@
 import React from 'react'
 
+import './hiveSelect.css'
+
 export default class HiveSelect extends React.Component {
 	render() {
 		const options = this.props.hives.map(hive => {
@@ -8,7 +10,7 @@ export default class HiveSelect extends React.Component {
 		})
 
 		return (
-			<div>
+			<div className="hiveSelect">
 				<select onchange={this.props.onSelect}>{options}</select>
 			</div>
 		)

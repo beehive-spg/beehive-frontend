@@ -18,7 +18,7 @@ export default class OrderInput extends React.Component {
 
 		this.state = {
 			from: this.props.hives[0].id,
-			to: this.props.hives[0].id,
+			to: this.props.hives[1].id,
 		}
 	}
 	onSelect(e) {
@@ -53,8 +53,15 @@ export default class OrderInput extends React.Component {
 	}
 
 	render() {
-		const hiveOptions = this.props.hives.map(hive => {
-			return { id: hive.id, location: hive.location }
+		const fromHiveOptions = this.props.hives.filter(hive => {
+			if (hive.id !== this.state.to) {
+				return { id: hive.id, location: hive.location }
+			}
+		})
+		const toHiveOptions = this.props.hives.filter(hive => {
+			if (hive.id !== this.state.from) {
+				return { id: hive.id, location: hive.location }
+			}
 		})
 		return (
 			<div className="orderInput">
@@ -66,7 +73,7 @@ export default class OrderInput extends React.Component {
 							From:
 							<HiveSelect
 								position="from"
-								hives={hiveOptions}
+								hives={fromHiveOptions}
 								onSelect={this.onSelect.bind(this)}
 							/>
 						</p>
@@ -74,11 +81,11 @@ export default class OrderInput extends React.Component {
 							To:
 							<HiveSelect
 								position="to"
-								hives={hiveOptions}
+								hives={toHiveOptions}
 								onSelect={this.onSelect.bind(this)}
 							/>
 						</p>
-						<input type="submit" value="Send" />
+						<input type="submit" value="Order now" />
 					</form>
 				</div>
 			</div>
