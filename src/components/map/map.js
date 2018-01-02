@@ -17,6 +17,7 @@ import hiveRemoved from 'graphql/subscriptions/hive_removed.gql'
 import MapGL from './mapgl'
 import Sidebar from 'components/sidebar/sidebar'
 import OrderInput from 'components/orderInput/orderInput'
+import Error from 'components/error/error'
 
 @connect(store => {
 	return {
@@ -92,7 +93,9 @@ export default class Map extends React.Component {
 	render() {
 		const { data } = this.props
 
-		if (data.loading) {
+		if (data.error) {
+			return <Error />
+		} else if (data.loading) {
 			return null
 		} else if (this.firstLoad) {
 			const drones = addDrones(data.drones)
