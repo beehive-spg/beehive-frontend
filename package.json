@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@turf/along": "^5.1.5",
+    "@turf/distance": "^5.1.5",
+    "@turf/helpers": "^6.0.0-beta.3",
     "autoprefixer": "7.1.2",
     "babel-core": "6.25.0",
     "babel-eslint": "7.2.3",
@@ -47,7 +50,6 @@
     "style-loader": "0.18.2",
     "subscriptions-transport-ws": "0.8.3",
     "sw-precache-webpack-plugin": "0.11.4",
-    "turf": "^3.0.14",
     "url-loader": "0.5.9",
     "webpack": "3.5.1",
     "webpack-dev-server": "2.7.1",
@@ -78,14 +80,14 @@
       "text-summary",
       "html"
     ],
-	"coveragePathIgnorePatterns": [
-		"/node_modules/", 
-		"src/components/*",
-		"src/index.js",
-		"src/client.js",
-		"src/registerServiceWorker.js",
-		"src/store.js"
-	],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "src/components/*",
+      "src/index.js",
+      "src/client.js",
+      "src/registerServiceWorker.js",
+      "src/store.js"
+    ],
     "modulePaths": [
       "<rootDir>/src/"
     ],
