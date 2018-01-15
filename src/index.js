@@ -1,6 +1,7 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+import { render } from 'react-dom'
 import { ApolloProvider } from 'react-apollo'
+import { Provider } from 'react-redux'
 import dotenv from 'dotenv'
 import Main from './components/main'
 import client from './client'
@@ -16,10 +17,13 @@ if (module.hot) {
 }
 /* eslint-enable */
 
-ReactDOM.render(
-	<ApolloProvider store={store} client={client}>
-		<Main />
-	</ApolloProvider>,
-	document.getElementById('root'),
+const Wrapped = (
+	<Provider store={store}>
+		<ApolloProvider client={client}>
+			<Main />
+		</ApolloProvider>
+	</Provider>
 )
+
+render(Wrapped, document.getElementById('root'))
 registerServiceWorker()
