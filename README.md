@@ -41,3 +41,14 @@ after the file that is being tested on, as in ```*.test.js```.
 To get up and running with the project either build it with ```yarn build``` and then serve it on a
 server or local, or execute ```yarn start``` which will start a local development server on port
 3000 and open a new browser window.
+
+## Known Issues
+
+Should you get the error ```Node Sass does not yet support your current environment``` when starting
+the application execute the following commands: 
+
+```yarn remove node-sass-chokidar```
+and 
+```yarn add node-sass-chokidar```
+
+This should fix the error and the application can be started.
