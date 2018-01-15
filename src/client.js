@@ -1,24 +1,31 @@
-import { ApolloClient, createNetworkInterface } from 'react-apollo'
-import {
-	SubscriptionClient,
-	addGraphQLSubscriptions,
-} from 'subscriptions-transport-ws'
+import { ApolloClient } from 'apollo-client'
+import { InMemoryCache } from 'apollo-cache-inmemory'
+import { HttpLink } from 'apollo-link-http'
+import { WebSocketLink } from 'apollo-link-ws'
+import { split } from 'apollo-link'
+import { getMainDefinition } from 'apollo-utilities'
 
-const wsClient = new SubscriptionClient('ws://localhost:8080/subscriptions', {
-	reconnect: true,
-})
-
-const networkInterface = createNetworkInterface({
+const httpLink = new HttpLink({
 	uri: 'http://localhost:8080/graphql',
 })
 
-const networkInterfaceWithSubscriptions = addGraphQLSubscriptions(
-	networkInterface,
-	wsClient,
+const wsLink = new WebSocketLink({
+	uri: 'ws://localhost:8080/subscriptions',
+	options: { reconnect: true },
+})
+
+const link = split(
+	({ query }) => {
+		const { kind, operation } = getMainDefinition(query)
+		return kind === 'OperationDefinition' && operation === 'subscription'
+	},
+	wsLink,
+	httpLink,
 )
 
 const client = new ApolloClient({
-	networkInterface: networkInterfaceWithSubscriptions,
+	link,
+	cache: new InMemoryCache(),
 })
 
 export default client
