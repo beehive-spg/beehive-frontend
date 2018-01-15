@@ -20,7 +20,7 @@ export default class MapGL extends React.Component {
 				zoom: 11,
 				maxZoom: 16.3,
 				bearing: 0,
-				pitch: 50,
+				pitch: 0,
 				width: 800,
 				height: 600,
 			},
