@@ -7,6 +7,7 @@ import Main from './components/main'
 import client from './client'
 import store from './store'
 import './index.css'
+import 'mapbox-gl/dist/mapbox-gl.css'
 import registerServiceWorker from './registerServiceWorker'
 
 dotenv.config()
