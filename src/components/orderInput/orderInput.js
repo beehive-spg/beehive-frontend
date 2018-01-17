@@ -5,6 +5,7 @@ import Script from 'react-load-script'
 import Geosuggest from 'react-geosuggest'
 import addOrder from 'graphql/mutations/addOrder.gql'
 import HiveSelect from './hiveSelect/hiveSelect'
+import addressLookup from 'utils/geocoding'
 
 import './orderInput.css'
 import './geosuggest.css'
@@ -23,6 +24,14 @@ export default class OrderInput extends React.Component {
 			from: this.props.hives[0].id,
 			to: this.props.hives[1].id,
 			scriptLoaded: false,
+			typing: false,
+		}
+	}
+
+	async componentDidMount() {
+		const address = await addressLookup(navigator.geolocation)
+		if (!this.state.typing) {
+			this.setState({ currentAddress: address.formatted_address })
 		}
 	}
 
@@ -58,6 +67,16 @@ export default class OrderInput extends React.Component {
 		this.props.mutate({ variables: { order } })
 	}
 
+	onFocus() {
+		if (!this.state.typing) {
+			this.setState({ typing: true })
+		}
+	}
+
+	onSuggestSelect(suggest) {
+		this.setState({ currentAddress: suggest.gmaps.formatted_address })
+	}
+
 	handleScriptLoad() {
 		this.setState({ scriptLoaded: true })
 	}
@@ -84,13 +103,19 @@ export default class OrderInput extends React.Component {
 				return { id: hive.id, location: hive.location }
 			}
 		})
+
 		return (
 			<div className="orderInput">
 				<div className="heading">New Order</div>
 				<hr />
 				<div className="container">
 					<form onSubmit={this.handleSubmit.bind(this)}>
-						<Geosuggest />
+						<Geosuggest
+							placeholder="Enter address"
+							initialValue={this.state.currentAddress}
+							onFocus={this.onFocus.bind(this)}
+							onSuggestSelect={this.onSuggestSelect.bind(this)}
+						/>
 						<p>
 							From:
 							<HiveSelect
