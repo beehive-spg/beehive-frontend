@@ -1,10 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { graphql } from 'react-apollo'
+import Script from 'react-load-script'
+import Geosuggest from 'react-geosuggest'
 import addOrder from 'graphql/mutations/addOrder.gql'
 import HiveSelect from './hiveSelect/hiveSelect'
 
 import './orderInput.css'
+import './geosuggest.css'
 
 @connect(store => {
 	return {
@@ -19,8 +22,10 @@ export default class OrderInput extends React.Component {
 		this.state = {
 			from: this.props.hives[0].id,
 			to: this.props.hives[1].id,
+			scriptLoaded: false,
 		}
 	}
+
 	onSelect(e) {
 		const parts = e.target.value.split('-')
 		if (parts[1] === 'from') {
@@ -33,6 +38,7 @@ export default class OrderInput extends React.Component {
 			})
 		}
 	}
+
 	handleSubmit(e) {
 		e.preventDefault()
 		const customerHive = this.props.hives.find(
@@ -52,7 +58,22 @@ export default class OrderInput extends React.Component {
 		this.props.mutate({ variables: { order } })
 	}
 
+	handleScriptLoad() {
+		this.setState({ scriptLoaded: true })
+	}
+
 	render() {
+		if (!this.state.scriptLoaded) {
+			const apiKey = process.env.REACT_APP_GOOGLE_API_KEY //eslint-disable-line
+			const apiUrl = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places`
+			return (
+				<Script
+					url={apiUrl}
+					onLoad={this.handleScriptLoad.bind(this)}
+				/>
+			)
+		}
+
 		const fromHiveOptions = this.props.hives.filter(hive => {
 			if (hive.id !== this.state.to) {
 				return { id: hive.id, location: hive.location }
@@ -69,6 +90,7 @@ export default class OrderInput extends React.Component {
 				<hr />
 				<div className="container">
 					<form onSubmit={this.handleSubmit.bind(this)}>
+						<Geosuggest />
 						<p>
 							From:
 							<HiveSelect
