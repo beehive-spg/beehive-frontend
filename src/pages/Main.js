@@ -2,8 +2,7 @@ import React from 'react'
 import { graphql } from 'react-apollo'
 import { connect } from 'react-redux'
 
-import { addDrones } from 'mapbox/creators/drones'
-import { addHives } from 'mapbox/creators/hives'
+import models from 'models'
 
 import { newDronesAction, removeDroneAction } from 'actions/droneActions'
 import { newHivesAction, removeHiveAction } from 'actions/hiveActions'
@@ -50,7 +49,7 @@ export default class Main extends React.Component {
 					return prev
 				}
 				const drone = subscriptionData.data.droneAdded
-				const drones = addDrones([drone])
+				const drones = models.drone([drone])
 				this.props.dispatch(newDronesAction(drones, this.props.drones))
 			},
 		})
@@ -73,7 +72,7 @@ export default class Main extends React.Component {
 					return prev
 				}
 				const hive = subscriptionData.data.hiveAdded
-				const hives = addHives([hive])
+				const hives = models.hive([hive])
 				this.props.dispatch(newHivesAction(hives, this.props.hives))
 			},
 		})
@@ -98,8 +97,8 @@ export default class Main extends React.Component {
 		} else if (data.loading) {
 			return null
 		} else if (this.firstLoad) {
-			const drones = addDrones(data.drones)
-			const hives = addHives(data.hives)
+			const drones = models.drone(data.drones)
+			const hives = models.hive(data.hives)
 			this.props.dispatch(newDronesAction(drones, this.props.drones))
 			this.props.dispatch(newHivesAction(hives, this.props.hives))
 			this.firstLoad = false

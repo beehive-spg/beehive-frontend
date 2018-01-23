@@ -26,7 +26,22 @@ class HiveLayer extends CompositeLayer {
 }
 HiveLayer.layerName = 'HiveLayer'
 
-const addHiveLayer = (data, onHover) => {
+const hiveLayer = (hives, onHover) => {
+	const dataInner = hives.map(hive => {
+		return hive.data[0]
+	})
+
+	const dataOuter = hives.map(hive => {
+		return hive.data[1]
+	})
+	const data = {
+		inner: dataInner,
+		outer: dataOuter,
+	}
+	return layer(data, onHover)
+}
+
+const layer = (data, onHover) => {
 	return new HiveLayer({
 		id: 'layer-hive',
 		data,
@@ -36,4 +51,4 @@ const addHiveLayer = (data, onHover) => {
 	})
 }
 
-export default addHiveLayer
+export default hiveLayer

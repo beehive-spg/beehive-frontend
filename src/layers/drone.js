@@ -1,6 +1,6 @@
-import { addDroneLayer } from './layers'
+import { ScatterplotLayer } from 'deck.gl'
 
-export default (drones, selectedDrone) => {
+const droneLayer = (drones, selectedDrone) => {
 	const data = drones.map(drone => {
 		let color = drone.color
 		let radius = drone.radius
@@ -15,5 +15,15 @@ export default (drones, selectedDrone) => {
 			color,
 		}
 	})
-	return addDroneLayer(data)
+	return layer(data)
 }
+
+const layer = data => {
+	return new ScatterplotLayer({
+		id: 'layer-drone',
+		data,
+		outline: false,
+	})
+}
+
+export default droneLayer
