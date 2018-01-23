@@ -1,12 +1,11 @@
 import React from 'react'
 import Helmet from 'react-helmet'
 
-import Map from 'components/map/map'
-// import Sidebar from 'components/sidebar/sidebar'
+import Main from './Main'
 
 export default () => (
 	<div>
 		<Helmet title="Drone Logistics Network" />
-		<Map />
+		<Main />
 	</div>
 )

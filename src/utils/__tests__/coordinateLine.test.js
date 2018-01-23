@@ -1,5 +1,4 @@
-import { along, lineString, lineDistance } from 'turf'
-import line from '../route'
+import line from 'utils/coordinateLine'
 
 test('create coordinate line from start to end point', () => {
 	const start = {

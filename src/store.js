@@ -1,8 +1,8 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
-import drone from 'redux/reducers/droneReducer'
-import hive from 'redux/reducers/hiveReducer'
-import info from 'redux/reducers/infoReducer'
+import drone from 'reducers/droneReducer'
+import hive from 'reducers/hiveReducer'
+import info from 'reducers/infoReducer'
 
 const store = createStore(
 	combineReducers({

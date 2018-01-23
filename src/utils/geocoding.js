@@ -19,3 +19,4 @@ const convertCoordsToAddress = async (lng, lat) => {
 }
 
 export default addressLookup
+export { addressLookup, convertCoordsToAddress }

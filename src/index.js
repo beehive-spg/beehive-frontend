@@ -3,7 +3,8 @@ import { render } from 'react-dom'
 import { ApolloProvider } from 'react-apollo'
 import { Provider } from 'react-redux'
 import dotenv from 'dotenv'
-import Main from './components/main'
+//import Main from './components/main'
+import App from 'pages/App'
 import client from './client'
 import store from './store'
 import './index.css'
@@ -21,7 +22,7 @@ if (module.hot) {
 const Wrapped = (
 	<Provider store={store}>
 		<ApolloProvider client={client}>
-			<Main />
+			<App />
 		</ApolloProvider>
 	</Provider>
 )

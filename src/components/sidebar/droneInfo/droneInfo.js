@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { selectDrone } from 'redux/actions/infoActions'
+import { selectDrone } from 'actions/infoActions'
 
 import Drone from './drone/drone'
 

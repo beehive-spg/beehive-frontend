@@ -2,8 +2,8 @@ import React from 'react'
 import DeckGL from 'deck.gl'
 import { connect } from 'react-redux'
 
-import { createDroneLayers, createHiveLayers } from 'mapbox/layers'
-import { removeDroneAction } from 'redux/actions/droneActions'
+import layers from 'layers'
+import { removeDroneAction } from 'actions/droneActions'
 
 import './layers.css'
 
@@ -138,8 +138,8 @@ export default class MapLayers extends React.Component {
 		const { hives, drones } = this.state
 		const { selectedDrone } = this.props
 		return [
-			createHiveLayers(hives, this.onHover),
-			createDroneLayers(drones, selectedDrone),
+			layers.hive(hives, this.onHover),
+			layers.drone(drones, selectedDrone),
 		]
 	}
 
