@@ -52,3 +52,4 @@ const layer = (data, onHover) => {
 }
 
 export default hiveLayer
+export { hiveLayer, layer }

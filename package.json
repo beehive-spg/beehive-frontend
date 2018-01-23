@@ -95,6 +95,7 @@
     "coveragePathIgnorePatterns": [
       "/node_modules/",
       "src/components/*",
+      "src/pages/*",
       "src/index.js",
       "src/client.js",
       "src/registerServiceWorker.js",

@@ -1,4 +1,5 @@
-import { addHives } from '../hives'
+//import { addHives } from '../hives'
+import hive from 'models/hive'
 
 it('create map of hive objects', () => {
 	const hiveObjects = [
@@ -12,13 +13,13 @@ it('create map of hive objects', () => {
 		},
 	]
 
-	const hive = addHives(hiveObjects)[0]
+	const addedHive = hive(hiveObjects)[0]
 
-	expect(hive).toHaveProperty('id', 1)
-	expect(hive).toHaveProperty('data')
-	expect(hive.data[0]).toHaveProperty('radius')
-	expect(hive.data[0]).toHaveProperty('color')
-	expect(hive.data[0]).toHaveProperty('position', [
+	expect(addedHive).toHaveProperty('id', 1)
+	expect(addedHive).toHaveProperty('data')
+	expect(addedHive.data[0]).toHaveProperty('radius')
+	expect(addedHive.data[0]).toHaveProperty('color')
+	expect(addedHive.data[0]).toHaveProperty('position', [
 		hiveObjects[0].coordinates.longitude,
 		hiveObjects[0].coordinates.latitude,
 	])

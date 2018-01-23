@@ -27,3 +27,4 @@ const layer = data => {
 }
 
 export default droneLayer
+export { droneLayer, layer }
