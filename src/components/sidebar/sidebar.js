@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import DroneInfo from './droneInfo/droneInfo'
 import HiveInfo from './hiveInfo/hiveInfo'
 
-import { changeInfo } from 'redux/actions/infoActions'
+import { changeInfo } from 'actions/infoActions'
 
 import './rc-switch.css'
 import './sidebar.css'
