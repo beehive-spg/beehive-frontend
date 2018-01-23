@@ -1,9 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { graphql } from 'react-apollo'
+import Script from 'react-load-script'
+import Geosuggest from 'react-geosuggest'
+import Loader from 'halogen/BounceLoader'
 import addOrder from 'graphql/mutations/addOrder.gql'
 import HiveSelect from './hiveSelect/hiveSelect'
+import addressLookup from 'utils/geocoding'
 
+import 'react-geosuggest/module/geosuggest.css'
 import './orderInput.css'
 
 @connect(store => {
@@ -19,8 +24,19 @@ export default class OrderInput extends React.Component {
 		this.state = {
 			from: this.props.hives[0].id,
 			to: this.props.hives[1].id,
+			scriptLoaded: false,
+			currentAddress: '',
+			typing: false,
 		}
 	}
+
+	async componentDidMount() {
+		const address = await addressLookup(navigator.geolocation)
+		if (!this.state.typing) {
+			this.setState({ currentAddress: address.formatted_address })
+		}
+	}
+
 	onSelect(e) {
 		const parts = e.target.value.split('-')
 		if (parts[1] === 'from') {
@@ -33,6 +49,7 @@ export default class OrderInput extends React.Component {
 			})
 		}
 	}
+
 	handleSubmit(e) {
 		e.preventDefault()
 		const customerHive = this.props.hives.find(
@@ -52,7 +69,47 @@ export default class OrderInput extends React.Component {
 		this.props.mutate({ variables: { order } })
 	}
 
+	onFocus() {
+		if (!this.state.typing) {
+			this.setState({ typing: true })
+		}
+	}
+
+	onSuggestSelect(suggest) {
+		if (!suggest) {
+			this.setState({ currentAddress: '' })
+			return
+		}
+		this.setState({ currentAddress: suggest.gmaps.formatted_address })
+	}
+
+	handleScriptLoad() {
+		this.setState({ scriptLoaded: true })
+	}
+
 	render() {
+		if (!this.state.scriptLoaded) {
+			const apiKey = process.env.REACT_APP_GOOGLE_API_KEY //eslint-disable-line
+			const apiUrl = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places`
+			return (
+				<Script
+					url={apiUrl}
+					onLoad={this.handleScriptLoad.bind(this)}
+				/>
+			)
+		}
+
+		const addressLoading = () => {
+			if (this.state.currentAddress === '' && !this.state.typing) {
+				return (
+					<div className="loader">
+						<Loader color="#26A65B" size="16px" />
+					</div>
+				)
+			}
+			return null
+		}
+
 		const fromHiveOptions = this.props.hives.filter(hive => {
 			if (hive.id !== this.state.to) {
 				return { id: hive.id, location: hive.location }
@@ -63,12 +120,24 @@ export default class OrderInput extends React.Component {
 				return { id: hive.id, location: hive.location }
 			}
 		})
+
 		return (
 			<div className="orderInput">
 				<div className="heading">New Order</div>
 				<hr />
 				<div className="container">
 					<form onSubmit={this.handleSubmit.bind(this)}>
+						<div className="addressInput">
+							<Geosuggest
+								placeholder="Enter address"
+								initialValue={this.state.currentAddress}
+								onFocus={this.onFocus.bind(this)}
+								onSuggestSelect={this.onSuggestSelect.bind(
+									this,
+								)}
+							/>
+							{addressLoading()}
+						</div>
 						<p>
 							From:
 							<HiveSelect
