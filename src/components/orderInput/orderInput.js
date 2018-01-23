@@ -3,12 +3,13 @@ import { connect } from 'react-redux'
 import { graphql } from 'react-apollo'
 import Script from 'react-load-script'
 import Geosuggest from 'react-geosuggest'
+import Loader from 'halogen/BounceLoader'
 import addOrder from 'graphql/mutations/addOrder.gql'
 import HiveSelect from './hiveSelect/hiveSelect'
 import addressLookup from 'utils/geocoding'
 
+import 'react-geosuggest/module/geosuggest.css'
 import './orderInput.css'
-import './geosuggest.css'
 
 @connect(store => {
 	return {
@@ -24,6 +25,7 @@ export default class OrderInput extends React.Component {
 			from: this.props.hives[0].id,
 			to: this.props.hives[1].id,
 			scriptLoaded: false,
+			currentAddress: '',
 			typing: false,
 		}
 	}
@@ -74,6 +76,10 @@ export default class OrderInput extends React.Component {
 	}
 
 	onSuggestSelect(suggest) {
+		if (!suggest) {
+			this.setState({ currentAddress: '' })
+			return
+		}
 		this.setState({ currentAddress: suggest.gmaps.formatted_address })
 	}
 
@@ -93,6 +99,17 @@ export default class OrderInput extends React.Component {
 			)
 		}
 
+		const addressLoading = () => {
+			if (this.state.currentAddress === '' && !this.state.typing) {
+				return (
+					<div className="loader">
+						<Loader color="#26A65B" size="16px" />
+					</div>
+				)
+			}
+			return null
+		}
+
 		const fromHiveOptions = this.props.hives.filter(hive => {
 			if (hive.id !== this.state.to) {
 				return { id: hive.id, location: hive.location }
@@ -110,12 +127,17 @@ export default class OrderInput extends React.Component {
 				<hr />
 				<div className="container">
 					<form onSubmit={this.handleSubmit.bind(this)}>
-						<Geosuggest
-							placeholder="Enter address"
-							initialValue={this.state.currentAddress}
-							onFocus={this.onFocus.bind(this)}
-							onSuggestSelect={this.onSuggestSelect.bind(this)}
-						/>
+						<div className="addressInput">
+							<Geosuggest
+								placeholder="Enter address"
+								initialValue={this.state.currentAddress}
+								onFocus={this.onFocus.bind(this)}
+								onSuggestSelect={this.onSuggestSelect.bind(
+									this,
+								)}
+							/>
+							{addressLoading()}
+						</div>
 						<p>
 							From:
 							<HiveSelect
