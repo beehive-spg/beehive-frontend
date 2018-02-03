@@ -5,7 +5,7 @@ export default function reducer(
 		drones: [],
 		droneActionItem: {
 			action: '',
-			drones: null,
+			drones: [],
 		},
 	},
 	action,

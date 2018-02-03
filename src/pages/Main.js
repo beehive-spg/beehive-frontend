@@ -4,27 +4,26 @@ import { connect } from 'react-redux'
 
 import models from 'models'
 
-import { newDronesAction, removeDroneAction } from 'actions/droneActions'
-import { newHivesAction, removeHiveAction } from 'actions/hiveActions'
-
-import allHivesDrones from 'graphql/queries/all_hives_drones.gql'
-import droneAdded from 'graphql/subscriptions/drone_added.gql'
-import droneRemoved from 'graphql/subscriptions/drone_removed.gql'
-import hiveAdded from 'graphql/subscriptions/hive_added.gql'
-import hiveRemoved from 'graphql/subscriptions/hive_removed.gql'
+import { newHivesAction } from 'actions/hiveActions'
 
 import Map from 'components/map/map'
 import Sidebar from 'components/sidebar/sidebar'
 import OrderInput from 'components/orderInput/orderInput'
 import Error from 'components/error/error'
 
+import { hives } from 'graphql/queries'
+
+import { handleDeparture } from 'utils/flight'
+import { departure } from 'graphql/subscriptions'
+
 @connect(store => {
 	return {
 		drones: store.drone.drones,
 		hives: store.hive.hives,
+		routes: store.route.routes,
 	}
 })
-@graphql(allHivesDrones)
+@graphql(hives)
 export default class Main extends React.Component {
 	constructor(props) {
 		super(props)
@@ -42,49 +41,21 @@ export default class Main extends React.Component {
 	}
 
 	componentDidMount() {
-		this.props.data.subscribeToMore({
-			document: droneAdded,
-			updateQuery: (prev, { subscriptionData }) => {
-				if (!subscriptionData.data) {
-					return prev
-				}
-				const drone = subscriptionData.data.droneAdded
-				const drones = models.drone([drone])
-				this.props.dispatch(newDronesAction(drones, this.props.drones))
-			},
-		})
+		const { data } = this.props
 
-		this.props.data.subscribeToMore({
-			document: droneRemoved,
+		data.subscribeToMore({
+			document: departure,
 			updateQuery: (prev, { subscriptionData }) => {
 				if (!subscriptionData.data) {
 					return prev
 				}
-				const drone = subscriptionData.data.droneRemoved
-				this.props.dispatch(removeDroneAction(drone))
-			},
-		})
-
-		this.props.data.subscribeToMore({
-			document: hiveAdded,
-			updateQuery: (prev, { subscriptionData }) => {
-				if (!subscriptionData.data) {
-					return prev
-				}
-				const hive = subscriptionData.data.hiveAdded
-				const hives = models.hive([hive])
-				this.props.dispatch(newHivesAction(hives, this.props.hives))
-			},
-		})
-
-		this.props.data.subscribeToMore({
-			document: hiveRemoved,
-			updateQuery: (prev, { subscriptionData }) => {
-				if (!subscriptionData.data) {
-					return prev
-				}
-				const hive = subscriptionData.data.hiveRemoved
-				this.props.dispatch(removeHiveAction(hive))
+				const flight = subscriptionData.data.departure
+				handleDeparture(
+					this.props.routes,
+					this.props.drones,
+					flight,
+					this.props.dispatch,
+				)
 			},
 		})
 	}
@@ -97,10 +68,8 @@ export default class Main extends React.Component {
 		} else if (data.loading) {
 			return null
 		} else if (this.firstLoad) {
-			const drones = models.drone(data.drones)
 			const hives = models.hive(data.hives)
-			this.props.dispatch(newDronesAction(drones, this.props.drones))
-			this.props.dispatch(newHivesAction(hives, this.props.hives))
+			this.props.dispatch(newHivesAction(hives))
 			this.firstLoad = false
 		}
 

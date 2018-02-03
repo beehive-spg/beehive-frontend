@@ -2,7 +2,7 @@ import React from 'react'
 import Switch from 'rc-switch'
 import { connect } from 'react-redux'
 
-import DroneInfo from './droneInfo/droneInfo'
+import RouteInfo from './routeInfo/routeInfo'
 import HiveInfo from './hiveInfo/hiveInfo'
 
 import { changeInfo } from 'actions/infoActions'
@@ -25,8 +25,8 @@ export default class Sidebar extends React.Component {
 
 		let infoContainer = null
 
-		if (sidebarInfo === 'Drones') {
-			infoContainer = <DroneInfo />
+		if (sidebarInfo === 'Routes') {
+			infoContainer = <RouteInfo />
 		} else if (sidebarInfo === 'Drone Ports') {
 			infoContainer = <HiveInfo />
 		}

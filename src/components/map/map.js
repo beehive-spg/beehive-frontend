@@ -23,6 +23,7 @@ export default class Map extends React.Component {
 				pitch: 0,
 				width: 800,
 				height: 600,
+				useDevicePixels: false,
 			},
 		}
 	}

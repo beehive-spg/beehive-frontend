@@ -1,9 +1,9 @@
-import { CHANGE_SIDEBAR_INFO, SELECT_DRONE } from 'constants/actionTypes'
+import { CHANGE_SIDEBAR_INFO, SELECT_ROUTE } from 'constants/actionTypes'
 
 export default function reducer(
 	state = {
-		sidebarInfo: 'Drones',
-		selectedDrone: null,
+		sidebarInfo: 'Routes',
+		selectedRoute: null,
 	},
 	action,
 ) {
@@ -13,10 +13,10 @@ export default function reducer(
 				...state,
 				sidebarInfo: action.payload,
 			}
-		case SELECT_DRONE:
+		case SELECT_ROUTE:
 			return {
 				...state,
-				selectedDrone: action.payload,
+				selectedRoute: action.payload,
 			}
 		default:
 			return state

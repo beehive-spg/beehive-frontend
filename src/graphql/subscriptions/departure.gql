@@ -1,0 +1,6 @@
+subscription departure {
+  departure {
+    hopId
+    routeId
+  }
+}

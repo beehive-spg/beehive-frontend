@@ -22,49 +22,44 @@ export default class OrderInput extends React.Component {
 		super(props)
 
 		this.state = {
-			from: this.props.hives[0].id,
-			to: this.props.hives[1].id,
+			shop: this.props.hives[0].id,
+			customer: {
+				address: '',
+				longitude: null,
+				latitude: null,
+			},
 			scriptLoaded: false,
-			currentAddress: '',
 			typing: false,
 		}
 	}
 
 	async componentDidMount() {
-		const address = await addressLookup(navigator.geolocation)
+		const location = await addressLookup(navigator.geolocation)
+
 		if (!this.state.typing) {
-			this.setState({ currentAddress: address.formatted_address })
+			this.setState({
+				customer: {
+					address: location.address.formatted_address,
+					longitude: location.longitude,
+					latitude: location.latitude,
+				},
+			})
 		}
 	}
 
 	onSelect(e) {
-		const parts = e.target.value.split('-')
-		if (parts[1] === 'from') {
-			this.setState({
-				from: parts[0],
-			})
-		} else if (parts[1] === 'to') {
-			this.setState({
-				to: parts[0],
-			})
-		}
+		const shop = this.props.hives.find(hive => hive.id === e.target.value)
+		this.setState({
+			shop: shop.id,
+		})
 	}
 
 	handleSubmit(e) {
 		e.preventDefault()
-		const customerHive = this.props.hives.find(
-			hive => hive.id === this.state.to,
-		)
-		const customer = {
-			coordinates: {
-				location: customerHive.location,
-				longitude: customerHive.data[0].position[1],
-				latitude: customerHive.data[0].position[0],
-			},
-		}
+
 		const order = {
-			shop: this.state.from,
-			customer,
+			shop: this.state.shop,
+			customer: this.state.customer,
 		}
 		this.props.mutate({ variables: { order } })
 	}
@@ -77,10 +72,22 @@ export default class OrderInput extends React.Component {
 
 	onSuggestSelect(suggest) {
 		if (!suggest) {
-			this.setState({ currentAddress: '' })
+			this.setState({
+				customer: {
+					address: '',
+					longitude: null,
+					latitude: null,
+				},
+			})
 			return
 		}
-		this.setState({ currentAddress: suggest.gmaps.formatted_address })
+		this.setState({
+			customer: {
+				address: suggest.description,
+				longitude: suggest.location.lng,
+				latitude: suggest.location.lat,
+			},
+		})
 	}
 
 	handleScriptLoad() {
@@ -100,7 +107,7 @@ export default class OrderInput extends React.Component {
 		}
 
 		const addressLoading = () => {
-			if (this.state.currentAddress === '' && !this.state.typing) {
+			if (this.state.customer.address === '' && !this.state.typing) {
 				return (
 					<div className="loader">
 						<Loader color="#26A65B" size="16px" />
@@ -110,15 +117,8 @@ export default class OrderInput extends React.Component {
 			return null
 		}
 
-		const fromHiveOptions = this.props.hives.filter(hive => {
-			if (hive.id !== this.state.to) {
-				return { id: hive.id, location: hive.location }
-			}
-		})
-		const toHiveOptions = this.props.hives.filter(hive => {
-			if (hive.id !== this.state.from) {
-				return { id: hive.id, location: hive.location }
-			}
+		const hiveOptions = this.props.hives.map(hive => {
+			return { id: hive.id, name: hive.name }
 		})
 
 		return (
@@ -127,32 +127,27 @@ export default class OrderInput extends React.Component {
 				<hr />
 				<div className="container">
 					<form onSubmit={this.handleSubmit.bind(this)}>
-						<div className="addressInput">
-							<Geosuggest
-								placeholder="Enter address"
-								initialValue={this.state.currentAddress}
-								onFocus={this.onFocus.bind(this)}
-								onSuggestSelect={this.onSuggestSelect.bind(
-									this,
-								)}
-							/>
-							{addressLoading()}
-						</div>
 						<p>
 							From:
 							<HiveSelect
-								position="from"
-								hives={fromHiveOptions}
+								position="to"
+								hives={hiveOptions}
 								onSelect={this.onSelect.bind(this)}
 							/>
 						</p>
 						<p>
 							To:
-							<HiveSelect
-								position="to"
-								hives={toHiveOptions}
-								onSelect={this.onSelect.bind(this)}
-							/>
+							<div className="addressInput">
+								<Geosuggest
+									placeholder="Enter address"
+									initialValue={this.state.customer.address}
+									onFocus={this.onFocus.bind(this)}
+									onSuggestSelect={this.onSuggestSelect.bind(
+										this,
+									)}
+								/>
+								{addressLoading()}
+							</div>
 						</p>
 						<input type="submit" value="Order now" />
 					</form>
