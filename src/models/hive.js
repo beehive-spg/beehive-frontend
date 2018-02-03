@@ -3,25 +3,17 @@ const addHives = hives => {
 }
 
 const addHive = hive => {
-	const { coordinates, location } = hive
+	const { type, location } = hive
 
 	return {
-		id: hive.id,
-		location,
-		data: [
-			{
-				// inner
-				position: [coordinates.longitude, coordinates.latitude],
-				radius: 15,
-				color: [255, 255, 255],
-			},
-			{
-				// outer
-				position: [coordinates.longitude, coordinates.latitude],
-				radius: 15,
-				color: [217, 71, 31],
-			},
-		],
+		id: type.id,
+		buildingId: hive.id,
+		name: type.name,
+		location: {
+			address: location.address,
+			longitude: location.longitude,
+			latitude: location.latitude,
+		},
 	}
 }
 export default addHives

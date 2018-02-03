@@ -6,5 +6,8 @@ export const ADD_HIVES = 'ADD_HIVES'
 export const UPDATE_HIVE = 'UPDATE_HIVE'
 export const REMOVE_HIVE = 'REMOVE_HIVE'
 
+export const ADD_ROUTES = 'ADD_ROUTES'
+export const REMOVE_ROUTE = 'REMOVE_ROUTE'
+
 export const CHANGE_SIDEBAR_INFO = 'CHANGE_SIDEBAR_INFO'
-export const SELECT_DRONE = 'SELECT_DRONE'
+export const SELECT_ROUTE = 'SELECT_ROUTE'

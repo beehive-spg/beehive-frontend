@@ -5,7 +5,12 @@ const addressLookup = geolocation => {
 		geolocation.getCurrentPosition(async position => {
 			const { longitude, latitude } = position.coords
 			const converted = await convertCoordsToAddress(longitude, latitude)
-			res(converted)
+			const location = {
+				address: converted,
+				longitude,
+				latitude,
+			}
+			res(location)
 		})
 	})
 }

@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 
 import layers from 'layers'
 import { removeDroneAction } from 'actions/droneActions'
+import { handleArrival } from 'utils/flight'
 
 import './layers.css'
 
@@ -11,7 +12,8 @@ import './layers.css'
 	return {
 		droneActionItem: store.drone.droneActionItem,
 		hiveActionItem: store.hive.hiveActionItem,
-		selectedDrone: store.info.selectedDrone,
+		selectedRoute: store.info.selectedRoute,
+		routes: store.route.routes,
 	}
 })
 export default class MapLayers extends React.Component {
@@ -128,7 +130,7 @@ export default class MapLayers extends React.Component {
 			hoveredItem && (
 				<div className="hiveInfo" style={{ top: y, left: x }}>
 					<div>Drone Port</div>
-					<p>{hoveredItem.location}</p>
+					<p>{hoveredItem.name}</p>
 				</div>
 			)
 		)
@@ -136,10 +138,10 @@ export default class MapLayers extends React.Component {
 
 	createLayers() {
 		const { hives, drones } = this.state
-		const { selectedDrone } = this.props
+		const { selectedRoute } = this.props
 		return [
 			layers.hive(hives, this.onHover),
-			layers.drone(drones, selectedDrone),
+			layers.drone(drones, selectedRoute),
 		]
 	}
 
@@ -153,6 +155,7 @@ export default class MapLayers extends React.Component {
 				drone.counter++
 			} else {
 				this.props.dispatch(removeDroneAction(drone.id))
+				handleArrival(this.props.routes, drone.id, this.props.dispatch)
 			}
 		}
 

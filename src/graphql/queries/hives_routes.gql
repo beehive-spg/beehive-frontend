@@ -1,0 +1,55 @@
+query hives_routes {
+  hives {
+    id
+    location {
+      address
+      longitude
+      latitude
+    }
+    type {
+      __typename
+      ... on Hive {
+        id
+        name
+      }
+    }
+  },
+
+  routes {
+    id
+    hops {
+      id
+      start {
+        id
+        location {
+          address
+          longitude
+          latitude
+        }
+        type {
+          __typename
+          ... on Hive {
+            id
+            name
+          }
+        }
+      }
+      end {
+        id
+        location {
+          address
+          longitude
+          latitude
+        }
+        type {
+          __typename
+          ... on Hive {
+            id
+            name
+          }
+        }
+      }
+      drone 
+    }
+  }
+}

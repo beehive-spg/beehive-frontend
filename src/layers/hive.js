@@ -27,17 +27,20 @@ class HiveLayer extends CompositeLayer {
 HiveLayer.layerName = 'HiveLayer'
 
 const hiveLayer = (hives, onHover) => {
-	const dataInner = hives.map(hive => {
-		return hive.data[0]
+	let inner = []
+	let outer = []
+
+	hives.forEach(hive => {
+		const { longitude, latitude } = hive.location
+		inner.push(innerLayerData(longitude, latitude))
+		outer.push(outerLayerData(longitude, latitude))
 	})
 
-	const dataOuter = hives.map(hive => {
-		return hive.data[1]
-	})
 	const data = {
-		inner: dataInner,
-		outer: dataOuter,
+		inner,
+		outer,
 	}
+
 	return layer(data, onHover)
 }
 
@@ -49,6 +52,22 @@ const layer = (data, onHover) => {
 		pickable: true,
 		onHover,
 	})
+}
+
+const innerLayerData = (longitude, latitude) => {
+	return {
+		position: [longitude, latitude],
+		radius: 15,
+		color: [255, 255, 255],
+	}
+}
+
+const outerLayerData = (longitude, latitude) => {
+	return {
+		position: [longitude, latitude],
+		radius: 15,
+		color: [217, 71, 31],
+	}
 }
 
 export default hiveLayer

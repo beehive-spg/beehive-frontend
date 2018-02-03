@@ -5,11 +5,11 @@ const addDrones = drones => {
 }
 
 const addDrone = drone => {
-	const { from, to, currentPosition } = drone.route
-	const route = line(currentPosition, to)
+	const { id, from, to } = drone
+	const route = line(from, to)
 
 	return {
-		id: drone.id,
+		id,
 		from,
 		to,
 		route,

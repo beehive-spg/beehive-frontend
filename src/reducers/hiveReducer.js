@@ -5,7 +5,7 @@ export default function reducer(
 		hives: [],
 		hiveActionItem: {
 			action: '',
-			hives: null,
+			hives: [],
 		},
 	},
 	action,

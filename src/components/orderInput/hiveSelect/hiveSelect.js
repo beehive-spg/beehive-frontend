@@ -5,8 +5,8 @@ import './hiveSelect.css'
 export default class HiveSelect extends React.Component {
 	render() {
 		const options = this.props.hives.map(hive => {
-			const value = `${hive.id}-${this.props.position}`
-			return <option value={value}>{hive.location}</option>
+			const value = `${hive.id}`
+			return <option value={value}>{hive.name}</option>
 		})
 
 		return (

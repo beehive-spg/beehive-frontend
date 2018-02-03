@@ -1,10 +1,14 @@
 import { ScatterplotLayer } from 'deck.gl'
 
-const droneLayer = (drones, selectedDrone) => {
+const droneLayer = (drones, selectedRoute) => {
 	const data = drones.map(drone => {
 		let color = drone.color
 		let radius = drone.radius
-		if (drone.id === selectedDrone) {
+
+		if (
+			selectedRoute &&
+			selectedRoute.hops.find(hop => hop.id === drone.id)
+		) {
 			color = [16, 150, 18]
 			radius = 50
 		}

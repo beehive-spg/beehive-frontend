@@ -1,0 +1,17 @@
+{
+  hives {
+    id
+    location {
+      address
+      longitude
+      latitude
+    }
+    type {
+      __typename
+      ... on Hive {
+        id
+        name
+      }
+    }
+  }
+}

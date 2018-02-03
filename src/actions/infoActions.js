@@ -1,15 +1,15 @@
-import { CHANGE_SIDEBAR_INFO, SELECT_DRONE } from 'constants/actionTypes'
+import { CHANGE_SIDEBAR_INFO, SELECT_ROUTE } from 'constants/actionTypes'
 
 export function changeInfo(sidebarInfo) {
 	switch (sidebarInfo) {
-		case 'Drones':
+		case 'Routes':
 			sidebarInfo = 'Drone Ports'
 			break
 		case 'Drone Ports':
-			sidebarInfo = 'Drones'
+			sidebarInfo = 'Routes'
 			break
 		default:
-			sidebarInfo = 'Drones'
+			sidebarInfo = 'Routes'
 			break
 	}
 	return {
@@ -18,9 +18,9 @@ export function changeInfo(sidebarInfo) {
 	}
 }
 
-export function selectDrone(id) {
+export function selectRoute(route) {
 	return {
-		type: SELECT_DRONE,
-		payload: id,
+		type: SELECT_ROUTE,
+		payload: route,
 	}
 }
