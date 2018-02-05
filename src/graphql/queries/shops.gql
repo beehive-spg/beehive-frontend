@@ -1,0 +1,17 @@
+{
+  shops {
+    id
+    location {
+      address
+      longitude
+      latitude
+    }
+    type {
+      __typename
+      ... on Shop {
+        id
+        name
+      }
+    }
+  }
+}
