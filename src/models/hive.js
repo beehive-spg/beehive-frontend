@@ -3,7 +3,8 @@ const addHives = hives => {
 }
 
 const addHive = hive => {
-	const { type, location } = hive
+	const type = hive.type[0]
+	const { location } = hive
 
 	return {
 		id: type.id,
