@@ -153,11 +153,11 @@ export default class MapLayers extends React.Component {
 
 	createLayers() {
 		const { hives, drones, shops } = this.state
-		const { selectedRoute } = this.props
+		const { selectedRoute, viewport } = this.props
 		return [
 			layers.hive(hives, this.onHover),
 			layers.drone(drones, selectedRoute),
-			layers.shop(shops, this.onHover),
+			layers.shop(shops, this.onHover, viewport.zoom),
 		]
 	}
 
