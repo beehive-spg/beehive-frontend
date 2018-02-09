@@ -5,13 +5,14 @@ import { connect } from 'react-redux'
 import models from 'models'
 
 import { newHivesAction } from 'actions/hiveActions'
+import { newShopsAction } from 'actions/shopActions'
 
 import Map from 'components/map/map'
 import Sidebar from 'components/sidebar/sidebar'
 import OrderInput from 'components/orderInput/orderInput'
 import Error from 'components/error/error'
 
-import { hives } from 'graphql/queries'
+import { hives_shops } from 'graphql/queries'
 
 import { handleDeparture } from 'utils/flight'
 import { departure } from 'graphql/subscriptions'
@@ -23,7 +24,7 @@ import { departure } from 'graphql/subscriptions'
 		routes: store.route.routes,
 	}
 })
-@graphql(hives)
+@graphql(hives_shops)
 export default class Main extends React.Component {
 	constructor(props) {
 		super(props)
@@ -69,7 +70,9 @@ export default class Main extends React.Component {
 			return null
 		} else if (this.firstLoad) {
 			const hives = models.hive(data.hives)
+			const shops = models.shop(data.shops)
 			this.props.dispatch(newHivesAction(hives))
+			this.props.dispatch(newShopsAction(shops))
 			this.firstLoad = false
 		}
 

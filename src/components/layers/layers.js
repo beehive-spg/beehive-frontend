@@ -6,12 +6,13 @@ import layers from 'layers'
 import { removeDroneAction } from 'actions/droneActions'
 import { handleArrival } from 'utils/flight'
 
-import './layers.css'
+import InfoOverlay from './infoOverlay'
 
 @connect(store => {
 	return {
 		droneActionItem: store.drone.droneActionItem,
 		hiveActionItem: store.hive.hiveActionItem,
+		shopActionItem: store.shop.shopActionItem,
 		selectedRoute: store.info.selectedRoute,
 		routes: store.route.routes,
 	}
@@ -24,9 +25,12 @@ export default class MapLayers extends React.Component {
 		const droneItems = this.addCounter(this.props.droneActionItem.drones)
 
 		this.state = {
-			hoveredItem: null,
+			hoverInfos: {
+				item: null,
+			},
 			drones: droneItems,
 			hives: this.props.hiveActionItem.hives,
+			shops: this.props.shopActionItem.shops,
 		}
 	}
 
@@ -96,6 +100,34 @@ export default class MapLayers extends React.Component {
 				hives,
 			})
 		}
+
+		if (this.props.shopActionItem !== nextProps.shopActionItem) {
+			let { shops } = this.state
+			const { shopActionItem } = nextProps
+			const shopItems = shopActionItem.shops
+
+			switch (shopActionItem.action) {
+				case 'add':
+				//eslint-disable-no-fallthrough
+				case 'update': {
+					const index = shops.findIndex(
+						res => res.id === shopItems[0].id,
+					)
+					if (index === -1) {
+						shops = [...shops, ...shopItems]
+					} else {
+						shops[index] = shopItems[0]
+					}
+					break
+				}
+				case 'remove':
+					shops = shops.filter(res => res.id !== shopItems)
+			}
+
+			this.setState({
+				shops,
+			})
+		}
 	}
 
 	addCounter(drones) {
@@ -107,41 +139,25 @@ export default class MapLayers extends React.Component {
 		})
 	}
 
-	onHover = ({ index, x, y, picked }) => {
-		const { hives } = this.state
-		const hive = hives[index]
-
+	onHover = ({ index, picked, x, y, layer }) => {
 		this.setState({
-			hoveredItem: hive,
-			x,
-			y,
-			picked,
+			hoverInfos: {
+				layer: layer.id,
+				index,
+				picked,
+				x,
+				y,
+			},
 		})
 	}
 
-	renderHiveInfo() {
-		const { x, y, hoveredItem, picked } = this.state
-
-		if (!picked) {
-			return null
-		}
-
-		return (
-			hoveredItem && (
-				<div className="hiveInfo" style={{ top: y, left: x }}>
-					<div>Drone Port</div>
-					<p>{hoveredItem.name}</p>
-				</div>
-			)
-		)
-	}
-
 	createLayers() {
-		const { hives, drones } = this.state
-		const { selectedRoute } = this.props
+		const { hives, drones, shops } = this.state
+		const { selectedRoute, viewport } = this.props
 		return [
 			layers.hive(hives, this.onHover),
 			layers.drone(drones, selectedRoute),
+			layers.shop(shops, this.onHover, viewport.zoom),
 		]
 	}
 
@@ -173,11 +189,12 @@ export default class MapLayers extends React.Component {
 
 	render() {
 		const { viewport } = this.props
+		const { hives, shops, hoverInfos } = this.state
 
 		return (
 			<div>
 				<DeckGL {...viewport} layers={this.createLayers()} />
-				{this.renderHiveInfo()}
+				<InfoOverlay infos={hoverInfos} hives={hives} shops={shops} />
 			</div>
 		)
 	}

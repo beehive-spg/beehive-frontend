@@ -1,0 +1,32 @@
+query hives_shops {
+  hives {
+    id
+    location {
+      address
+      longitude
+      latitude
+    }
+    type {
+      __typename
+      ... on Hive {
+        id
+        name
+      }
+    }
+  },
+  shops {
+    id
+    location {
+      address
+      longitude
+      latitude
+    }
+    type {
+      __typename
+      ... on Shop {
+        id
+        name
+      }
+    }
+  }
+}
