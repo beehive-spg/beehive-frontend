@@ -19,10 +19,12 @@ const handleDeparture = async (routes, drones, flight, dispatch) => {
 
 		dispatch(newRoutesAction([res.data.route]))
 		dispatch(newDronesAction(drone, drones))
+		return res.data.route
 	} else {
 		let drone = buildDrone(exists, flight)
 		drone = models.drone([drone])
 		dispatch(newDronesAction(drone, drones))
+		return exists
 	}
 }
 
