@@ -3,8 +3,12 @@ import apolloClient from 'client'
 import models from 'models'
 import { newRoutesAction, removeRouteAction } from 'actions/routeActions'
 import { newDronesAction } from 'actions/droneActions'
-import { newCustomersAction } from 'actions/customerActions'
-import { route } from 'graphql/queries'
+import {
+	newCustomersAction,
+	removeCustomerAction,
+} from 'actions/customerActions'
+import { newOrdersAction, removeOrderAction } from 'actions/orderActions'
+import { route, orderFromRoute } from 'graphql/queries'
 
 const handleDeparture = async flight => {
 	const store = globalStore.getState()
@@ -19,8 +23,19 @@ const handleDeparture = async flight => {
 		})
 
 		if (res.data.route.origin === 'order') {
+			const orderRes = await apolloClient.query({
+				query: orderFromRoute,
+				variables: {
+					routeId: res.data.route.id,
+				},
+			})
+
 			const customer = findCustomer(res.data.route)
+
 			globalStore.dispatch(newCustomersAction([customer]))
+			globalStore.dispatch(
+				newOrdersAction([orderRes.data.orderFromRoute]),
+			)
 		}
 
 		let drone = buildDrone(res.data.route, flight)
@@ -69,10 +84,23 @@ const findCustomer = route => {
 	return customers[0]
 }
 
-const handleArrival = (routes, drone, dispatch) => {
-	routes.forEach(route => {
+const handleArrival = drone => {
+	const store = globalStore.getState()
+
+	store.route.routes.forEach(route => {
 		if (route.hops[route.hops.length - 1].id === drone) {
-			dispatch(removeRouteAction(route.id))
+			globalStore.dispatch(removeRouteAction(route.id))
+
+			const order = store.order.orders.find(
+				order => order.route === route.id,
+			)
+
+			const customer = store.customer.customers.find(
+				customer => customer.id === order.customer.id,
+			)
+
+			globalStore.dispatch(removeOrderAction(order.id))
+			globalStore.dispatch(removeCustomerAction(customer.id))
 		}
 	})
 }

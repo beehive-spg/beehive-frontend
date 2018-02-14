@@ -18,7 +18,7 @@ const customerLayer = (customers, onHover, zoom) => {
 		return {
 			position,
 			icon: 'customer-icon',
-			size: 75,
+			size: 80,
 			color: [0, 0, 0],
 		}
 	})

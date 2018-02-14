@@ -4,6 +4,7 @@ import drone from 'reducers/droneReducer'
 import hive from 'reducers/hiveReducer'
 import shop from 'reducers/shopReducer'
 import customer from 'reducers/customerReducer'
+import order from 'reducers/orderReducer'
 import route from 'reducers/routeReducer'
 import info from 'reducers/infoReducer'
 
@@ -13,6 +14,7 @@ const store = createStore(
 		hive,
 		shop,
 		customer,
+		order,
 		route,
 		info,
 	}),

@@ -204,7 +204,8 @@ export default class MapLayers extends React.Component {
 				drone.counter++
 			} else {
 				this.props.dispatch(removeDroneAction(drone.id))
-				handleArrival(this.props.routes, drone.id, this.props.dispatch)
+				//handleArrival(this.props.routes, drone.id, this.props.dispatch)
+				handleArrival(drone.id)
 			}
 		}
 
