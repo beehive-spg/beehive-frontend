@@ -1,11 +1,14 @@
+import globalStore from 'store'
 import apolloClient from 'client'
 import { newRoutesAction, removeRouteAction } from 'actions/routeActions'
 import { newDronesAction } from 'actions/droneActions'
 import { route } from 'graphql/queries'
 import models from 'models'
 
-const handleDeparture = async (routes, drones, flight, dispatch) => {
-	const exists = routes.find(route => route.id == flight.routeId)
+const handleDeparture = async flight => {
+	const store = globalStore.getState()
+
+	const exists = store.route.routes.find(route => route.id == flight.routeId)
 	if (!exists) {
 		const res = await apolloClient.query({
 			query: route,
@@ -13,17 +16,18 @@ const handleDeparture = async (routes, drones, flight, dispatch) => {
 				id: flight.routeId,
 			},
 		})
+		console.log(res)
 
 		let drone = buildDrone(res.data.route, flight)
 		drone = models.drone([drone])
 
-		dispatch(newRoutesAction([res.data.route]))
-		dispatch(newDronesAction(drone, drones))
+		globalStore.dispatch(newRoutesAction([res.data.route]))
+		globalStore.dispatch(newDronesAction(drone, store.drone.drones))
 		return res.data.route
 	} else {
 		let drone = buildDrone(exists, flight)
 		drone = models.drone([drone])
-		dispatch(newDronesAction(drone, drones))
+		globalStore.dispatch(newDronesAction(drone, store.drone.drones))
 		return exists
 	}
 }

@@ -53,10 +53,11 @@ export default class Main extends React.Component {
 				if (!subscriptionData.data) {
 					return prev
 				}
-				const { routes, drones, /*shops, */ dispatch } = this.props
+				//const { routes, drones, /*shops, */ dispatch } = this.props
 				const flight = subscriptionData.data.departure
 
-				const route = handleDeparture(routes, drones, flight, dispatch)
+				//const route = handleDeparture(routes, drones, flight, dispatch)
+				const route = handleDeparture(flight)
 				handleNewCustomer(route)
 			},
 		})
