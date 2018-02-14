@@ -3,6 +3,7 @@ import thunk from 'redux-thunk'
 import drone from 'reducers/droneReducer'
 import hive from 'reducers/hiveReducer'
 import shop from 'reducers/shopReducer'
+import customer from 'reducers/customerReducer'
 import route from 'reducers/routeReducer'
 import info from 'reducers/infoReducer'
 
@@ -11,6 +12,7 @@ const store = createStore(
 		drone,
 		hive,
 		shop,
+		customer,
 		route,
 		info,
 	}),
