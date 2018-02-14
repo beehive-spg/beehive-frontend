@@ -52,3 +52,8 @@ and
 ```yarn add node-sass-chokidar```
 
 This should fix the error and the application can be started.
+
+## Thanks
+Icons provided by [The Noun Project](https://thenounproject.com).
+- Customer: created by Gonzalo Bravo
+- Shop: created by Anton Gajdosik
