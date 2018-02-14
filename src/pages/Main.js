@@ -15,7 +15,6 @@ import Error from 'components/error/error'
 import { hives_shops } from 'graphql/queries'
 
 import { handleDeparture } from 'utils/flight'
-//import { handleNewCustomer } from 'utils/customer'
 
 import { departure } from 'graphql/subscriptions'
 
@@ -53,13 +52,9 @@ export default class Main extends React.Component {
 				if (!subscriptionData.data) {
 					return prev
 				}
-				//const { routes, drones, /*shops, */ dispatch } = this.props
 				const flight = subscriptionData.data.departure
 
-				//const route = handleDeparture(routes, drones, flight, dispatch)
-				/*const route = */ handleDeparture(flight)
-
-				//handleNewCustomer(route)
+				handleDeparture(flight)
 			},
 		})
 	}
