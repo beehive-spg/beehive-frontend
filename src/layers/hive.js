@@ -7,10 +7,9 @@ class HiveLayer extends CompositeLayer {
 			new ScatterplotLayer({
 				id: 'layer-hive-outer',
 				data: data.outer,
-				strokeWidth: 10,
 				radiusMinPixels,
+				strokeWidth: 2,
 				outline: true,
-				pickable,
 				onHover,
 			}),
 			new ScatterplotLayer({
@@ -48,7 +47,7 @@ const layer = (data, onHover) => {
 	return new HiveLayer({
 		id: 'layer-hive',
 		data,
-		radiusMinPixels: 4,
+		radiusMinPixels: 2,
 		pickable: true,
 		onHover,
 	})
@@ -58,14 +57,14 @@ const innerLayerData = (longitude, latitude) => {
 	return {
 		position: [longitude, latitude],
 		radius: 15,
-		color: [255, 255, 255],
+		color: [217, 71, 31],
 	}
 }
 
 const outerLayerData = (longitude, latitude) => {
 	return {
 		position: [longitude, latitude],
-		radius: 15,
+		radius: 25,
 		color: [217, 71, 31],
 	}
 }

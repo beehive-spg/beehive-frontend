@@ -17,10 +17,10 @@ export default class Map extends React.Component {
 			viewport: {
 				latitude: 48.210033,
 				longitude: 16.363449,
-				zoom: 11,
+				zoom: 12,
 				maxZoom: 16.3,
 				bearing: 0,
-				pitch: 0,
+				pitch: 45,
 				width: 800,
 				height: 600,
 				useDevicePixels: false,

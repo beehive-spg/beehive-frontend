@@ -1,0 +1,13 @@
+query ($routeId: ID!) {
+  orderFromRoute(routeId: $routeId) {
+    id
+    shop {
+      id
+    }
+    customer {
+      id
+    }
+    route
+    source
+  }
+}

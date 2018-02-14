@@ -13,6 +13,7 @@ import InfoOverlay from './infoOverlay'
 		droneActionItem: store.drone.droneActionItem,
 		hiveActionItem: store.hive.hiveActionItem,
 		shopActionItem: store.shop.shopActionItem,
+		customerActionItem: store.customer.customerActionItem,
 		selectedRoute: store.info.selectedRoute,
 		routes: store.route.routes,
 	}
@@ -31,6 +32,7 @@ export default class MapLayers extends React.Component {
 			drones: droneItems,
 			hives: this.props.hiveActionItem.hives,
 			shops: this.props.shopActionItem.shops,
+			customers: this.props.customerActionItem.customers,
 		}
 	}
 
@@ -128,6 +130,36 @@ export default class MapLayers extends React.Component {
 				shops,
 			})
 		}
+
+		if (this.props.customerActionItem !== nextProps.customerActionItem) {
+			let { customers } = this.state
+			const { customerActionItem } = nextProps
+			const customerItems = customerActionItem.customers
+
+			switch (customerActionItem.action) {
+				case 'add':
+				//eslint-disable-no-fallthrough
+				case 'update': {
+					const index = customers.findIndex(
+						res => res.id === customerItems[0].id,
+					)
+					if (index === -1) {
+						customers = [...customers, ...customerItems]
+					} else {
+						customers[index] = customerItems[0]
+					}
+					break
+				}
+				case 'remove':
+					customers = customers.filter(
+						res => res.id !== customerItems,
+					)
+			}
+
+			this.setState({
+				customers,
+			})
+		}
 	}
 
 	addCounter(drones) {
@@ -152,12 +184,13 @@ export default class MapLayers extends React.Component {
 	}
 
 	createLayers() {
-		const { hives, drones, shops } = this.state
+		const { hives, drones, shops, customers } = this.state
 		const { selectedRoute, viewport } = this.props
 		return [
 			layers.hive(hives, this.onHover),
 			layers.drone(drones, selectedRoute),
 			layers.shop(shops, this.onHover, viewport.zoom),
+			layers.customer(customers, this.onHover, viewport.zoom),
 		]
 	}
 
@@ -171,7 +204,8 @@ export default class MapLayers extends React.Component {
 				drone.counter++
 			} else {
 				this.props.dispatch(removeDroneAction(drone.id))
-				handleArrival(this.props.routes, drone.id, this.props.dispatch)
+				//handleArrival(this.props.routes, drone.id, this.props.dispatch)
+				handleArrival(drone.id)
 			}
 		}
 
@@ -189,12 +223,17 @@ export default class MapLayers extends React.Component {
 
 	render() {
 		const { viewport } = this.props
-		const { hives, shops, hoverInfos } = this.state
+		const { hives, shops, customers, hoverInfos } = this.state
 
 		return (
 			<div>
 				<DeckGL {...viewport} layers={this.createLayers()} />
-				<InfoOverlay infos={hoverInfos} hives={hives} shops={shops} />
+				<InfoOverlay
+					infos={hoverInfos}
+					hives={hives}
+					shops={shops}
+					customers={customers}
+				/>
 			</div>
 		)
 	}

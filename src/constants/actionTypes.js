@@ -9,6 +9,12 @@ export const REMOVE_HIVE = 'REMOVE_HIVE'
 export const ADD_SHOPS = 'ADD_SHOPS'
 export const REMOVE_SHOP = 'REMOVE_SHOP'
 
+export const ADD_CUSTOMERS = 'ADD_CUSTOMERS'
+export const REMOVE_CUSTOMER = 'REMOVE_CUSTOMER'
+
+export const ADD_ORDERS = 'ADD_ORDERS'
+export const REMOVE_ORDER = 'REMOVE_ORDER'
+
 export const ADD_ROUTES = 'ADD_ROUTES'
 export const REMOVE_ROUTE = 'REMOVE_ROUTE'
 

@@ -1,0 +1,16 @@
+query ($id: ID!) {
+  customer(id: $id) {
+    id
+    location {
+      address
+      longitude
+      latitude
+    }
+    type {
+      __typename
+      ... on Customer {
+        id
+      }
+    }
+  }
+}

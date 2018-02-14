@@ -15,6 +15,7 @@ import Error from 'components/error/error'
 import { hives_shops } from 'graphql/queries'
 
 import { handleDeparture } from 'utils/flight'
+
 import { departure } from 'graphql/subscriptions'
 
 @connect(store => {
@@ -22,6 +23,7 @@ import { departure } from 'graphql/subscriptions'
 		drones: store.drone.drones,
 		hives: store.hive.hives,
 		routes: store.route.routes,
+		shops: store.shop.shops,
 	}
 })
 @graphql(hives_shops)
@@ -51,12 +53,8 @@ export default class Main extends React.Component {
 					return prev
 				}
 				const flight = subscriptionData.data.departure
-				handleDeparture(
-					this.props.routes,
-					this.props.drones,
-					flight,
-					this.props.dispatch,
-				)
+
+				handleDeparture(flight)
 			},
 		})
 	}

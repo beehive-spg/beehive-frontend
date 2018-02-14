@@ -1,6 +1,7 @@
 query($id: ID!) {
   route(id: $id) {
     id
+	origin
     hops {
       id
       start {
@@ -14,7 +15,15 @@ query($id: ID!) {
           __typename
           ... on Hive {
             id
+            demand
             name
+          }
+          ... on Shop {
+            id
+            name
+          }
+          ... on Customer {
+            id
           }
         }
       }
@@ -29,7 +38,15 @@ query($id: ID!) {
           __typename
           ... on Hive {
             id
+            demand
             name
+          }
+          ... on Shop {
+            id
+            name
+          }
+          ... on Customer {
+            id
           }
         }
       }
