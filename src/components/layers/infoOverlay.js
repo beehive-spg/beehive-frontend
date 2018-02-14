@@ -10,6 +10,7 @@ export default class InfoOverlay extends React.Component {
 
 			if (split[1] === 'hive') return this.renderHiveInfo()
 			else if (split[1] === 'shop') return this.renderShopInfo()
+			else if (split[1] === 'customer') return this.renderCustomerInfo()
 		}
 	}
 
@@ -40,6 +41,20 @@ export default class InfoOverlay extends React.Component {
 				<p>
 					<div>Address: {shop.location.address}</div>
 					<div>{shops}</div>
+				</p>
+			</div>
+		)
+	}
+
+	renderCustomerInfo() {
+		const { infos } = this.props
+		const customer = this.props.customers[infos.index]
+
+		return (
+			<div className="info" style={{ top: infos.y, left: infos.x }}>
+				<div>Customer</div>
+				<p>
+					<div>Address: {customer.location.address}</div>
 				</p>
 			</div>
 		)

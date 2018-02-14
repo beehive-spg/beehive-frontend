@@ -223,12 +223,17 @@ export default class MapLayers extends React.Component {
 
 	render() {
 		const { viewport } = this.props
-		const { hives, shops, hoverInfos } = this.state
+		const { hives, shops, customers, hoverInfos } = this.state
 
 		return (
 			<div>
 				<DeckGL {...viewport} layers={this.createLayers()} />
-				<InfoOverlay infos={hoverInfos} hives={hives} shops={shops} />
+				<InfoOverlay
+					infos={hoverInfos}
+					hives={hives}
+					shops={shops}
+					customers={customers}
+				/>
 			</div>
 		)
 	}
