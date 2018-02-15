@@ -21,6 +21,8 @@
         width: 70%; }
         .orderInput .container .addressInput .geosuggest .geosuggest__item {
           font-size: 14px; }
+        .orderInput .container .addressInput .geosuggest .geosuggest__input {
+          outline: none; }
       .orderInput .container .addressInput .loader {
         padding-top: 6px; }
     .orderInput .container button {
