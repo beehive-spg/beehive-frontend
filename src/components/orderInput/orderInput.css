@@ -4,7 +4,7 @@
   top: 20px;
   right: 20px;
   width: 20em;
-  height: 16em;
+  height: 18em;
   background-color: #fff;
   box-shadow: 5px 5px 15px #dddddd; }
   .orderInput .heading {
@@ -23,10 +23,5 @@
           font-size: 14px; }
       .orderInput .container .addressInput .loader {
         padding-top: 6px; }
-    .orderInput .container input[type=submit] {
-      border: none;
-      outline: none;
-      font-size: 14px;
-      text-decoration: underline;
-      font-weight: bold;
-      padding: 0; }
+    .orderInput .container button {
+      outline: none; }

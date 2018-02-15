@@ -4,11 +4,13 @@ import { graphql } from 'react-apollo'
 import Script from 'react-load-script'
 import Geosuggest from 'react-geosuggest'
 import Loader from 'halogen/BounceLoader'
+import LaddaButton, { S, EXPAND_RIGHT } from 'react-ladda'
 import addOrder from 'graphql/mutations/addOrder.gql'
 import HiveSelect from './hiveSelect/hiveSelect'
 import addressLookup from 'utils/geocoding'
 
 import 'react-geosuggest/module/geosuggest.css'
+import 'ladda/dist/ladda.min.css'
 import './orderInput.css'
 
 @connect(store => {
@@ -30,6 +32,7 @@ export default class OrderInput extends React.Component {
 			},
 			scriptLoaded: false,
 			typing: false,
+			orderLoading: false,
 		}
 	}
 
@@ -57,11 +60,25 @@ export default class OrderInput extends React.Component {
 	handleSubmit(e) {
 		e.preventDefault()
 
+		this.setState({
+			orderLoading: !this.state.orderLoading,
+		})
+
 		const order = {
 			shop: this.state.shop,
 			customer: this.state.customer,
 		}
 		this.props.mutate({ variables: { order } })
+
+		this.toggleOrderLoading()
+	}
+
+	toggleOrderLoading() {
+		setTimeout(() => {
+			this.setState({
+				orderLoading: !this.state.orderLoading,
+			})
+		}, 800)
 	}
 
 	onFocus() {
@@ -149,10 +166,23 @@ export default class OrderInput extends React.Component {
 								{addressLoading()}
 							</div>
 						</p>
-						<input type="submit" value="Order now" />
+						<p>
+							<LaddaButton
+								data-size={S}
+								data-style={EXPAND_RIGHT}
+								loading={this.state.orderLoading}
+								onClick={this.handleSubmit.bind(this)}
+								data-spinner-size={30}
+								data-color="#eee"
+								data-spinner-color="#ddd"
+								data-spinner-lines={12}>
+								Order now
+							</LaddaButton>
+						</p>
 					</form>
 				</div>
 			</div>
 		)
 	}
 }
+//<input type="submit" value="Order now" />

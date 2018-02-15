@@ -53,6 +53,7 @@
     "react-dev-utils": "^4.0.1",
     "react-geosuggest": "^2.7.0",
     "react-helmet": "^5.2.0",
+    "react-ladda": "^5.0.7",
     "react-load-script": "^0.0.6",
     "react-map-gl": "^3.2.0",
     "react-redux": "^5.0.6",
