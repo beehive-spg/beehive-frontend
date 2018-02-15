@@ -140,7 +140,7 @@ export default class OrderInput extends React.Component {
 
 		return (
 			<div className="orderInput">
-				<div className="heading">New Order</div>
+				<div className="heading">Order</div>
 				<hr />
 				<div className="container">
 					<form onSubmit={this.handleSubmit.bind(this)}>

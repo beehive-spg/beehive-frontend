@@ -177,8 +177,8 @@ export default class MapLayers extends React.Component {
 				layer: layer.id,
 				index,
 				picked,
-				x,
-				y,
+				x: x + 20,
+				y: y - 20,
 			},
 		})
 	}
