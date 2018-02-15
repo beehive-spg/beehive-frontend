@@ -185,12 +185,14 @@ export default class MapLayers extends React.Component {
 
 	createLayers() {
 		const { hives, drones, shops, customers } = this.state
-		const { selectedRoute, viewport } = this.props
+		const { selectedRoute, viewport, routes } = this.props
+
 		return [
 			layers.hive(hives, this.onHover),
 			layers.drone(drones, selectedRoute),
 			layers.shop(shops, this.onHover, viewport.zoom),
 			layers.customer(customers, this.onHover, viewport.zoom),
+			layers.route(routes),
 		]
 	}
 
@@ -204,7 +206,6 @@ export default class MapLayers extends React.Component {
 				drone.counter++
 			} else {
 				this.props.dispatch(removeDroneAction(drone.id))
-				//handleArrival(this.props.routes, drone.id, this.props.dispatch)
 				handleArrival(drone.id)
 			}
 		}
