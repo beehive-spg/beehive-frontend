@@ -8,17 +8,39 @@
 	background-color: #fff
 	box-shadow: 5px 0 15px #dddddd
 
-	.heading
-		font-size: 2em
-		padding: .5em 0 .5em .5em
-	
 	.container
-		padding: 0 1em
-		max-height: 31.5em
-		overflow-y: scroll
-	
-	.switch
-		margin: .5em
-		position: absolute
-		bottom: 5px
+		margin: .4em 0
+		padding: .6em 1em 0 1em
+		max-height: 100%
+		overflow-y: auto
+		box-shadow: inset 0 5px 5px #efefef
 
+	.tabs
+		display: grid
+		grid-template-columns: 1fr 1fr
+		grid-template-rows: 40px 95%
+		justify-items: center
+		height: 100%
+
+	.tab-link
+		padding: 15px 10px 5px 10px
+		outline: none
+		cursor: pointer
+		
+	.tab-link-active
+		border-bottom: 1px solid black
+
+	.tab-routes
+		grid-column: 1
+		grid-row: 1
+
+	.tab-hives
+		grid-column: 2
+		grid-row: 1
+	
+	.tab-content
+		grid-column: 1 / 2 span
+		grid-row: 2
+		width: 100%
+		max-height: 100%
+		padding-bottom: 10px

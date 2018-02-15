@@ -6744,6 +6744,13 @@ react-side-effect@^1.1.0:
     exenv "^1.2.1"
     shallowequal "^1.0.1"
 
+react-tabs-redux@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/react-tabs-redux/-/react-tabs-redux-2.0.1.tgz#a02019e62c647d6c93e84da29a26c69c5c1b44e4"
+  dependencies:
+    classnames "^2.2.3"
+    prop-types "^15.5.7"
+
 "react@^15 || ^16":
   version "15.6.1"
   resolved "https://registry.yarnpkg.com/react/-/react-15.6.1.tgz#baa8434ec6780bde997cdc380b79cd33b96393df"
