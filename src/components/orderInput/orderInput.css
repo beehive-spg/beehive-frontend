@@ -26,4 +26,5 @@
       .orderInput .container .addressInput .loader {
         padding-top: 6px; }
     .orderInput .container button {
-      outline: none; }
+      outline: none;
+      z-index: 0; }
