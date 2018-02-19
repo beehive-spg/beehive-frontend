@@ -20,10 +20,8 @@ export default class InfoOverlay extends React.Component {
 		return (
 			<div className="info" style={{ top: infos.y, left: infos.x }}>
 				<div className="heading">Drone Port</div>
-				<p>
-					<div className="address">{hive.location.address}</div>
-					<div>{hive.name}</div>
-				</p>
+				<div className="address">{hive.location.address}</div>
+				<div>{hive.name}</div>
 			</div>
 		)
 	}
@@ -38,10 +36,8 @@ export default class InfoOverlay extends React.Component {
 		return (
 			<div className="info" style={{ top: infos.y, left: infos.x }}>
 				<div className="heading">Shop</div>
-				<p>
-					<div className="address">{shop.location.address}</div>
-					<div>{shops}</div>
-				</p>
+				<div className="address">{shop.location.address}</div>
+				<div>{shops}</div>
 			</div>
 		)
 	}
@@ -53,9 +49,7 @@ export default class InfoOverlay extends React.Component {
 		return (
 			<div className="info" style={{ top: infos.y, left: infos.x }}>
 				<div className="heading">Customer</div>
-				<p>
-					<div className="address">{customer.location.address}</div>
-				</p>
+				<div className="address">{customer.location.address}</div>
 			</div>
 		)
 	}
