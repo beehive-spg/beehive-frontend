@@ -15,14 +15,14 @@ export default class HiveInfo extends React.Component {
 		if (!selectedHive) return null
 		return (
 			<div>
-				<p>Name: {selectedHive.name}</p>
-				<p>
+				<div>Name: {selectedHive.name}</div>
+				<div>
 					Address:
 					<div>{selectedHive.location.address}</div>
 					<div>Longitude: {selectedHive.location.longitude}</div>
 					<div>Latitude: {selectedHive.location.latitude}</div>
-				</p>
-				<p>Demand: {selectedHive.demand}</p>
+				</div>
+				<div>Demand: {selectedHive.demand}</div>
 				<DemandChart />
 			</div>
 		)

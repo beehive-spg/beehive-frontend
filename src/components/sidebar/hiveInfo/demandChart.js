@@ -2,10 +2,10 @@ import React from 'react'
 import {
 	XYPlot,
 	LineSeries,
-	// XAxis,
-	// YAxis,
-	// HorizontalGridLines,
-	// VerticalGridLines,
+	XAxis,
+	YAxis,
+	HorizontalGridLines,
+	VerticalGridLines,
 } from 'react-vis'
 
 import 'react-vis/dist/style.css'
@@ -16,17 +16,17 @@ export default class DemandChart extends React.Component {
 
 		this.state = {
 			init: [
-				{ x: 0, y: 8 },
-				{ x: 1, y: 8 },
-				{ x: 1, y: 4 },
-				{ x: 2, y: 4 },
-				{ x: 3, y: 5 },
-				{ x: 4, y: 1 },
-				{ x: 5, y: 7 },
-				{ x: 6, y: 7 },
-				{ x: 7, y: 3 },
-				{ x: 8, y: 2 },
-				{ x: 9, y: 6 },
+				{ x: 0, y: 10 },
+				{ x: 1, y: 10 },
+				{ x: 1, y: 10 },
+				{ x: 2, y: 10 },
+				{ x: 3, y: 10 },
+				{ x: 4, y: 10 },
+				{ x: 5, y: 10 },
+				{ x: 6, y: 10 },
+				{ x: 7, y: 10 },
+				{ x: 8, y: 10 },
+				{ x: 9, y: 10 },
 			],
 		}
 	}
@@ -34,13 +34,15 @@ export default class DemandChart extends React.Component {
 	componentDidMount() {
 		setInterval(() => {
 			this.changeData()
-		}, 1000)
+		}, 2000)
 	}
 
 	changeData = () => {
 		const data = this.state.init.map(set => {
-			set.y = set.y * Math.random()
-			return set
+			return {
+				x: set.x,
+				y: set.y * Math.random(),
+			}
 		})
 
 		this.setState({ data })
@@ -50,7 +52,11 @@ export default class DemandChart extends React.Component {
 		return (
 			<div className="demandChart">
 				<XYPlot height={200} width={250}>
-					<LineSeries data={this.state.data} />
+					<XAxis />
+					<YAxis />
+					<HorizontalGridLines />
+					<VerticalGridLines />
+					<LineSeries animation data={this.state.data} />
 				</XYPlot>
 			</div>
 		)
