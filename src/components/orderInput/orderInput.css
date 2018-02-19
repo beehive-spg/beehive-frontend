@@ -30,6 +30,7 @@
           font-family: 'Raleway';
           padding-top: 0;
           padding-bottom: 0;
+          padding-left: 10px;
           line-height: 34px; }
       .orderInput .container .addressInput .loader {
         padding-top: 6px; }
