@@ -114,8 +114,9 @@ export default class OrderInput extends React.Component {
 				return shop.shops.map(buildingShop => {
 					return {
 						value: buildingShop.id,
-						label: `${buildingShop.name} - ${shop.location
-							.address}`,
+						label: `${buildingShop.name} - ${
+							shop.location.address
+						}`,
 					}
 				})
 			})
