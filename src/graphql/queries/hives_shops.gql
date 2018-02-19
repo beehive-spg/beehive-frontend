@@ -11,6 +11,7 @@ query hives_shops {
       ... on Hive {
         id
         name
+		demand
       }
     }
   },

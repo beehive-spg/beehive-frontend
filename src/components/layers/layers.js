@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 
 import layers from 'layers'
 import { removeDroneAction } from 'actions/droneActions'
+import { selectHive } from 'actions/infoActions'
 import { handleArrival } from 'utils/flight'
 
 import InfoOverlay from './infoOverlay'
@@ -183,12 +184,16 @@ export default class MapLayers extends React.Component {
 		})
 	}
 
+	onClick = ({ index }) => {
+		this.props.dispatch(selectHive(this.state.hives[index]))
+	}
+
 	createLayers() {
 		const { hives, drones, shops, customers } = this.state
 		const { selectedRoute, viewport, routes } = this.props
 
 		return [
-			layers.hive(hives, this.onHover),
+			layers.hive(hives, this.onHover, this.onClick),
 			layers.drone(drones, selectedRoute),
 			layers.shop(shops, this.onHover, viewport.zoom),
 			layers.customer(customers, this.onHover, viewport.zoom),
