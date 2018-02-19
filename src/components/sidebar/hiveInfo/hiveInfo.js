@@ -11,7 +11,9 @@ import Hive from './hive/hive'
 export default class DroneInfo extends React.Component {
 	render() {
 		const { hives } = this.props
-		const hiveComponents = hives.map(hive => <Hive hive={hive} />)
+		const hiveComponents = hives.map(hive => (
+			<Hive key={hive.id} hive={hive} />
+		))
 
 		return <div>{hiveComponents}</div>
 	}

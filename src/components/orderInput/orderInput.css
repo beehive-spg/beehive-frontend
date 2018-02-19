@@ -13,6 +13,12 @@
   .orderInput .container {
     padding: 0 1em;
     max-height: 31.5em; }
+    .orderInput .container .fromInput {
+      padding: 5px 0; }
+    .orderInput .container .toInput {
+      padding: 5px 0; }
+    .orderInput .container .buttonInput {
+      padding: 10px 0; }
     .orderInput .container .addressInput {
       display: flex; }
       .orderInput .container .addressInput .geosuggest {
