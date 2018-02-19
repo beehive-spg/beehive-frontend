@@ -1,4 +1,8 @@
-import { CHANGE_SIDEBAR_INFO, SELECT_ROUTE } from 'constants/actionTypes'
+import {
+	CHANGE_SIDEBAR_INFO,
+	SELECT_ROUTE,
+	SELECT_HIVE,
+} from 'constants/actionTypes'
 
 export function changeInfo(sidebarInfo) {
 	switch (sidebarInfo) {
@@ -22,5 +26,12 @@ export function selectRoute(route) {
 	return {
 		type: SELECT_ROUTE,
 		payload: route,
+	}
+}
+
+export function selectHive(hive) {
+	return {
+		type: SELECT_HIVE,
+		payload: hive,
 	}
 }

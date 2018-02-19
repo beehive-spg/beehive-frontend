@@ -10,6 +10,7 @@ const addHive = hive => {
 		id: type.id,
 		buildingId: hive.id,
 		name: type.name,
+		demand: type.demand,
 		location: {
 			address: location.address,
 			longitude: location.longitude,

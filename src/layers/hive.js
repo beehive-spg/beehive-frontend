@@ -2,7 +2,7 @@ import { CompositeLayer, ScatterplotLayer } from 'deck.gl'
 
 class HiveLayer extends CompositeLayer {
 	renderLayers() {
-		const { data, radiusMinPixels, pickable, onHover } = this.props
+		const { data, radiusMinPixels, pickable } = this.props
 		return [
 			new ScatterplotLayer({
 				id: 'layer-hive-outer',
@@ -10,7 +10,6 @@ class HiveLayer extends CompositeLayer {
 				radiusMinPixels,
 				strokeWidth: 2,
 				outline: true,
-				onHover,
 			}),
 			new ScatterplotLayer({
 				id: 'layer-hive-inner',
@@ -18,14 +17,13 @@ class HiveLayer extends CompositeLayer {
 				radiusMinPixels,
 				outline: false,
 				pickable,
-				onHover,
 			}),
 		]
 	}
 }
 HiveLayer.layerName = 'HiveLayer'
 
-const hiveLayer = (hives, onHover) => {
+const hiveLayer = (hives, onHover, onClick) => {
 	let inner = []
 	let outer = []
 
@@ -40,23 +38,24 @@ const hiveLayer = (hives, onHover) => {
 		outer,
 	}
 
-	return layer(data, onHover)
+	return layer(data, onHover, onClick)
 }
 
-const layer = (data, onHover) => {
+const layer = (data, onHover, onClick) => {
 	return new HiveLayer({
 		id: 'layer-hive',
 		data,
-		radiusMinPixels: 2,
+		radiusMinPixels: 4,
 		pickable: true,
 		onHover,
+		onClick,
 	})
 }
 
 const innerLayerData = (longitude, latitude) => {
 	return {
 		position: [longitude, latitude],
-		radius: 15,
+		radius: 25,
 		color: [217, 71, 31],
 	}
 }
@@ -64,7 +63,7 @@ const innerLayerData = (longitude, latitude) => {
 const outerLayerData = (longitude, latitude) => {
 	return {
 		position: [longitude, latitude],
-		radius: 25,
+		radius: 45,
 		color: [217, 71, 31],
 	}
 }
