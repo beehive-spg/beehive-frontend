@@ -33,7 +33,7 @@
           padding-left: 10px;
           line-height: 34px; }
       .orderInput .container .addressInput .loader {
-        padding-top: 6px; }
+        padding-top: 10px; }
     .orderInput .container button {
       outline: none;
       z-index: 0; }
