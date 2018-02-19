@@ -12,7 +12,6 @@ export default class Map extends React.Component {
 		}
 
 		this.state = {
-			// mapStyle: 'mapbox://styles/astwys/cj8ojdf298rid2rnr6qq9y0tn',
 			mapStyle: 'mapbox://styles/astwys/cjdufw9kf55dc2sqy8y73evyf',
 			token: process.env.REACT_APP_MAPBOX_ACCESS_TOKEN, // eslint-disable-line
 			viewport: {
