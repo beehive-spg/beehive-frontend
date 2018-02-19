@@ -9,12 +9,14 @@ import { split } from 'apollo-link'
 import { getMainDefinition } from 'apollo-utilities'
 import introspectionQueryResultData from './fragmentTypes.json'
 
+const backendUrl = process.env.REACT_APP_BACKEND_URL //eslint-disable-line
+
 const httpLink = new HttpLink({
-	uri: 'http://localhost:8080/graphql',
+	uri: `http://${backendUrl}/graphql`,
 })
 
 const wsLink = new WebSocketLink({
-	uri: 'ws://localhost:8080/subscriptions',
+	uri: `ws://${backendUrl}/subscriptions`,
 	options: { reconnect: true },
 })
 
