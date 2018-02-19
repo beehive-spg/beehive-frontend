@@ -1,0 +1,9 @@
+.Select {
+  outline: none;
+  font-size: 14px; }
+  .Select .Select-control {
+    border: 1px solid black;
+    border-radius: 0; }
+
+.Select-input {
+  height: unset; }

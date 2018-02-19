@@ -4,16 +4,18 @@ import { graphql } from 'react-apollo'
 import Script from 'react-load-script'
 import Geosuggest from 'react-geosuggest'
 import Loader from 'halogen/BounceLoader'
+import LaddaButton, { S, EXPAND_RIGHT } from 'react-ladda'
 import addOrder from 'graphql/mutations/addOrder.gql'
-import HiveSelect from './hiveSelect/hiveSelect'
+import ShopSelect from './shopSelect/shopSelect'
 import addressLookup from 'utils/geocoding'
 
 import 'react-geosuggest/module/geosuggest.css'
+import 'ladda/dist/ladda.min.css'
 import './orderInput.css'
 
 @connect(store => {
 	return {
-		hives: store.hive.hives,
+		shops: store.shop.shops,
 	}
 })
 @graphql(addOrder)
@@ -22,7 +24,7 @@ export default class OrderInput extends React.Component {
 		super(props)
 
 		this.state = {
-			shop: this.props.hives[0].id,
+			shop: this.getShopOptions()[0],
 			customer: {
 				address: '',
 				longitude: null,
@@ -30,6 +32,7 @@ export default class OrderInput extends React.Component {
 			},
 			scriptLoaded: false,
 			typing: false,
+			orderLoading: false,
 		}
 	}
 
@@ -48,20 +51,31 @@ export default class OrderInput extends React.Component {
 	}
 
 	onSelect(e) {
-		const shop = this.props.hives.find(hive => hive.id === e.target.value)
-		this.setState({
-			shop: shop.id,
-		})
+		this.setState({ shop: e })
 	}
 
 	handleSubmit(e) {
 		e.preventDefault()
 
+		this.setState({
+			orderLoading: !this.state.orderLoading,
+		})
+
 		const order = {
-			shop: this.state.shop,
+			shop: this.state.shop.value,
 			customer: this.state.customer,
 		}
 		this.props.mutate({ variables: { order } })
+
+		this.toggleOrderLoading()
+	}
+
+	toggleOrderLoading() {
+		setTimeout(() => {
+			this.setState({
+				orderLoading: !this.state.orderLoading,
+			})
+		}, 800)
 	}
 
 	onFocus() {
@@ -94,6 +108,20 @@ export default class OrderInput extends React.Component {
 		this.setState({ scriptLoaded: true })
 	}
 
+	getShopOptions() {
+		return this.props.shops
+			.map(shop => {
+				return shop.shops.map(buildingShop => {
+					return {
+						value: buildingShop.id,
+						label: `${buildingShop.name} - ${shop.location
+							.address}`,
+					}
+				})
+			})
+			.flatten()
+	}
+
 	render() {
 		if (!this.state.scriptLoaded) {
 			const apiKey = process.env.REACT_APP_GOOGLE_API_KEY //eslint-disable-line
@@ -117,21 +145,18 @@ export default class OrderInput extends React.Component {
 			return null
 		}
 
-		const hiveOptions = this.props.hives.map(hive => {
-			return { id: hive.id, name: hive.name }
-		})
-
 		return (
 			<div className="orderInput">
-				<div className="heading">New Order</div>
+				<div className="heading">Order</div>
 				<hr />
 				<div className="container">
 					<form onSubmit={this.handleSubmit.bind(this)}>
 						<p>
 							From:
-							<HiveSelect
+							<ShopSelect
 								position="to"
-								hives={hiveOptions}
+								shops={this.getShopOptions()}
+								selected={this.state.shop}
 								onSelect={this.onSelect.bind(this)}
 							/>
 						</p>
@@ -149,7 +174,19 @@ export default class OrderInput extends React.Component {
 								{addressLoading()}
 							</div>
 						</p>
-						<input type="submit" value="Order now" />
+						<p>
+							<LaddaButton
+								data-size={S}
+								data-style={EXPAND_RIGHT}
+								loading={this.state.orderLoading}
+								onClick={this.handleSubmit.bind(this)}
+								data-spinner-size={30}
+								data-color="#eee"
+								data-spinner-color="#ddd"
+								data-spinner-lines={12}>
+								Order now
+							</LaddaButton>
+						</p>
 					</form>
 				</div>
 			</div>
