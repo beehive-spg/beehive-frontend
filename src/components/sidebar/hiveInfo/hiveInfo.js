@@ -1,6 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
+import DemandChart from './demandChart'
+
 @connect(store => {
 	return {
 		selectedHive: store.info.selectedHive,
@@ -9,6 +11,7 @@ import { connect } from 'react-redux'
 export default class HiveInfo extends React.Component {
 	render() {
 		const { selectedHive } = this.props
+
 		if (!selectedHive) return null
 		return (
 			<div>
@@ -20,6 +23,7 @@ export default class HiveInfo extends React.Component {
 					<div>Latitude: {selectedHive.location.latitude}</div>
 				</p>
 				<p>Demand: {selectedHive.demand}</p>
+				<DemandChart />
 			</div>
 		)
 	}
