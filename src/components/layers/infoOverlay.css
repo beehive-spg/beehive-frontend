@@ -8,8 +8,12 @@
   cursor: crosshair;
   box-shadow: 5px 5px 15px #dddddd; }
   .info .heading {
-    font-size: 16px; }
+    font-size: 16px;
+    padding-bottom: 5px; }
   .info .address {
     font-size: 20px;
     font-weight: bold;
-    margin-bottom: .2em; }
+    margin-bottom: .2em;
+    padding: 5px 0; }
+  .info .subInfo {
+    padding: 10px 0; }

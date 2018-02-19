@@ -21,7 +21,7 @@ export default class InfoOverlay extends React.Component {
 			<div className="info" style={{ top: infos.y, left: infos.x }}>
 				<div className="heading">Drone Port</div>
 				<div className="address">{hive.location.address}</div>
-				<div>{hive.name}</div>
+				<div className="subInfo">{hive.name}</div>
 			</div>
 		)
 	}
@@ -29,15 +29,15 @@ export default class InfoOverlay extends React.Component {
 	renderShopInfo() {
 		const { infos } = this.props
 		const shop = this.props.shops[infos.index]
-		const shops = shop.shops.map(shop => {
-			return <div>{shop.name}</div>
+		const shops = shop.shops.map((shop, key) => {
+			return <div key={key}>{shop.name}</div>
 		})
 
 		return (
 			<div className="info" style={{ top: infos.y, left: infos.x }}>
 				<div className="heading">Shop</div>
 				<div className="address">{shop.location.address}</div>
-				<div>{shops}</div>
+				<div className="subInfo">{shops}</div>
 			</div>
 		)
 	}
