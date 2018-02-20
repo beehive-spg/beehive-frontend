@@ -67,13 +67,16 @@ export default class MapLayers extends React.Component {
 					drones = drones.filter(res => res.id !== droneItems)
 			}
 
-			this.setState({
-				drones,
-			})
-
-			if (!this.isAnimating) {
-				this.animate()
-			}
+			this.setState(
+				{
+					drones,
+				},
+				() => {
+					if (!this.isAnimating) {
+						this.animate()
+					}
+				},
+			)
 		}
 
 		if (this.props.hiveActionItem !== nextProps.hiveActionItem) {

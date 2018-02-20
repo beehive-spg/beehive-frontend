@@ -23,7 +23,7 @@ export default class RouteInfo extends React.Component {
 
 	render() {
 		const { routes } = this.props
-		const routeObjects = routes.map(route => {
+		const routeObjects = routes.map((route, key) => {
 			let selected = false
 			if (route.id === this.props.selectedRoute) {
 				selected = true
@@ -31,6 +31,7 @@ export default class RouteInfo extends React.Component {
 
 			return (
 				<Route
+					key={key}
 					route={route}
 					onClick={this.onClick}
 					selected={selected}
