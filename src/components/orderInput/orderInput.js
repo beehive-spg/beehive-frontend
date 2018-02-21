@@ -24,7 +24,7 @@ export default class OrderInput extends React.Component {
 		super(props)
 
 		this.state = {
-			shop: this.getShopOptions()[0],
+			shop: { value: '', label: '' },
 			customer: {
 				address: '',
 				longitude: null,
@@ -51,7 +51,9 @@ export default class OrderInput extends React.Component {
 	}
 
 	onSelect(e) {
-		this.setState({ shop: e })
+		let shop = e
+		if (shop === null) shop = { value: '', label: '' }
+		this.setState({ shop })
 	}
 
 	handleSubmit(e) {
