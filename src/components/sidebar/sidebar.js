@@ -15,7 +15,7 @@ export default class Sidebar extends React.Component {
 					<TabLink className="tab-link tab-routes" to="routes">
 						Routes
 					</TabLink>
-					<TabLink className="tab-link tab-hives" to="hives">
+					<TabLink className="tab-link tab-hives" to="hive">
 						Drone Port
 					</TabLink>
 					<TabContent for="routes">
@@ -23,7 +23,7 @@ export default class Sidebar extends React.Component {
 							<RouteInfo />
 						</div>
 					</TabContent>
-					<TabContent for="hives">
+					<TabContent for="hive">
 						<div className="container">
 							<HiveInfo />
 						</div>

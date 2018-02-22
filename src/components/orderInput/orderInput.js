@@ -77,7 +77,7 @@ export default class OrderInput extends React.Component {
 			this.setState({
 				orderLoading: !this.state.orderLoading,
 			})
-		}, 800)
+		}, 3000)
 	}
 
 	onFocus() {

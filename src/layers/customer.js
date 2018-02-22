@@ -2,7 +2,7 @@ import { IconLayer } from 'deck.gl'
 import customerIcon from './assets/customer.png'
 
 const ICON_MAPPING = {
-	'customer-icon': { x: 0, y: 0, width: 362, height: 540 },
+	'customer-icon': { x: 0, y: 0, width: 362, height: 540, anchorY: 540 },
 }
 
 const getIconSize = zoom => {
