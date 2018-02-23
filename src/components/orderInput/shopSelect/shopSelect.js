@@ -10,6 +10,7 @@ export default class ShopSelect extends React.Component {
 		return (
 			<Select
 				name="shopSelect"
+				placeholder="Select shop"
 				value={selected.value}
 				onChange={onSelect}
 				options={shops}

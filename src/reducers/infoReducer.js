@@ -1,9 +1,14 @@
-import { CHANGE_SIDEBAR_INFO, SELECT_ROUTE } from 'constants/actionTypes'
+import {
+	CHANGE_SIDEBAR_INFO,
+	SELECT_ROUTE,
+	SELECT_HIVE,
+} from 'constants/actionTypes'
 
 export default function reducer(
 	state = {
 		sidebarInfo: 'Routes',
 		selectedRoute: null,
+		selectedHive: null,
 	},
 	action,
 ) {
@@ -17,6 +22,11 @@ export default function reducer(
 			return {
 				...state,
 				selectedRoute: action.payload,
+			}
+		case SELECT_HIVE:
+			return {
+				...state,
+				selectedHive: action.payload,
 			}
 		default:
 			return state

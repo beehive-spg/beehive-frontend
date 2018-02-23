@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { graphql } from 'react-apollo'
 import Script from 'react-load-script'
 import Geosuggest from 'react-geosuggest'
-import Loader from 'halogen/BounceLoader'
+import { BounceLoader } from 'halogenium'
 import LaddaButton, { S, EXPAND_RIGHT } from 'react-ladda'
 import addOrder from 'graphql/mutations/addOrder.gql'
 import ShopSelect from './shopSelect/shopSelect'
@@ -24,7 +24,7 @@ export default class OrderInput extends React.Component {
 		super(props)
 
 		this.state = {
-			shop: this.getShopOptions()[0],
+			shop: { value: '', label: '' },
 			customer: {
 				address: '',
 				longitude: null,
@@ -51,7 +51,9 @@ export default class OrderInput extends React.Component {
 	}
 
 	onSelect(e) {
-		this.setState({ shop: e })
+		let shop = e
+		if (shop === null) shop = { value: '', label: '' }
+		this.setState({ shop })
 	}
 
 	handleSubmit(e) {
@@ -75,7 +77,7 @@ export default class OrderInput extends React.Component {
 			this.setState({
 				orderLoading: !this.state.orderLoading,
 			})
-		}, 800)
+		}, 3000)
 	}
 
 	onFocus() {
@@ -114,8 +116,9 @@ export default class OrderInput extends React.Component {
 				return shop.shops.map(buildingShop => {
 					return {
 						value: buildingShop.id,
-						label: `${buildingShop.name} - ${shop.location
-							.address}`,
+						label: `${buildingShop.name} - ${
+							shop.location.address
+						}`,
 					}
 				})
 			})
@@ -138,7 +141,7 @@ export default class OrderInput extends React.Component {
 			if (this.state.customer.address === '' && !this.state.typing) {
 				return (
 					<div className="loader">
-						<Loader color="#26A65B" size="16px" />
+						<BounceLoader color="#26A65B" size="16px" />
 					</div>
 				)
 			}
@@ -151,7 +154,7 @@ export default class OrderInput extends React.Component {
 				<hr />
 				<div className="container">
 					<form onSubmit={this.handleSubmit.bind(this)}>
-						<p>
+						<div className="fromInput">
 							From:
 							<ShopSelect
 								position="to"
@@ -159,8 +162,8 @@ export default class OrderInput extends React.Component {
 								selected={this.state.shop}
 								onSelect={this.onSelect.bind(this)}
 							/>
-						</p>
-						<p>
+						</div>
+						<div className="toInput">
 							To:
 							<div className="addressInput">
 								<Geosuggest
@@ -173,8 +176,8 @@ export default class OrderInput extends React.Component {
 								/>
 								{addressLoading()}
 							</div>
-						</p>
-						<p>
+						</div>
+						<div className="buttonInput">
 							<LaddaButton
 								data-size={S}
 								data-style={EXPAND_RIGHT}
@@ -186,7 +189,7 @@ export default class OrderInput extends React.Component {
 								data-spinner-lines={12}>
 								Order now
 							</LaddaButton>
-						</p>
+						</div>
 					</form>
 				</div>
 			</div>

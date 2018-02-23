@@ -1,8 +1,13 @@
 import React from 'react'
 import ReactMapGL from 'react-map-gl'
+import { connect } from 'react-redux'
+
+import { newHivesAction } from 'actions/hiveActions'
+import { newShopsAction } from 'actions/shopActions'
 
 import DeckGLOverlay from 'components/layers/layers'
 
+@connect()
 export default class Map extends React.Component {
 	constructor(props) {
 		super(props)
@@ -32,6 +37,10 @@ export default class Map extends React.Component {
 		this.map = {
 			render: true,
 		}
+
+		const { hiveModels, shopModels } = this.props
+		this.props.dispatch(newHivesAction(hiveModels))
+		this.props.dispatch(newShopsAction(shopModels))
 	}
 
 	componentDidMount() {

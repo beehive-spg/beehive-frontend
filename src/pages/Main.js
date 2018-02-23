@@ -4,9 +4,6 @@ import { connect } from 'react-redux'
 
 import models from 'models'
 
-import { newHivesAction } from 'actions/hiveActions'
-import { newShopsAction } from 'actions/shopActions'
-
 import Map from 'components/map/map'
 import Sidebar from 'components/sidebar/sidebar'
 import OrderInput from 'components/orderInput/orderInput'
@@ -41,6 +38,8 @@ export default class Main extends React.Component {
 		) {
 			return false
 		}
+
+		return true
 	}
 
 	componentDidMount() {
@@ -66,17 +65,13 @@ export default class Main extends React.Component {
 			return <Error />
 		} else if (data.loading) {
 			return null
-		} else if (this.firstLoad) {
-			const hives = models.hive(data.hives)
-			const shops = models.shop(data.shops)
-			this.props.dispatch(newHivesAction(hives))
-			this.props.dispatch(newShopsAction(shops))
-			this.firstLoad = false
 		}
 
+		const hives = models.hive(data.hives)
+		const shops = models.shop(data.shops)
 		return (
 			<div>
-				<Map />
+				<Map hiveModels={hives} shopModels={shops} />
 				<Sidebar />
 				<OrderInput />
 			</div>

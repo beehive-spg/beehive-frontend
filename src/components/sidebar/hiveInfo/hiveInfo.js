@@ -1,18 +1,33 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import Hive from './hive/hive'
+import DemandChart from './demandChart'
+
+import './hiveInfo.css'
 
 @connect(store => {
 	return {
-		hives: store.hive.hives,
+		selectedHive: store.info.selectedHive,
 	}
 })
-export default class DroneInfo extends React.Component {
+export default class HiveInfo extends React.Component {
 	render() {
-		const { hives } = this.props
-		const hiveComponents = hives.map(hive => <Hive hive={hive} />)
+		const { selectedHive } = this.props
 
-		return <div>{hiveComponents}</div>
+		if (!selectedHive) return null
+		return (
+			<div className="hiveInfo">
+				<div className="name">{selectedHive.name}</div>
+				<div className="location">
+					<div className="address">
+						{selectedHive.location.address}
+					</div>
+					<div>Longitude: {selectedHive.location.longitude}</div>
+					<div>Latitude: {selectedHive.location.latitude}</div>
+				</div>
+				<div className="demand">Demand: {selectedHive.demand}</div>
+				<DemandChart />
+			</div>
+		)
 	}
 }

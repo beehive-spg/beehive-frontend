@@ -13,12 +13,6 @@ import registerServiceWorker from './registerServiceWorker'
 
 dotenv.config()
 
-/* eslint-disable */
-if (module.hot) {
-	require('preact/devtools')
-}
-/* eslint-enable */
-
 const Wrapped = (
 	<Provider store={store}>
 		<ApolloProvider client={client}>

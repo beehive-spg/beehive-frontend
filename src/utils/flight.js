@@ -2,7 +2,7 @@ import globalStore from 'store'
 import apolloClient from 'client'
 import models from 'models'
 import { newRoutesAction, removeRouteAction } from 'actions/routeActions'
-import { newDronesAction } from 'actions/droneActions'
+import { newDronesAction, removeDroneAction } from 'actions/droneActions'
 import {
 	newCustomersAction,
 	removeCustomerAction,
@@ -103,6 +103,8 @@ const handleArrival = drone => {
 			globalStore.dispatch(removeCustomerAction(customer.id))
 		}
 	})
+
+	globalStore.dispatch(removeDroneAction(drone.id))
 }
 
 export { handleDeparture, handleArrival }
