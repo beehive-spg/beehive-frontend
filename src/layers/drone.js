@@ -1,4 +1,6 @@
 import { ScatterplotLayer } from 'deck.gl'
+// import { differenceInSeconds } from 'date-fns'
+import along from '@turf/along'
 
 const droneLayer = (drones, selectedRoute) => {
 	const data = drones.map(drone => {
@@ -13,8 +15,18 @@ const droneLayer = (drones, selectedRoute) => {
 			radius = 50
 		}
 
+		// const timespan = differenceInSeconds(
+		// new Date(+drone.startdate),
+		// new Date(+time),
+		// )
+		// const distance = drone.speed * timespan
+		let position = along(drone.route, drone.distance, { units: 'meters' })
+		position = position.geometry.coordinates.map(coordinate =>
+			coordinate.toFixed(5),
+		)
+
 		return {
-			position: drone.route[drone.counter],
+			position,
 			radius,
 			color,
 		}

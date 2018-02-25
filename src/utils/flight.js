@@ -58,6 +58,9 @@ const buildDrone = (route, flight) => {
 		id: hop.id,
 		from: hop.start.location,
 		to: hop.end.location,
+		startdate: hop.startdate,
+		enddate: hop.enddate,
+		speed: hop.speed,
 	}
 	return drone
 }
