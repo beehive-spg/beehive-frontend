@@ -6,6 +6,8 @@ import layers from 'layers'
 import { selectHive } from 'actions/infoActions'
 import { handleArrival } from 'utils/flight'
 
+import { format, addHours, differenceInSeconds } from 'date-fns'
+
 import InfoOverlay from './infoOverlay'
 
 @connect(store => {
@@ -23,13 +25,11 @@ export default class MapLayers extends React.Component {
 		super(props)
 		this.isAnimating = false
 
-		const droneItems = this.addCounter(this.props.droneActionItem.drones)
-
+		this.drones = this.props.droneActionItem.drones
 		this.state = {
 			hoverInfos: {
 				item: null,
 			},
-			drones: droneItems,
 			hives: this.props.hiveActionItem.hives,
 			shops: this.props.shopActionItem.shops,
 			customers: this.props.customerActionItem.customers,
@@ -37,12 +37,13 @@ export default class MapLayers extends React.Component {
 	}
 
 	componentDidMount() {
+		this.setTime()
 		this.animate()
 	}
 
 	componentWillReceiveProps(nextProps) {
 		if (this.props.droneActionItem !== nextProps.droneActionItem) {
-			let { drones } = this.state
+			let { drones } = this
 			const { droneActionItem } = nextProps
 			let droneItems = droneActionItem.drones
 
@@ -50,8 +51,6 @@ export default class MapLayers extends React.Component {
 				case 'add':
 				//eslint-disable-no-fallthrough
 				case 'update': {
-					droneItems = this.addCounter(droneItems)
-
 					const index = drones.findIndex(
 						res => res.id === droneItems[0].id,
 					)
@@ -66,16 +65,8 @@ export default class MapLayers extends React.Component {
 					drones = drones.filter(res => res.id !== droneItems)
 			}
 
-			this.setState(
-				{
-					drones,
-				},
-				() => {
-					if (!this.isAnimating) {
-						this.animate()
-					}
-				},
-			)
+			this.drones = drones
+			if (!this.isAnimating) this.animate()
 		}
 
 		if (this.props.hiveActionItem !== nextProps.hiveActionItem) {
@@ -165,13 +156,11 @@ export default class MapLayers extends React.Component {
 		}
 	}
 
-	addCounter(drones) {
-		return drones.map(drone => {
-			return {
-				...drone,
-				counter: 0,
-			}
-		})
+	setTime() {
+		setInterval(() => {
+			const time = format(addHours(Date.now(), 1), 'x')
+			this.setState({ time })
+		}, 1000)
 	}
 
 	onHover = ({ index, picked, x, y, layer }) => {
@@ -191,8 +180,9 @@ export default class MapLayers extends React.Component {
 	}
 
 	createLayers() {
-		const { hives, drones, shops, customers } = this.state
+		const { hives, shops, customers } = this.state
 		const { selectedRoute, viewport, routes } = this.props
+		const { drones } = this
 
 		return [
 			layers.hive(hives, this.onHover, this.onClick),
@@ -206,27 +196,32 @@ export default class MapLayers extends React.Component {
 	animate() {
 		this.isAnimating = true
 
-		let { drones } = this.state
+		const animationInterval = setInterval(() => {
+			let { drones } = this
 
-		for (let drone of drones) {
-			if (drone.counter !== drone.route.length - 1) {
-				drone.counter++
-			} else {
-				drones = drones.filter(item => item.id !== drone.id)
-				handleArrival(drone.id)
+			for (let drone of drones) {
+				const { time } = this.state
+				if (time > drone.enddate) {
+					drones = drones.filter(d => d.id !== drone.id)
+					handleArrival(drone.id)
+				} else {
+					let timespan = differenceInSeconds(
+						new Date(+time),
+						new Date(+drone.startdate),
+					)
+					if (timespan < +0) timespan = 0
+					const distance = drone.speed * timespan
+					drone.distance = distance
+				}
 			}
-		}
 
-		this.setState({
-			drones,
-		})
+			this.drones = drones
 
-		if (drones.length === 0) {
-			this.isAnimating = false
-			return
-		}
-
-		requestAnimationFrame(this.animate.bind(this))
+			if (drones.length === 0) {
+				this.isAnimating = false
+				clearInterval(animationInterval)
+			}
+		}, 1000)
 	}
 
 	render() {
