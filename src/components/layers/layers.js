@@ -25,14 +25,11 @@ export default class MapLayers extends React.Component {
 		super(props)
 		this.isAnimating = false
 
-		const droneItems = this.addCounter(this.props.droneActionItem.drones)
-
 		this.drones = this.props.droneActionItem.drones
 		this.state = {
 			hoverInfos: {
 				item: null,
 			},
-			drones: droneItems,
 			hives: this.props.hiveActionItem.hives,
 			shops: this.props.shopActionItem.shops,
 			customers: this.props.customerActionItem.customers,
@@ -46,7 +43,7 @@ export default class MapLayers extends React.Component {
 
 	componentWillReceiveProps(nextProps) {
 		if (this.props.droneActionItem !== nextProps.droneActionItem) {
-			let { drones } = this.state
+			let { drones } = this
 			const { droneActionItem } = nextProps
 			let droneItems = droneActionItem.drones
 
@@ -54,8 +51,6 @@ export default class MapLayers extends React.Component {
 				case 'add':
 				//eslint-disable-no-fallthrough
 				case 'update': {
-					// droneItems = this.addCounter(droneItems)
-
 					const index = drones.findIndex(
 						res => res.id === droneItems[0].id,
 					)
@@ -72,16 +67,6 @@ export default class MapLayers extends React.Component {
 
 			this.drones = drones
 			if (!this.isAnimating) this.animate()
-			// this.setState(
-			// {
-			// drones,
-			// },
-			// () => {
-			// if (!this.isAnimating) {
-			// this.animate()
-			// }
-			// },
-			// )
 		}
 
 		if (this.props.hiveActionItem !== nextProps.hiveActionItem) {
@@ -176,18 +161,6 @@ export default class MapLayers extends React.Component {
 			const time = format(addHours(Date.now(), 1), 'x')
 			this.setState({ time })
 		}, 1000)
-		// const time = format(addHours(Date.now(), 1), 'x')
-		// this.setState({ time })
-		// requestAnimationFrame(this.setTime.bind(this))
-	}
-
-	addCounter(drones) {
-		return drones.map(drone => {
-			return {
-				...drone,
-				counter: 0,
-			}
-		})
 	}
 
 	onHover = ({ index, picked, x, y, layer }) => {
@@ -207,14 +180,12 @@ export default class MapLayers extends React.Component {
 	}
 
 	createLayers() {
-		const { hives, /* drones,*/ shops, customers } = this.state
+		const { hives, shops, customers } = this.state
 		const { selectedRoute, viewport, routes } = this.props
 		const { drones } = this
 
-		console.log(drones)
 		return [
 			layers.hive(hives, this.onHover, this.onClick),
-			// layers.drone(drones, selectedRoute),
 			layers.drone(drones, selectedRoute),
 			layers.shop(shops, this.onHover, viewport.zoom),
 			layers.customer(customers, this.onHover, viewport.zoom),
@@ -252,31 +223,6 @@ export default class MapLayers extends React.Component {
 			}
 		}, 1000)
 	}
-	// animate() {
-	// this.isAnimating = true
-
-	// let { drones } = this.state
-
-	// for (let drone of drones) {
-	// if (drone.counter !== drone.route.length - 1) {
-	// drone.counter++
-	// } else {
-	// drones = drones.filter(item => item.id !== drone.id)
-	// handleArrival(drone.id)
-	// }
-	// }
-
-	// this.setState({
-	// drones,
-	// })
-
-	// if (drones.length === 0) {
-	// this.isAnimating = false
-	// return
-	// }
-
-	// requestAnimationFrame(this.animate.bind(this))
-	// }
 
 	render() {
 		const { viewport } = this.props
