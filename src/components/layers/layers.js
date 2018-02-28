@@ -172,9 +172,13 @@ export default class MapLayers extends React.Component {
 	}
 
 	setTime() {
-		const time = format(addHours(Date.now(), 1), 'x')
-		this.setState({ time })
-		requestAnimationFrame(this.setTime.bind(this))
+		setInterval(() => {
+			const time = format(addHours(Date.now(), 1), 'x')
+			this.setState({ time })
+		}, 1000)
+		// const time = format(addHours(Date.now(), 1), 'x')
+		// this.setState({ time })
+		// requestAnimationFrame(this.setTime.bind(this))
 	}
 
 	addCounter(drones) {
@@ -207,6 +211,7 @@ export default class MapLayers extends React.Component {
 		const { selectedRoute, viewport, routes } = this.props
 		const { drones } = this
 
+		console.log(drones)
 		return [
 			layers.hive(hives, this.onHover, this.onClick),
 			// layers.drone(drones, selectedRoute),
@@ -220,32 +225,32 @@ export default class MapLayers extends React.Component {
 	animate() {
 		this.isAnimating = true
 
-		let { drones } = this
+		const animationInterval = setInterval(() => {
+			let { drones } = this
 
-		for (let drone of drones) {
-			const { time } = this.state
-			if (time > drone.enddate) {
-				drones = drones.filter(d => d.id !== drone.id)
-				handleArrival(drone.id)
-			} else {
-				let timespan = differenceInSeconds(
-					new Date(+time),
-					new Date(+drone.startdate),
-				)
-				if (timespan < +0) timespan = 0
-				const distance = drone.speed * timespan
-				drone.distance = distance
+			for (let drone of drones) {
+				const { time } = this.state
+				if (time > drone.enddate) {
+					drones = drones.filter(d => d.id !== drone.id)
+					handleArrival(drone.id)
+				} else {
+					let timespan = differenceInSeconds(
+						new Date(+time),
+						new Date(+drone.startdate),
+					)
+					if (timespan < +0) timespan = 0
+					const distance = drone.speed * timespan
+					drone.distance = distance
+				}
 			}
-		}
 
-		this.drones = drones
+			this.drones = drones
 
-		if (drones.length === 0) {
-			this.isAnimating = false
-			return
-		}
-
-		requestAnimationFrame(this.animate.bind(this))
+			if (drones.length === 0) {
+				this.isAnimating = false
+				clearInterval(animationInterval)
+			}
+		}, 1000)
 	}
 	// animate() {
 	// this.isAnimating = true
