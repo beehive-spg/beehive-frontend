@@ -1,0 +1,6 @@
+.switcher {
+  position: fixed;
+  bottom: 10px;
+  font-size: 14px; }
+  .switcher .rc-switch {
+    margin: 0 .5em; }

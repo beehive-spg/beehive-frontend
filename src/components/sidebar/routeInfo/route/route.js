@@ -4,10 +4,7 @@ import './route.css'
 
 export default class Route extends React.Component {
 	render() {
-		const { route, onClick, selected } = this.props
-		const from = route.hops[0].start.location.address
-		const to = route.hops[route.hops.length - 1].end.location.address
-
+		const { route, from, to, onClick, selected } = this.props
 		return (
 			<div
 				className={`drone ${selected ? 'selected' : ''}`}

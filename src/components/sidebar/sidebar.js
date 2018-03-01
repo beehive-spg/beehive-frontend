@@ -4,7 +4,6 @@ import { Tabs, TabLink, TabContent } from 'react-tabs-redux'
 import RouteInfo from './routeInfo/routeInfo'
 import HiveInfo from './hiveInfo/hiveInfo'
 
-import './rc-switch.css'
 import './sidebar.css'
 
 export default class Sidebar extends React.Component {

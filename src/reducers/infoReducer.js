@@ -6,7 +6,7 @@ import {
 
 export default function reducer(
 	state = {
-		sidebarInfo: 'Routes',
+		sidebarInfo: 'all',
 		selectedRoute: null,
 		selectedHive: null,
 	},
