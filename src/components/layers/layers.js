@@ -18,6 +18,8 @@ import InfoOverlay from './infoOverlay'
 		customerActionItem: store.customer.customerActionItem,
 		selectedRoute: store.info.selectedRoute,
 		routes: store.route.routes,
+		orders: store.order.orders,
+		sidebarInfo: store.info.sidebarInfo,
 	}
 })
 export default class MapLayers extends React.Component {
@@ -181,16 +183,45 @@ export default class MapLayers extends React.Component {
 
 	createLayers() {
 		const { hives, shops, customers } = this.state
-		const { selectedRoute, viewport, routes } = this.props
+		const { selectedRoute, viewport } = this.props
 		const { drones } = this
 
+		const showAll = this.props.sidebarInfo === 'all' ? true : false
 		return [
 			layers.hive(hives, this.onHover, this.onClick),
 			layers.drone(drones, selectedRoute),
 			layers.shop(shops, this.onHover, viewport.zoom),
 			layers.customer(customers, this.onHover, viewport.zoom),
-			layers.route(routes),
+			layers.route.distLayer(this.extractDistRoutes(), showAll),
+			layers.route.genOrderLayer(this.extractGenOrders(), showAll),
+			layers.route.userOrderLayer(this.extractUserOrders()),
 		]
+	}
+
+	extractDistRoutes = () => {
+		const { routes } = this.props
+
+		return routes.filter(route => route.origin === 'distribution')
+	}
+
+	extractGenOrders = () => {
+		const { routes, orders } = this.props
+		const orderRoutes = routes.filter(route => route.origin === 'order')
+		const genOrders = orders.filter(order => order.source === 'generated')
+
+		return orderRoutes.filter(order =>
+			genOrders.some(gen => gen.route === order.id),
+		)
+	}
+
+	extractUserOrders = () => {
+		const { routes, orders } = this.props
+		const orderRoutes = routes.filter(route => route.origin === 'order')
+		const genOrders = orders.filter(order => order.source === 'gui')
+
+		return orderRoutes.filter(order =>
+			genOrders.some(gen => gen.route === order.id),
+		)
 	}
 
 	animate() {
