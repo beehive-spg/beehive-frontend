@@ -70,7 +70,8 @@ export default class RouteInfo extends React.Component {
 
 	createOrderObjects = () => {
 		const { orders, selectedRoute } = this.props
-		return orders.map(order => {
+
+		return orders.filter(order => order.source === 'gui').map(order => {
 			const from = order.shop.type[0].name
 			const to = order.customer.location.address
 			let selected = false
@@ -101,7 +102,7 @@ export default class RouteInfo extends React.Component {
 						checkedChildren={'A'}
 						unCheckedChildren={'U'}
 					/>
-					User routes
+					User orders
 				</div>
 			</div>
 		)
