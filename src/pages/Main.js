@@ -17,9 +17,7 @@ import { departure } from 'graphql/subscriptions'
 
 @connect(store => {
 	return {
-		drones: store.drone.drones,
 		hives: store.hive.hives,
-		routes: store.route.routes,
 		shops: store.shop.shops,
 	}
 })
@@ -33,7 +31,7 @@ export default class Main extends React.Component {
 
 	shouldComponentUpdate(nextProps) {
 		if (
-			nextProps.drones !== this.props.drones ||
+			nextProps.shops !== this.props.shops ||
 			nextProps.hives !== this.props.hives
 		) {
 			return false

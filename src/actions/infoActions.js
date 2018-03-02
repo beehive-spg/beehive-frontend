@@ -4,21 +4,15 @@ import {
 	SELECT_HIVE,
 } from 'constants/actionTypes'
 
-export function changeInfo(sidebarInfo) {
-	switch (sidebarInfo) {
-		case 'Routes':
-			sidebarInfo = 'Drone Ports'
-			break
-		case 'Drone Ports':
-			sidebarInfo = 'Routes'
-			break
-		default:
-			sidebarInfo = 'Routes'
-			break
+export function changeInfo(info) {
+	if (info === 'all') {
+		info = 'user'
+	} else {
+		info = 'all'
 	}
 	return {
 		type: CHANGE_SIDEBAR_INFO,
-		payload: sidebarInfo,
+		payload: info,
 	}
 }
 
