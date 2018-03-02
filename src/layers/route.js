@@ -56,7 +56,7 @@ const layer = (data, type, visible) => {
 		data,
 		visible,
 		rounded: true,
-		getDashArray: () => [3, 10],
+		getDashArray: () => [6, 10],
 	})
 }
 
