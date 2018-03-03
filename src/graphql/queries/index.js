@@ -4,7 +4,7 @@ import route from './route.gql'
 import customer from './customer.gql'
 import orderFromRoute from './orderFromRoute.gql'
 import hives_routes from './hives_routes.gql'
-import hives_shops from './hives_shops.gql'
+import hives_shops_ongoing from './hives_shops_ongoing.gql'
 
 export {
 	hives,
@@ -13,5 +13,5 @@ export {
 	customer,
 	orderFromRoute,
 	hives_routes,
-	hives_shops,
+	hives_shops_ongoing,
 }

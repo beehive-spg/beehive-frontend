@@ -9,9 +9,9 @@ import Sidebar from 'components/sidebar/sidebar'
 import OrderInput from 'components/orderInput/orderInput'
 import Error from 'components/error/error'
 
-import { hives_shops } from 'graphql/queries'
+import { hives_shops_ongoing } from 'graphql/queries'
 
-import { handleDeparture } from 'utils/flight'
+import { handleDepartures, handleDeparture } from 'utils/flight'
 
 import { departure } from 'graphql/subscriptions'
 
@@ -21,7 +21,7 @@ import { departure } from 'graphql/subscriptions'
 		shops: store.shop.shops,
 	}
 })
-@graphql(hives_shops)
+@graphql(hives_shops_ongoing)
 export default class Main extends React.Component {
 	constructor(props) {
 		super(props)
@@ -67,6 +67,7 @@ export default class Main extends React.Component {
 
 		const hives = models.hive(data.hives)
 		const shops = models.shop(data.shops)
+		handleDepartures(data.ongoingFlights)
 		return (
 			<div>
 				<Map hiveModels={hives} shopModels={shops} />
