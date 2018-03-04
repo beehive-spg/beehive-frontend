@@ -10,6 +10,11 @@ import {
 import { newOrdersAction, removeOrderAction } from 'actions/orderActions'
 import { route, orderFromRoute } from 'graphql/queries'
 
+const handleDepartures = flights => {
+	flights.forEach(flight => {
+		handleDeparture(flight)
+	})
+}
 const handleDeparture = async flight => {
 	const store = globalStore.getState()
 
@@ -110,4 +115,4 @@ const handleArrival = drone => {
 	globalStore.dispatch(removeDroneAction(drone.id))
 }
 
-export { handleDeparture, handleArrival }
+export { handleDepartures, handleDeparture, handleArrival }

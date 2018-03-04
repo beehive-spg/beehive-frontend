@@ -29,5 +29,9 @@ query hives_shops {
         name
       }
     }
+  },
+  ongoingFlights {
+    hopId
+    routeId
   }
 }
