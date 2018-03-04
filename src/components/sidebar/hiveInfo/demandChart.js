@@ -7,56 +7,57 @@ import {
 	HorizontalGridLines,
 	VerticalGridLines,
 } from 'react-vis'
+import { graphql } from 'react-apollo'
+import { format, subHours, addMinutes } from 'date-fns'
+import { statistics } from 'graphql/queries'
 
 import 'react-vis/dist/style.css'
 
+@graphql(statistics, {
+	options: ({ hive }) => ({
+		variables: {
+			id: hive,
+		},
+		pollInterval: 1000,
+	}),
+})
 export default class DemandChart extends React.Component {
-	constructor() {
-		super()
-
-		this.state = {
-			init: [
-				{ x: 0, y: 10 },
-				{ x: 1, y: 10 },
-				{ x: 1, y: 10 },
-				{ x: 2, y: 10 },
-				{ x: 3, y: 10 },
-				{ x: 4, y: 10 },
-				{ x: 5, y: 10 },
-				{ x: 6, y: 10 },
-				{ x: 7, y: 10 },
-				{ x: 8, y: 10 },
-				{ x: 9, y: 10 },
-			],
+	transformData = statistics => {
+		if (statistics.length > 1) {
+			return statistics.map(section => {
+				return {
+					x: parseInt(section.time),
+					y: section.value,
+				}
+			})
+		} else {
+			let sections = []
+			for (let i = 0; i < 6; i++) {
+				sections.push({
+					x: addMinutes(new Date(), i),
+					y: statistics[0].value,
+				})
+			}
+			return sections
 		}
 	}
 
-	componentDidMount() {
-		setInterval(() => {
-			this.changeData()
-		}, 2000)
-	}
-
-	changeData = () => {
-		const data = this.state.init.map(set => {
-			return {
-				x: set.x,
-				y: set.y * Math.random(),
-			}
-		})
-
-		this.setState({ data })
-	}
-
 	render() {
+		const { data } = this.props
+		if (data.loading) return null
+
+		const statistics = this.transformData(data.statistics)
 		return (
 			<div className="demandChart">
 				<XYPlot height={200} width={250}>
-					<XAxis />
+					<XAxis
+						tickFormat={v => format(subHours(v, 1), 'HH:mm:SS')}
+						tickLabelAngle={-22.5}
+					/>
 					<YAxis />
 					<HorizontalGridLines />
 					<VerticalGridLines />
-					<LineSeries animation data={this.state.data} />
+					<LineSeries animation data={statistics} />
 				</XYPlot>
 			</div>
 		)
