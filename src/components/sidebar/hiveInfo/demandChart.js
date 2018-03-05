@@ -8,7 +8,7 @@ import {
 	VerticalGridLines,
 } from 'react-vis'
 import { graphql } from 'react-apollo'
-import { format, subHours, addMinutes } from 'date-fns'
+import { format, addHours, subHours, addMinutes } from 'date-fns'
 import { statistics } from 'graphql/queries'
 
 import 'react-vis/dist/style.css'
@@ -34,7 +34,7 @@ export default class DemandChart extends React.Component {
 			let sections = []
 			for (let i = 0; i < 6; i++) {
 				sections.push({
-					x: addMinutes(new Date(), i),
+					x: addHours(addMinutes(new Date(), i), 1),
 					y: statistics[0].value,
 				})
 			}
@@ -51,7 +51,7 @@ export default class DemandChart extends React.Component {
 			<div className="demandChart">
 				<XYPlot height={200} width={250}>
 					<XAxis
-						tickFormat={v => format(subHours(v, 1), 'HH:mm:SS')}
+						tickFormat={v => format(subHours(v, 1), 'HH:mm:ss')}
 						tickLabelAngle={-22.5}
 					/>
 					<YAxis />
