@@ -1,10 +1,13 @@
 import React from 'react'
 import DeckGL from 'deck.gl'
+import { graphql } from 'react-apollo'
 import { connect } from 'react-redux'
 
 import layers from 'layers'
 import { selectHive } from 'actions/infoActions'
 import { handleArrival } from 'utils/flight'
+
+import { hivecosts } from 'graphql/queries'
 
 import { format, addHours, differenceInSeconds } from 'date-fns'
 
@@ -22,6 +25,7 @@ import InfoOverlay from './infoOverlay'
 		sidebarInfo: store.info.sidebarInfo,
 	}
 })
+@graphql(hivecosts, { options: () => ({ pollInterval: 5000 }) })
 export default class MapLayers extends React.Component {
 	constructor(props) {
 		super(props)
@@ -182,13 +186,15 @@ export default class MapLayers extends React.Component {
 	}
 
 	createLayers() {
-		const { hives, shops, customers } = this.state
+		const { /*hives,*/ shops, customers } = this.state
 		const { selectedRoute, viewport } = this.props
 		const { drones } = this
 
 		const showAll = this.props.sidebarInfo === 'all' ? true : false
+		// console.log(this.props.data.hives)
 		return [
-			layers.hive(hives, this.onHover, this.onClick),
+			// layers.hive(hives, this.onHover, this.onClick),
+			layers.hive(this.props.data.hives, this.onHover, this.onClick),
 			layers.drone(drones, selectedRoute),
 			layers.shop(shops, this.onHover, viewport.zoom),
 			layers.customer(customers, this.onHover, viewport.zoom),

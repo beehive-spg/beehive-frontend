@@ -6,6 +6,7 @@ import orderFromRoute from './orderFromRoute.gql'
 import hives_routes from './hives_routes.gql'
 import hives_shops_ongoing from './hives_shops_ongoing.gql'
 import statistics from './statistics.gql'
+import hivecosts from './hivecosts.gql'
 
 export {
 	hives,
@@ -16,4 +17,5 @@ export {
 	hives_routes,
 	hives_shops_ongoing,
 	statistics,
+	hivecosts,
 }
