@@ -29,8 +29,11 @@ const hiveLayer = (hives, onHover, onClick) => {
 
 	hives.forEach(hive => {
 		const { longitude, latitude } = hive.location
-		inner.push(innerLayerData(longitude, latitude))
-		outer.push(outerLayerData(longitude, latitude))
+		const { costs } = hive.type[0]
+
+		const color = getColor(costs)
+		inner.push(innerLayerData(longitude, latitude, color))
+		outer.push(outerLayerData(longitude, latitude, color))
 	})
 
 	const data = {
@@ -52,19 +55,30 @@ const layer = (data, onHover, onClick) => {
 	})
 }
 
-const innerLayerData = (longitude, latitude) => {
-	return {
-		position: [longitude, latitude],
-		radius: 25,
-		color: [217, 71, 31],
+const getColor = cost => {
+	switch (true) {
+		case 0 < cost && cost <= 7:
+			return [50, 173, 62]
+		case 7 < cost && cost <= 13:
+			return [217, 71, 31]
+		case 13 < cost && cost <= 20:
+			return [206, 7, 4]
 	}
 }
 
-const outerLayerData = (longitude, latitude) => {
+const innerLayerData = (longitude, latitude, color) => {
+	return {
+		position: [longitude, latitude],
+		radius: 25,
+		color,
+	}
+}
+
+const outerLayerData = (longitude, latitude, color) => {
 	return {
 		position: [longitude, latitude],
 		radius: 45,
-		color: [217, 71, 31],
+		color,
 	}
 }
 

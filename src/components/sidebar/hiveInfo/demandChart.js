@@ -8,7 +8,13 @@ import {
 	VerticalGridLines,
 } from 'react-vis'
 import { graphql } from 'react-apollo'
-import { format, addHours, subHours, addMinutes } from 'date-fns'
+import {
+	addHours,
+	subHours,
+	addMinutes,
+	differenceInMinutes,
+	differenceInSeconds,
+} from 'date-fns'
 import { statistics } from 'graphql/queries'
 
 import 'react-vis/dist/style.css'
@@ -24,12 +30,32 @@ import 'react-vis/dist/style.css'
 export default class DemandChart extends React.Component {
 	transformData = statistics => {
 		if (statistics.length > 1) {
-			return statistics.map(section => {
-				return {
-					x: parseInt(section.time),
-					y: section.value,
-				}
-			})
+			return statistics.reduce(
+				(acc, section) => {
+					if (!acc.last) {
+						acc.data.push({
+							x: parseInt(section.time),
+							y: section.value,
+						})
+						acc.last = section
+					} else {
+						acc.data.push({
+							x: parseInt(section.time),
+							y: acc.last.value,
+						})
+						acc.data.push({
+							x: parseInt(section.time),
+							y: section.value,
+						})
+						acc.last = section
+					}
+					return acc
+				},
+				{
+					data: [],
+					last: null,
+				},
+			).data
 		} else {
 			let sections = []
 			for (let i = 0; i < 6; i++) {
@@ -49,10 +75,22 @@ export default class DemandChart extends React.Component {
 		const statistics = this.transformData(data.statistics)
 		return (
 			<div className="demandChart">
-				<XYPlot height={200} width={250}>
+				<XYPlot height={200} width={275} stacked={'x'}>
 					<XAxis
-						tickFormat={v => format(subHours(v, 1), 'HH:mm:ss')}
 						tickLabelAngle={-22.5}
+						tickFormat={v => {
+							const date = new Date()
+							let diff = differenceInSeconds(subHours(v, 1), date)
+							if (diff / 60 >= 1) {
+								diff = `${differenceInMinutes(
+									subHours(v, 1),
+									date,
+								)} min`
+							} else {
+								diff = `${diff} sec`
+							}
+							return diff
+						}}
 					/>
 					<YAxis />
 					<HorizontalGridLines />

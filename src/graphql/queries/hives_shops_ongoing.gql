@@ -12,6 +12,7 @@ query hives_shops {
         id
         name
 		demand
+		costs
       }
     }
   },
