@@ -1,5 +1,4 @@
 import { CompositeLayer, ScatterplotLayer } from 'deck.gl'
-import { scale } from 'chroma-js'
 
 class HiveLayer extends CompositeLayer {
 	renderLayers() {
@@ -28,13 +27,11 @@ const hiveLayer = (hives, onHover, onClick) => {
 	let inner = []
 	let outer = []
 
-	const gradient = scale(['green', 'red'])
-
 	hives.forEach(hive => {
 		const { longitude, latitude } = hive.location
 		const { costs } = hive.type[0]
-		const color = gradient(costs / 20).rgb()
 
+		const color = getColor(costs)
 		inner.push(innerLayerData(longitude, latitude, color))
 		outer.push(outerLayerData(longitude, latitude, color))
 	})
@@ -56,6 +53,17 @@ const layer = (data, onHover, onClick) => {
 		onHover,
 		onClick,
 	})
+}
+
+const getColor = cost => {
+	switch (true) {
+		case 0 < cost && cost <= 7:
+			return [50, 173, 62]
+		case 7 < cost && cost <= 13:
+			return [217, 71, 31]
+		case 13 < cost && cost <= 20:
+			return [206, 7, 4]
+	}
 }
 
 const innerLayerData = (longitude, latitude, color) => {

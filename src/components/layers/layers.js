@@ -186,21 +186,30 @@ export default class MapLayers extends React.Component {
 	}
 
 	createLayers() {
-		const { /*hives,*/ shops, customers } = this.state
+		const { shops, customers } = this.state
 		const { selectedRoute, viewport } = this.props
 		const { drones } = this
 
 		const showAll = this.props.sidebarInfo === 'all' ? true : false
-		// console.log(this.props.data.hives)
 		return [
-			// layers.hive(hives, this.onHover, this.onClick),
 			layers.hive(this.props.data.hives, this.onHover, this.onClick),
 			layers.drone(drones, selectedRoute),
 			layers.shop(shops, this.onHover, viewport.zoom),
 			layers.customer(customers, this.onHover, viewport.zoom),
-			layers.route.distLayer(this.extractDistRoutes(), showAll),
-			layers.route.genOrderLayer(this.extractGenOrders(), showAll),
-			layers.route.userOrderLayer(this.extractUserOrders()),
+			layers.route.distLayer(
+				this.extractDistRoutes(),
+				selectedRoute,
+				showAll,
+			),
+			layers.route.genOrderLayer(
+				this.extractGenOrders(),
+				selectedRoute,
+				showAll,
+			),
+			layers.route.userOrderLayer(
+				this.extractUserOrders(),
+				selectedRoute,
+			),
 		]
 	}
 

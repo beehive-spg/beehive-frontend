@@ -10,9 +10,7 @@ const droneLayer = (drones, selectedRoute) => {
 			selectedRoute &&
 			selectedRoute.hops.find(hop => hop.id === drone.id)
 		) {
-			color = [110, 165, 242]
-			// color = [117, 207, 240]
-			// color = [137, 108, 184]
+			color = [64, 124, 209]
 			radius = 45
 		}
 
