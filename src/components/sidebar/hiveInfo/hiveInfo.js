@@ -13,8 +13,8 @@ import './hiveInfo.css'
 export default class HiveInfo extends React.Component {
 	render() {
 		const { selectedHive } = this.props
-
 		if (!selectedHive) return null
+
 		return (
 			<div className="hiveInfo">
 				<div className="name">{selectedHive.name}</div>
@@ -26,7 +26,7 @@ export default class HiveInfo extends React.Component {
 					<div>Latitude: {selectedHive.location.latitude}</div>
 				</div>
 				<div className="demand">Demand: {selectedHive.demand}</div>
-				<DemandChart />
+				<DemandChart hive={selectedHive.buildingId} />
 			</div>
 		)
 	}
