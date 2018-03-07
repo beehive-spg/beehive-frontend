@@ -61,17 +61,21 @@ export default class RouteInfo extends React.Component {
 					)
 				})
 
-			const orderObjects = this.createOrderObjects()
+			const orderObjects = this.createOrderObjects(true)
 			return [...routeObjects, ...orderObjects]
 		} else {
-			return this.createOrderObjects()
+			return this.createOrderObjects(false)
 		}
 	}
 
-	createOrderObjects = () => {
+	createOrderObjects = includeGen => {
 		const { orders, selectedRoute } = this.props
 
-		return orders.filter(order => order.source === 'gui').map(order => {
+		const filtered = includeGen
+			? orders
+			: orders.filter(order => order.source === 'gui')
+		// return orders.filter(order => order.source === 'gui').map(order => {
+		return filtered.map(order => {
 			const from = order.shop.type[0].name
 			const to = order.customer.location.address
 			let selected = false
