@@ -5,11 +5,12 @@
   text-transform: uppercase;
   margin-bottom: 2em; }
 
-.hiveInfo .location div {
-  padding: 2px 0; }
-
-.hiveInfo .location .address {
-  font-weight: bold; }
+.hiveInfo .location {
+  margin-bottom: 10px; }
+  .hiveInfo .location div {
+    padding: 2px 0; }
+  .hiveInfo .location .address {
+    font-weight: bold; }
 
 .hiveInfo .demand {
   margin-top: 1em;

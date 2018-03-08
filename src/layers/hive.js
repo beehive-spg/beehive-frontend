@@ -29,9 +29,11 @@ const hiveLayer = (hives, onHover, onClick) => {
 
 	hives.forEach(hive => {
 		const { longitude, latitude } = hive.location
-		const { costs } = hive.type[0]
+		// const { costs } = hive.type[0]
 
-		const color = getColor(costs)
+		// const color = getColor(costs)
+		// TODO remove, only here for the presentation
+		const color = getColor(10)
 		inner.push(innerLayerData(longitude, latitude, color))
 		outer.push(outerLayerData(longitude, latitude, color))
 	})

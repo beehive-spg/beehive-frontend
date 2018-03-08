@@ -25,7 +25,6 @@ export default class HiveInfo extends React.Component {
 					<div>Longitude: {selectedHive.location.longitude}</div>
 					<div>Latitude: {selectedHive.location.latitude}</div>
 				</div>
-				<div className="demand">Demand: {selectedHive.demand}</div>
 				<DemandChart hive={selectedHive.buildingId} />
 			</div>
 		)

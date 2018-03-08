@@ -166,7 +166,7 @@ export default class MapLayers extends React.Component {
 		setInterval(() => {
 			const time = format(addHours(Date.now(), 1), 'x')
 			this.setState({ time })
-		}, 1000)
+		}, 500)
 	}
 
 	onHover = ({ index, picked, x, y, layer }) => {
@@ -267,7 +267,7 @@ export default class MapLayers extends React.Component {
 				this.isAnimating = false
 				clearInterval(animationInterval)
 			}
-		}, 1000)
+		}, 500)
 	}
 
 	render() {

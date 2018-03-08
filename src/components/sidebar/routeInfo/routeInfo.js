@@ -74,7 +74,6 @@ export default class RouteInfo extends React.Component {
 		const filtered = includeGen
 			? orders
 			: orders.filter(order => order.source === 'gui')
-		// return orders.filter(order => order.source === 'gui').map(order => {
 		return filtered.map(order => {
 			const from = order.shop.type[0].name
 			const to = order.customer.location.address
