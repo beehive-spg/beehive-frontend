@@ -1,9 +1,14 @@
-FROM node:latest AS beehive-frontend
+FROM node:alpine
 
-WORKDIR /usr/src/frontend
+COPY package.json .
 
-COPY . .
+RUN npm install --production && npm install -g serve
 
-EXPOSE 3000
+ARG backend
+ENV REACT_APP_BACKEND_URL=$backend
 
-CMD npm install && npm start
+COPY build .
+
+EXPOSE 5000
+
+CMD serve .

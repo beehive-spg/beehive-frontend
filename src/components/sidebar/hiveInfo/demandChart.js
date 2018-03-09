@@ -73,6 +73,9 @@ export default class DemandChart extends React.Component {
 		if (data.loading) return null
 
 		const statistics = this.transformData(data.statistics)
+		let yTicks = statistics.map(section => section.y)
+		yTicks = [...new Set([0, ...yTicks])]
+
 		return (
 			<div className="demandChart">
 				<XYPlot height={200} width={275} stacked={'x'}>
@@ -92,7 +95,7 @@ export default class DemandChart extends React.Component {
 							return diff
 						}}
 					/>
-					<YAxis />
+					<YAxis tickValues={yTicks} />
 					<HorizontalGridLines />
 					<VerticalGridLines />
 					<LineSeries animation data={statistics} />
