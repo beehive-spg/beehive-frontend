@@ -18,10 +18,6 @@ import 'rc-switch/assets/index.css'
 	}
 })
 export default class RouteInfo extends React.Component {
-	constructor(props) {
-		super(props)
-	}
-
 	onClick = route => {
 		const { selectedRoute } = this.props
 		let clicked = this.props.routes.find(r => r.id === route)

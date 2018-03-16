@@ -34,17 +34,17 @@ export default class DemandChart extends React.Component {
 				(acc, section) => {
 					if (!acc.last) {
 						acc.data.push({
-							x: parseInt(section.time),
+							x: parseInt(section.time, 10),
 							y: section.value,
 						})
 						acc.last = section
 					} else {
 						acc.data.push({
-							x: parseInt(section.time),
+							x: parseInt(section.time, 10),
 							y: acc.last.value,
 						})
 						acc.data.push({
-							x: parseInt(section.time),
+							x: parseInt(section.time, 10),
 							y: section.value,
 						})
 						acc.last = section

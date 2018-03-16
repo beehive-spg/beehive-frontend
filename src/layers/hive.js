@@ -65,6 +65,8 @@ const getColor = cost => {
 			return [217, 71, 31]
 		case 13 < cost && cost <= 20:
 			return [206, 7, 4]
+		default:
+			return [206, 7, 4]
 	}
 }
 

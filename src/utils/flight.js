@@ -19,7 +19,7 @@ const handleDepartures = flights => {
 const handleDeparture = async flight => {
 	const store = globalStore.getState()
 
-	const exists = store.route.routes.find(route => route.id == flight.routeId)
+	const exists = store.route.routes.find(route => route.id === flight.routeId)
 	if (!exists) {
 		const res = await apolloClient.query({
 			query: route,

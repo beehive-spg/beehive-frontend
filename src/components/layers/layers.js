@@ -69,6 +69,10 @@ export default class MapLayers extends React.Component {
 				}
 				case 'remove':
 					drones = drones.filter(res => res.id !== droneItems)
+					break
+				default:
+					break
+				// return
 			}
 
 			this.drones = drones
@@ -96,6 +100,9 @@ export default class MapLayers extends React.Component {
 				}
 				case 'remove':
 					hives = hives.filter(res => res.id !== hiveItems)
+					break
+				default:
+					break
 			}
 
 			this.setState({
@@ -124,6 +131,9 @@ export default class MapLayers extends React.Component {
 				}
 				case 'remove':
 					shops = shops.filter(res => res.id !== shopItems)
+					break
+				default:
+					break
 			}
 
 			this.setState({
@@ -154,6 +164,9 @@ export default class MapLayers extends React.Component {
 					customers = customers.filter(
 						res => res.id !== customerItems,
 					)
+					break
+				default:
+					break
 			}
 
 			this.setState({
