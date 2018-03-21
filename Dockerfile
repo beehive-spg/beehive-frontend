@@ -3,22 +3,25 @@ FROM node:alpine as build
 WORKDIR /app
 
 COPY package.json .
+COPY package.json /tmp/package.json
+RUN cd /tmp && npm install
+RUN cp -a /tmp/node_modules /app
 
-RUN npm install
-
-COPY . .
+COPY config config
+COPY public public
+COPY scripts scripts
+COPY src src
+COPY .babelrc .babelrc
+COPY .env .env
 
 RUN npm run build
 
 
 FROM node:alpine
 
-ARG backend
-ENV REACT_APP_BACKEND_URL=$backend
+RUN npm install -g serve
 
 COPY --from=build /app/build /build
-
-RUN npm install -g serve
 
 EXPOSE 5000
 
