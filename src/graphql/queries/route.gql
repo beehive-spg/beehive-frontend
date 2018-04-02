@@ -1,0 +1,58 @@
+query($id: ID!) {
+  route(id: $id) {
+    id
+	origin
+    hops {
+      id
+	  startdate
+	  enddate
+	  speed
+      start {
+        id
+        location {
+          address
+          longitude
+          latitude
+        }
+        type {
+          __typename
+          ... on Hive {
+            id
+            demand
+            name
+          }
+          ... on Shop {
+            id
+            name
+          }
+          ... on Customer {
+            id
+          }
+        }
+      }
+      end {
+        id
+        location {
+          address
+          longitude
+          latitude
+        }
+        type {
+          __typename
+          ... on Hive {
+            id
+            demand
+            name
+          }
+          ... on Shop {
+            id
+            name
+          }
+          ... on Customer {
+            id
+          }
+        }
+      }
+    }
+  }
+}

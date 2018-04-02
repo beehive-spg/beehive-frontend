@@ -1,0 +1,6 @@
+query($id: ID!) {
+  statistics(id: $id) {
+    time
+    value
+  }
+}

@@ -1,0 +1,6 @@
+subscription arrival {
+  arrival {
+    hopId
+    routeId
+  }
+}

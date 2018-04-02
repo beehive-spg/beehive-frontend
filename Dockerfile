@@ -1,38 +1,28 @@
-FROM debian:jessie-slim
+FROM node:alpine as build
 
-ENV EPHIMERAL_PACKAGES "build-essential dh-autoreconf curl xz-utils python"
-ENV PACKAGES "libpng-dev"
+WORKDIR /app
 
-# Add `package.json` to build Debian compatible NPM packages
-WORKDIR /src
-ADD package.json .
+COPY package.json .
+COPY package.json /tmp/package.json
+RUN cd /tmp && npm install
+RUN cp -a /tmp/node_modules /app
 
-# install everything (and clean up afterwards)
-RUN apt-get update \
-  && apt-get install -y apt-utils \
-  && apt-get install -y ${EPHIMERAL_PACKAGES} ${PACKAGES} \
-  && curl -sL https://deb.nodesource.com/setup_8.x | bash - \
-  && apt-get install -y nodejs \
-  && cd /src \
-  && npm i \
-  ; apt-get remove --purge -y ${EPHIMERAL_PACKAGES} \
-  ; apt-get autoremove -y ${EPHIMERAL_PACKAGES} \
-  ; apt-get clean \
-  ; apt-get autoclean \
-  ; echo -n > /var/lib/apt/extended_states \
-  ; rm -rf /var/lib/apt/lists/* \
-  ; rm -rf /usr/share/man/?? \
-  ; rm -rf /usr/share/man/??_*
+COPY config config
+COPY public public
+COPY scripts scripts
+COPY src src
+COPY .babelrc .babelrc
+COPY .env .env
 
-# Add the remaining project files
-ADD . .
-
-# Build distribution
 RUN npm run build
 
-# Set the default host/port
-ENV HOST 0.0.0.0
-ENV PORT 4000
 
-# Start the server by default
-CMD npm run server
+FROM node:alpine
+
+RUN npm install -g serve
+
+COPY --from=build /app/build /build
+
+EXPOSE 5000
+
+CMD serve build

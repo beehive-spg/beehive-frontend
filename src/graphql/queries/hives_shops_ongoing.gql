@@ -1,0 +1,38 @@
+query hives_shops {
+  hives {
+    id
+    location {
+      address
+      longitude
+      latitude
+    }
+    type {
+      __typename
+      ... on Hive {
+        id
+        name
+		demand
+		costs
+      }
+    }
+  },
+  shops {
+    id
+    location {
+      address
+      longitude
+      latitude
+    }
+    type {
+      __typename
+      ... on Shop {
+        id
+        name
+      }
+    }
+  },
+  ongoingFlights {
+    hopId
+    routeId
+  }
+}

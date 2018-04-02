@@ -1,45 +1,55 @@
-// ----------------------
-// IMPORTS
+'use strict';
 
-const path = require('path')
+const path = require('path');
+const fs = require('fs');
+const url = require('url');
 
-// ----------------------
+// Make sure any symlinks in the project folder are resolved:
+// https://github.com/facebookincubator/create-react-app/issues/637
+const appDirectory = fs.realpathSync(process.cwd());
+const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
 
-// Parent folder = project root
-const root = path.join(__dirname, '..')
+const envPublicUrl = process.env.PUBLIC_URL;
 
-module.exports = {
-	// Root project folder.  This is the current dir.
-	root,
-
-	// Kit.  ReactQL starter kit code.  You can edit these files, but be
-	// aware that upgrading your starter kit could overwrite them
-	kit: path.join(root, 'kit'),
-
-	// Entry points.  This is where webpack will look for our browser.js,
-	// server.js and vendor.js files to start building
-	entry: path.join(root, 'kit', 'entry'),
-
-	// Webpack configuration files
-	webpack: path.join(root, 'kit', 'webpack'),
-
-	// Views for internal use
-	views: path.join(root, 'kit', 'views'),
-
-	// Source path; where we'll put our application files
-	src: path.join(root, 'src'),
-
-	// Static files.  HTML, images, etc that can be processed by Webpack
-	// before being moved into the final `dist` folder
-	static: path.join(root, 'static'),
-
-	// Dist path; where bundled assets will wind up
-	dist: path.join(root, 'dist'),
-
-	// Dist path for development; where dev assets will wind up
-	distDev: path.resolve(root, 'dist', 'dev'),
-
-	// Public.  This is where our web server will start looking to serve
-	// static files from
-	public: path.join(root, 'dist', 'public'),
+function ensureSlash(path, needsSlash) {
+  const hasSlash = path.endsWith('/');
+  if (hasSlash && !needsSlash) {
+    return path.substr(path, path.length - 1);
+  } else if (!hasSlash && needsSlash) {
+    return `${path}/`;
+  } else {
+    return path;
+  }
 }
+
+const getPublicUrl = appPackageJson =>
+  envPublicUrl || require(appPackageJson).homepage;
+
+// We use `PUBLIC_URL` environment variable or "homepage" field to infer
+// "public path" at which the app is served.
+// Webpack needs to know it to put the right <script> hrefs into HTML even in
+// single-page apps that may serve index.html for nested URLs like /todos/42.
+// We can't use a relative path in HTML because we don't want to load something
+// like /todos/42/static/js/bundle.7289d.js. We have to know the root.
+function getServedPath(appPackageJson) {
+  const publicUrl = getPublicUrl(appPackageJson);
+  const servedUrl =
+    envPublicUrl || (publicUrl ? url.parse(publicUrl).pathname : '/');
+  return ensureSlash(servedUrl, true);
+}
+
+// config after eject: we're in ./config/
+module.exports = {
+  dotenv: resolveApp('.env'),
+  appBuild: resolveApp('build'),
+  appPublic: resolveApp('public'),
+  appHtml: resolveApp('public/index.html'),
+  appIndexJs: resolveApp('src/index.js'),
+  appPackageJson: resolveApp('package.json'),
+  appSrc: resolveApp('src'),
+  yarnLockFile: resolveApp('yarn.lock'),
+  testsSetup: resolveApp('src/setupTests.js'),
+  appNodeModules: resolveApp('node_modules'),
+  publicUrl: getPublicUrl(resolveApp('package.json')),
+  servedPath: getServedPath(resolveApp('package.json')),
+};

@@ -1,6 +1,0 @@
-query hives {
-	hives {
-		id
-		location
-	}
-}
