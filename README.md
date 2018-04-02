@@ -6,8 +6,8 @@
 beehive-frontend acts as the visual representation of the beehive project. It shows all hives in a
 city, the currently active drones as well as some additional information in sidebars.
 
-Note: to work this app needs [beehive-backend](https://github.com/beehive-spg/beehive-backend)
-running in the background.
+Disclaimer: this repository should only be used for develpment. To use beehive itself look at the
+[beehive repository](https://github.com/beehive-spg/beehive).
 
 ## Motivation
 This project serves the purpose of being able to show how the simulation network behaves and
@@ -15,7 +15,7 @@ performes. Currently this is a diploma-project of a team of four students, the o
 repositories can be found [here](https://github.com/beehive-spg).
 
 ## Screenshots
-<img src="https://i.imgur.com/OTvzTC7.png">
+<img src="https://i.imgur.com/QX1248s.png">
 
 ## Development
 
