@@ -1,4 +1,3 @@
-// import { format, addHours } from 'date-fns'
 import globalStore from 'store'
 import apolloClient from 'client'
 import models from 'models'
@@ -60,16 +59,12 @@ const handleDeparture = async flight => {
 
 const buildDrone = (route, flight) => {
 	const hop = route.hops.find(hop => hop.id === flight.hopId)
-	// TODO remove, only here for the presentation
-	// const start = format(addHours(Date.now(), 1), 'x')
 
 	const drone = {
 		id: hop.id,
 		from: hop.start.location,
 		to: hop.end.location,
 		startdate: hop.startdate,
-		// TODO remove, only here for the presentation
-		// startdate: start,
 		enddate: hop.enddate,
 		speed: hop.speed,
 	}
@@ -111,8 +106,8 @@ const handleArrival = drone => {
 
 	if (route.origin === 'distribution') return
 
-	const order = store.order.orders(order => order.route === route.id)
-	const customer = store.customer.customers(
+	const order = store.order.orders.find(order => order.route === route.id)
+	const customer = store.customer.customers.find(
 		customer => customer.id === order.customer.id,
 	)
 
