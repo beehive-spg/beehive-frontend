@@ -1,12 +1,12 @@
 import React from 'react'
 import { graphql } from 'react-apollo'
-import { connect } from 'react-redux'
 
 import models from 'models'
 
 import Map from 'components/map/map'
 import Sidebar from 'components/sidebar/sidebar'
 import OrderInput from 'components/orderInput/orderInput'
+import Settings from 'components/settings/settings'
 import Error from 'components/error/error'
 
 import { hives_shops_ongoing } from 'graphql/queries'
@@ -15,29 +15,12 @@ import { handleDepartures, handleDeparture } from 'utils/flight'
 
 import { departure } from 'graphql/subscriptions'
 
-@connect(store => {
-	return {
-		hives: store.hive.hives,
-		shops: store.shop.shops,
-	}
-})
 @graphql(hives_shops_ongoing)
 export default class Main extends React.Component {
 	constructor(props) {
 		super(props)
 
 		this.firstLoad = true
-	}
-
-	shouldComponentUpdate(nextProps) {
-		if (
-			nextProps.shops !== this.props.shops ||
-			nextProps.hives !== this.props.hives
-		) {
-			return false
-		}
-
-		return true
 	}
 
 	componentDidMount() {
@@ -71,6 +54,7 @@ export default class Main extends React.Component {
 		return (
 			<div>
 				<Map hiveModels={hives} shopModels={shops} />
+				<Settings />
 				<Sidebar />
 				<OrderInput />
 			</div>

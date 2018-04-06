@@ -1,0 +1,3 @@
+mutation ($dist: Distribution!) {
+  setDist(dist: $dist)
+}

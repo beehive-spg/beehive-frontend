@@ -24,7 +24,7 @@
       .orderInput .container .addressInput .geosuggest {
         margin: 0;
         margin-right: 0;
-        width: 90%; }
+        width: 300px; }
         .orderInput .container .addressInput .geosuggest .geosuggest__item {
           font-size: 14px; }
         .orderInput .container .addressInput .geosuggest .geosuggest__input {
@@ -39,6 +39,8 @@
           padding-left: 10px;
           line-height: 34px; }
       .orderInput .container .addressInput .loader {
+        position: fixed;
+        right: 42px;
         padding-top: 10px; }
     .orderInput .container button {
       outline: none;

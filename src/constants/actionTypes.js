@@ -21,3 +21,7 @@ export const REMOVE_ROUTE = 'REMOVE_ROUTE'
 export const CHANGE_SIDEBAR_INFO = 'CHANGE_SIDEBAR_INFO'
 export const SELECT_ROUTE = 'SELECT_ROUTE'
 export const SELECT_HIVE = 'SELECT_HIVE'
+
+export const SET_DIST = 'SET_DIST'
+export const SET_ROUT = 'SET_ROUT'
+export const SET_DRONES = 'SET_DRONES'

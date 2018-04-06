@@ -1,0 +1,3 @@
+mutation setDrones($drones: Drones!) {
+  setDrones(drones:$drones)
+}
