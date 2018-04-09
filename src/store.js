@@ -7,6 +7,7 @@ import customer from 'reducers/customerReducer'
 import order from 'reducers/orderReducer'
 import route from 'reducers/routeReducer'
 import info from 'reducers/infoReducer'
+import settings from 'reducers/settingsReducer'
 
 const store = createStore(
 	combineReducers({
@@ -17,6 +18,7 @@ const store = createStore(
 		order,
 		route,
 		info,
+		settings,
 	}),
 	{},
 	compose(
