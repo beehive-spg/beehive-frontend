@@ -167,6 +167,13 @@ export default class OrderInput extends React.Component {
 							To:
 							<div className="addressInput">
 								<Geosuggest
+									location={
+										new google.maps.LatLng( // eslint-disable-line
+											48.210033,
+											16.363449,
+										)
+									}
+									radius={20000}
 									placeholder="Enter address"
 									initialValue={this.state.customer.address}
 									onFocus={this.onFocus.bind(this)}
