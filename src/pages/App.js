@@ -5,7 +5,7 @@ import Main from './Main'
 
 export default () => (
 	<div>
-		<Helmet title="Drone Logistics Network" />
+		<Helmet title="Beehive" />
 		<Main />
 	</div>
 )
