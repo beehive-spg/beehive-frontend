@@ -91,7 +91,7 @@ export default class RouteInfo extends React.Component {
 
 	render() {
 		return (
-			<div>
+			<div className="routes-container">
 				<div className="routes">{this.createRoutes()}</div>
 				<div className="switcher">
 					All routes
