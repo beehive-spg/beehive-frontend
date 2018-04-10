@@ -1,10 +1,16 @@
-import { SET_DIST, SET_ROUT, SET_DRONES } from 'constants/actionTypes'
+import {
+	SET_DIST,
+	SET_ROUT,
+	SET_DRONES,
+	SET_CUSTOM_ORDERS,
+} from 'constants/actionTypes'
 
 export default function reducer(
 	state = {
 		dist: false,
 		routing: false,
 		drones: 0,
+		customOrders: false,
 	},
 	action,
 ) {
@@ -23,6 +29,12 @@ export default function reducer(
 			return {
 				...state,
 				routing: action.payload,
+			}
+		}
+		case SET_CUSTOM_ORDERS: {
+			return {
+				...state,
+				customOrders: action.payload,
 			}
 		}
 		default:

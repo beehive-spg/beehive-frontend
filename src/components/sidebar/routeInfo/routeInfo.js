@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import Switch from 'rc-switch'
 
 import { changeInfo, selectRoute } from 'actions/infoActions'
+import { setCustomOrders } from 'actions/settingsActions'
 
 import Route from './route/route'
 
@@ -15,6 +16,7 @@ import 'rc-switch/assets/index.css'
 		orders: store.order.orders,
 		selectedRoute: store.info.selectedRoute,
 		sidebarInfo: store.info.sidebarInfo,
+		customOrders: store.settings.customOrders,
 	}
 })
 export default class RouteInfo extends React.Component {
@@ -30,6 +32,7 @@ export default class RouteInfo extends React.Component {
 
 	onChange = () => {
 		this.props.dispatch(changeInfo(this.props.sidebarInfo))
+		this.props.dispatch(setCustomOrders(!this.props.customOrders))
 	}
 
 	createRoutes = () => {
@@ -97,6 +100,7 @@ export default class RouteInfo extends React.Component {
 					All routes
 					<Switch
 						className="switch"
+						defaultChecked={this.props.customOrders}
 						onChange={this.onChange.bind(this)}
 						checkedChildren={'A'}
 						unCheckedChildren={'U'}
