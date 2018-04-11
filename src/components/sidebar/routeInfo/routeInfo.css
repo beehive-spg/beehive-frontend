@@ -1,6 +1,11 @@
-.routes {
-  max-height: 35em;
-  overflow-y: auto; }
+.routes-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column; }
+  .routes-container .routes {
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: 40px; }
 
 .switcher {
   position: fixed;
