@@ -203,12 +203,30 @@ export default class MapLayers extends React.Component {
 		const { selectedRoute, viewport } = this.props
 		const { drones } = this
 
+		const userCustomers = this.extractUserCustomers(customers)
+		const genCustomers = this.extractGenCustomers(customers, userCustomers)
+		// this.extractGenCustomers(customers, userCustomers)
+
 		const showAll = this.props.sidebarInfo === 'all' ? true : false
 		return [
 			layers.hive(this.props.data.hives, this.onHover, this.onClick),
 			layers.drone(drones, selectedRoute),
 			layers.shop(shops, this.onHover, viewport.zoom),
-			layers.customer(customers, this.onHover, viewport.zoom),
+			layers.customer(
+				userCustomers,
+				this.onHover,
+				viewport.zoom,
+				'user',
+				true,
+			),
+			layers.customer(
+				// this.extractGenCustomers(customers, userCustomers),
+				genCustomers,
+				this.onHover,
+				viewport.zoom,
+				'generated',
+				showAll,
+			),
 			layers.route.distLayer(
 				this.extractDistRoutes(),
 				selectedRoute,
@@ -224,6 +242,36 @@ export default class MapLayers extends React.Component {
 				selectedRoute,
 			),
 		]
+	}
+
+	extractGenCustomers = (customers, userCustomers) => {
+		const genCustomers = customers.filter(customer => {
+			const found = userCustomers.find(c => c.id === customer.id)
+			if (found) return false
+			return true
+		})
+		return genCustomers
+	}
+	extractUserCustomers = customers => {
+		const userOrders = this.extractUserOrders()
+
+		const userCustomers = customers.filter(customer => {
+			const found = userOrders.find(userOrder => {
+				const found = userOrder.hops.find(hop => {
+					const found = hop.end.type.find(type => {
+						const found = customer.type.find(t => t.id === type.id)
+						return type.__typename === 'Customer' && found
+					})
+					if (found) return true
+					return false
+				})
+				if (found) return true
+				return false
+			})
+			if (found) return true
+			return false
+		})
+		return userCustomers
 	}
 
 	extractDistRoutes = () => {

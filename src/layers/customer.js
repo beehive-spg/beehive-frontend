@@ -11,7 +11,7 @@ const getIconSize = zoom => {
 	return zoom
 }
 
-const customerLayer = (customers, onHover, zoom) => {
+const customerLayer = (customers, onHover, zoom, type, visible) => {
 	const data = customers.map(customer => {
 		const { location } = customer
 		const position = [location.longitude, location.latitude]
@@ -23,13 +23,14 @@ const customerLayer = (customers, onHover, zoom) => {
 		}
 	})
 	const iconSize = getIconSize(zoom)
-	return layer(data, onHover, iconSize)
+	return layer(data, onHover, iconSize, type, visible)
 }
 
-const layer = (data, onHover, iconSize) => {
+const layer = (data, onHover, iconSize, type, visible) => {
 	return new IconLayer({
-		id: 'layer-customer',
+		id: `layer-customer-${type}`,
 		data,
+		visible,
 		iconAtlas: customerIcon,
 		iconMapping: ICON_MAPPING,
 		pickable: true,
