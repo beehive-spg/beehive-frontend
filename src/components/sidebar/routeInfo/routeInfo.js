@@ -38,7 +38,8 @@ export default class RouteInfo extends React.Component {
 	createRoutes = () => {
 		if (this.props.sidebarInfo === 'all') {
 			const { routes, selectedRoute } = this.props
-			const routeObjects = routes
+			const uniques = [...new Set(routes)]
+			const routeObjects = uniques
 				.filter(route => route.origin === 'distribution')
 				.map(route => {
 					const from = route.hops[0].start.type[0].name
@@ -73,7 +74,8 @@ export default class RouteInfo extends React.Component {
 		const filtered = includeGen
 			? orders
 			: orders.filter(order => order.source === 'gui')
-		return filtered.map(order => {
+		const uniques = [...new Set(filtered)]
+		return uniques.map(order => {
 			const from = order.shop.type[0].name
 			const to = order.customer.location.address
 			let selected = false
